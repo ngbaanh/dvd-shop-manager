@@ -17,7 +17,7 @@
 <head>
 <meta author="Nguyen Ba Anh">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Tính tổng</title>
+<title>Tính tổng thử giao diện</title>
 </head>
 <body>
 <div style="width:300px;height:100px;color:white;background-color:navy;
