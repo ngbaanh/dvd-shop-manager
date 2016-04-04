@@ -25,6 +25,7 @@
 			<div class="col-md-4 col-md-offset-2" style="padding-top: 15px;">
 				<form method="post" action="Login">
 					<div class="input-group">
+						<input type="hidden" name="loginAct" value="yes">
 						<input type="text" name="username" class="form-control"
 							placeholder="Tài khoản"> <span class="input-group-btn"
 							style="width: 0px;"></span> <input type="password"
