@@ -35,6 +35,7 @@ public class Login extends HttpServlet {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
 			//boolean loginSucess = new LoginBO().validate(username, password);
+			// TODO
 			if (username.equals("admin") && password.equals("admin")) { // test
 				response.sendRedirect("index.jsp");
 			} else {
