@@ -32,7 +32,6 @@ public class StaffBO implements IStaff {
 	 */
 	@Override
 	public boolean validateStaff(Staff staff) {
-		// return true;
 		if (staff == null) {
 			return false; // null
 		} else {
@@ -42,9 +41,9 @@ public class StaffBO implements IStaff {
 			if (staff.getStaffId().length() > Const.MAXLENGTH_STAFFID
 					|| staff.getPassword().length() > Const.MAXLENGTH_PASSWORD) {
 				return false; // vượt quá maxlength
-			} else { // nếu vượt qua hết bên trên...
-				return staffDAO.validateStaff(staff); // ...chờ :StaffDAO return
 			}
+			// nếu vượt qua hết bên trên...
+			return staffDAO.validateStaff(staff); // ...chờ :StaffDAO return
 		}
 	}
 
