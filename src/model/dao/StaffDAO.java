@@ -55,6 +55,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 				staff.setStaffDOB(Timestamp.valueOf(resultSet.getString("StaffDOB")));
 				staff.setStaffPhone(resultSet.getString("StaffPhone"));
 				staff.setManager(Boolean.parseBoolean(resultSet.getString("Manager")));
+				preparedStatement.close();
 				return staff;
 			} else {
 				return null;
