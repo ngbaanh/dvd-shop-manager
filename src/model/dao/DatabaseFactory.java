@@ -24,7 +24,7 @@ public class DatabaseFactory {
 	public DatabaseFactory() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			String address = "jdbc:mysql://loalhost:3306/se23";
+			String address = "jdbc:mysql://localhost:3306/se23";
 			connection = DriverManager.getConnection(address,"root","");
 			statement = connection.createStatement();
 		} catch (Exception e) {
