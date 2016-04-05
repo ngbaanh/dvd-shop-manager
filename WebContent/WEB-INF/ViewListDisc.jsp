@@ -18,18 +18,17 @@
 	<div class="container">
 		<div class="panel panel-default" style="margin-top: 20px">
 			<div class="panel-heading">
-				<a href="" style="text-decoration: underline;">Quản lý phiếu
+				<a href="" style="text-decoration: underline;">Quản lý đĩa
 					thuê</a> <span class="glyphicon glyphicon-menu-right"></span> <a
-					href="" style="text-decoration: underline;">Xem danh sách phiếu</a>
-				<span class="glyphicon glyphicon-menu-right"></span> Xem chi tiết
-				phiếu
+					href="" style="text-decoration: underline;">Quản lý các bộ đĩa</a>
+				<span class="glyphicon glyphicon-menu-right"></span> Danh sách đĩa
 
 			</div>
 			<!-- /PANEL-HEADING -->
 
 			<div class="panel-body">
 				<div class="row">
-					<label class="col-sm-5 control-label">Danh sách các đĩa </label>
+					<label class="col-sm-5 control-label">Quản lý các bộ đĩa </label>
 					<div class="col-md-1 col-md-offset-6">
 						<button class="btn btn-md btn-default btn-block" type="submit"
 							btn-sm>Đóng</button>
