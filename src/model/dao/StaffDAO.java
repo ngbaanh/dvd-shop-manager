@@ -3,7 +3,9 @@
  */
 package model.dao;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import model.bean.Staff;
@@ -18,11 +20,13 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 		super();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IStaff#validateSaff(model.bean.Staff)
 	 */
 	@Override
-	public boolean validateSaff(Staff staff) {
+	public boolean validateStaff(Staff staff) {
 		String validQuery = "select StaffId, Password from STAFF where StaffId=? and Password=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
@@ -37,8 +41,28 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 
 	@Override
 	public Staff getStaff(String staffId) {
-		// TODO Auto-generated method stub
-		return null;
+		String validQuery = "select * from STAFF where StaffId=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, staffId);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				Staff staff = new Staff();
+				staff.setStaffId(resultSet.getString("StaffId"));
+				staff.setPassword(resultSet.getString("Password"));
+				staff.setStaffName(resultSet.getString("StaffName"));
+				staff.setStaffAddress(resultSet.getString("StaffAddress"));
+				staff.setStaffDOB(Timestamp.valueOf(resultSet.getString("StaffDOB")));
+				staff.setStaffPhone(resultSet.getString("StaffPhone"));
+				staff.setManager(Boolean.parseBoolean(resultSet.getString("Manager")));
+				return staff;
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

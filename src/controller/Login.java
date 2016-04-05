@@ -39,26 +39,31 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String loginAct = request.getParameter("loginAct");
-		if ("yes".equals(loginAct)) {
+		
+		String loginAct = request.getParameter("loginAct"); // determine action
+		if ("yes".equals(loginAct)) { // send form to this servlet
+			// Get params
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
+			
+			// Encapsulate
 			Staff staff = new Staff();
 			staff.setStaffId(username);
 			staff.setPassword(password);
-			if (staffBO.validateSaff(staff)) {
-				//staff.setStaffName("Anh Chủ Tiệm");
-				//staff.setManager(true);
-				staff.setStaffName("Anh Nhân Viên");
-				staff.setManager(false);
-				session = request.getSession();
+			
+			// Send to StaffBO and wait return
+			if (staffBO.validateStaff(staff)) { // validated successful
+				session = request.getSession(); 
+				staff = staffBO.getStaff(staff.getStaffId());
 				session.setAttribute("staff", staff);
-				response.sendRedirect("index.jsp");
-			} else {
-				response.getWriter().append("Đăng nhập thất bại <hr>");
-				request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response);
+				response.sendRedirect("index.jsp"); // redirect to landing page.
+			} else { // validated fail
+				String message = "Lỗi;Đăng nhập thất bại;index.jsp;Quay về Trang Chủ"; // Tiêu-đề;Nội-dung;URL;Tên-URL
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("/WEB-INF/Message.jsp").include(request, response); // show messages
+				request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response); // load JSP
 			}
-		} else {
+		} else { // request a form view
 			request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response);
 		}
 		
