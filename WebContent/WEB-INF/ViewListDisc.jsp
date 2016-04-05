@@ -56,7 +56,7 @@
 							<td>2*</td>
 							<td>Đang được thuê</td>
 							<td>30.000</td>
-							<td><a href="#">Sửa</a> <a href="#">Xóa</a></td>
+							<td><a href="#" style="text-decoration: underline;">Sửa</a> <a href="#"style="text-decoration: underline;">Xóa</a></td>
 						</tr>
 						<tr>
 							<th scope="row">2
@@ -65,7 +65,7 @@
 							<td>3*</td>
 							<td>Sẵn sàng</td>
 							<td>30.000</td>
-							<td><a href="#">Sửa</a> <a href="#">Xóa</a></td>
+							<td><a href="#"style="text-decoration: underline;">Sửa</a> <a href="#" style="text-decoration: underline;">Xóa</a></td>
 						</tr>
 						<tr>
 							<th scope="row">3
@@ -74,7 +74,7 @@
 							<td>2*</td>
 							<td>Đang được thuê</td>
 							<td>25.000</td>
-							<td><a href="#">Sửa</a> <a href="#">Xóa</a></td>
+							<td><a href="#"style="text-decoration: underline;">Sửa</a> <a href="#"style="text-decoration: underline;">Xóa</a></td>
 						</tr>
 						<tr>
 							<th scope="row">4
@@ -83,7 +83,7 @@
 							<td>3*</td>
 							<td>Đang được thuê</td>
 							<td>20.000</td>
-							<td><a href="#">Sửa</a> <a href="#">Xóa</a></td>
+							<td><a href="#"style="text-decoration: underline;">Sửa</a> <a href="#"style="text-decoration: underline;">Xóa</a></td>
 						</tr>
 					</table>
 				</div>
