@@ -3,6 +3,8 @@
  */
 package util;
 
+import java.util.ArrayList;
+
 import model.bean.Staff;
 
 /**
@@ -10,5 +12,11 @@ import model.bean.Staff;
  *
  */
 public interface IStaff {
+	public Staff getStaff(String staffId);
+	public ArrayList<Staff> getListStaffs();
+	public boolean addNewStaff(Staff staff);
+	public boolean updateStaff(Staff staff);
+	public boolean removeStaff(String staffId);
 	public boolean validateSaff(Staff staff);
+	public boolean changePassword(String newPass);
 }
