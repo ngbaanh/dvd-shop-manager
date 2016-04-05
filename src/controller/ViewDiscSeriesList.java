@@ -19,7 +19,6 @@ public class ViewDiscSeriesList extends HttpServlet {
      */
     public ViewDiscSeriesList() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -28,16 +27,13 @@ public class ViewDiscSeriesList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("<br>Chức năng chưa thiết kế");
+		response.getWriter().append("Chức năng dành cho Khách hàng <b>Xem danh sách các bộ đĩa</b> chưa thiết kế.");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
