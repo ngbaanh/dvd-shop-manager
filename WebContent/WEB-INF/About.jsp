@@ -21,7 +21,7 @@
 					<span class="glyphicon glyphicon-copyright-mark"></span> Thông tin
 				</h4>
 			</div>
-			<div id="DiscManagement" class="panel-body">
+			<div class="panel-body">
 				<h3><span class="text text-success">Đồ án Phân tích và thiết kế Hệ thống thông tin</span></h3>
 				<h4>Khoa CNTT - Trường đại học Bách khoa - Đại học Đà Nẵng</h4>
 				<h5>Nhóm <strong>SE23</strong></h5>
