@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="model.bean.Staff"%>
+
+<%
+	String staffName = "";
+	Staff staff = new Staff();
+	staff = (Staff) session.getAttribute("staff");
+	if (staff == null) {
+		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
+		response.sendRedirect("default.jsp"); 
+	} else {
+		boolean isManager = staff.isManager() ? true : false;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,24 +30,15 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h3>
-					<span class="glyphicon glyphicon-align-justify"></span> <span
+					<a href="index.jsp"><span class="glyphicon glyphicon-align-justify"></span></a> <span
 						class="text text-success">Cửa hàng thuê đĩa ABC</span>
 				</h3>
 			</div>
-			<div class="col-md-4 col-md-offset-2" style="padding-top: 15px;">
-				<form method="post" action="Login">
-					<div class="input-group">
-						<input type="hidden" name="loginAct" value="yes">
-						<input type="text" name="username" class="form-control"
-							placeholder="Tài khoản"> <span class="input-group-btn"
-							style="width: 0px;"></span> <input type="password"
-							name="password" class="form-control" placeholder="Mật khẩu">
-						<div class="input-group-btn">
-							<button type="submit" class="btn btn-primary">Đăng nhập</button>
-						</div>
-					</div>
-
-				</form>
+			<div class="col-md-2 col-md-offset-3" style="padding-top: 15px;">
+				Chào <span class="text text-lg text-danger"><b><%=staff.getStaffName()%></b></span>
+			</div>
+			<div class="col-md-1" style="padding-top: 10px;">
+				<a class="btn btn-warning btn-block" href="Logout">Thoát</a>
 			</div>
 		</div>
 		<!-- /TOP -->
@@ -48,17 +51,16 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-home"></span>
-								<a href="HomePage" target="_main">Trang chủ</a>
+								<span class="glyphicon glyphicon-home"></span> <a
+									href="HomePage" target="_main">Trang chủ</a>
 							</h4>
 						</div>
 					</div>
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-list"></span>
-								<a href="ViewDiscSeriesList"
-									target="_main">Xem Danh Sách</a>
+								<span class="glyphicon glyphicon-list"></span> <a
+									href="ViewDiscSeriesList" target="_main">Xem Danh Sách</a>
 							</h4>
 						</div>
 					</div>
@@ -66,64 +68,65 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-cd"></span>
-								<a data-toggle="collapse" href="#DiscManagement">Quản lí đĩa</a>
+								<span class="glyphicon glyphicon-cd"></span> <a
+									data-toggle="collapse" href="#DiscManagement">Quản lí đĩa</a>
 							</h4>
 						</div>
 						<div id="DiscManagement" class="panel-collapse collapse">
 							<ul class="list-group">
-								<li class="list-group-item"><a href="ManageDiscSeriesList" target="_main">Quản
-										lí các bộ đĩa</a></li>
-								<li class="list-group-item"><a href="ManageDiscCategory" target="_main">Quản
-										lí các thể loại</a></li>
-								<li class="list-group-item"><a href="ManageDiscPrice" target="_main">Quản
-										lí giá thuê đĩa</a></li>
+								<li class="list-group-item"><a href="ManageDiscSeriesList"
+									target="_main">Quản lí các bộ đĩa</a></li>
+								<li class="list-group-item"><a href="ManageDiscCategory"
+									target="_main">Quản lí các thể loại</a></li>
+								<li class="list-group-item"><a href="ManageDiscPrice"
+									target="_main">Quản lí giá thuê đĩa</a></li>
 							</ul>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-list-alt"></span>
-								<a href="ViewTicketList"
-									target="_main">Quản lí phiếu thuê</a>
+								<span class="glyphicon glyphicon-list-alt"></span> <a
+									href="ViewTicketList" target="_main">Quản lí phiếu thuê</a>
 							</h4>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-user"></span>
-								<a data-toggle="collapse" href="#StaffManagement">Quản lí nhân viên</a>
+								<span class="glyphicon glyphicon-user"></span> <a
+									data-toggle="collapse" href="#StaffManagement">Quản lí nhân
+									viên</a>
 							</h4>
 						</div>
 						<div id="StaffManagement" class="panel-collapse collapse">
 							<ul class="list-group">
-								<li class="list-group-item"><a href="ViewStaffList" target="_main">DS nhân viên</a></li>
-								<li class="list-group-item"><a href="AddNewStaff" target="_main">Thêm nhân viên</a></li>
-								<li class="list-group-item"><a href="ChangePassword" target="_main">Đổi mật khẩu</a></li>
+								<li class="list-group-item"><a href="ViewStaffList"
+									target="_main">DS nhân viên</a></li>
+								<li class="list-group-item"><a href="AddNewStaff"
+									target="_main">Thêm nhân viên</a></li>
+								<li class="list-group-item"><a href="ChangePassword"
+									target="_main">Đổi mật khẩu</a></li>
 							</ul>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-stats"></span>
-								<a href="ViewStatistics"
-									target="_main">Báo cáo thống kê</a>
+								<span class="glyphicon glyphicon-stats"></span> <a
+									href="ViewStatistics" target="_main">Báo cáo thống kê</a>
 							</h4>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
-								<span class="glyphicon glyphicon-info-sign"></span>
-								<a href="About"
-									target="_main">Thông tin</a>
+								<span class="glyphicon glyphicon-info-sign"></span> <a
+									href="About" target="_main">Thông tin</a>
 							</h4>
 						</div>
 					</div>
@@ -144,3 +147,6 @@
 	</div>
 </body>
 </html>
+<%
+	}
+%>

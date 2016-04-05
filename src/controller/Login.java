@@ -1,11 +1,16 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.bean.Staff;
+import model.bo.StaffBO;
 
 /**
  * Servlet implementation class Login
@@ -13,8 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	StaffBO staffBO;
+	HttpSession session;
+	
     public Login() {
         super();
+        staffBO = new StaffBO();
     }
 
 	/**
@@ -34,9 +43,14 @@ public class Login extends HttpServlet {
 		if ("yes".equals(loginAct)) {
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
-			//boolean loginSucess = new LoginBO().validate(username, password);
-			// TODO
-			if (username.equals("admin") && password.equals("admin")) { // test
+			Staff staff = new Staff();
+			staff.setStaffId(username);
+			staff.setPassword(password);
+			if (staffBO.validateSaff(staff)) {
+				staff.setStaffName("Anh Chủ Tiệm");
+				staff.setManager(true);
+				session = request.getSession();
+				session.setAttribute("staff", staff);
 				response.sendRedirect("index.jsp");
 			} else {
 				response.getWriter().append("Đăng nhập thất bại <hr>");

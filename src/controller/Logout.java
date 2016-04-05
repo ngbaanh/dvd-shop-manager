@@ -9,19 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.bean.Staff;
-
 /**
- * Servlet implementation class HomePage
+ * Servlet implementation class Logout
  */
-@WebServlet("/HomePage")
-public class HomePage extends HttpServlet {
+@WebServlet("/Logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    HttpSession session;
+	HttpSession session;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HomePage() {
+    public Logout() {
         super();
     }
 
@@ -29,26 +28,15 @@ public class HomePage extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		session = request.getSession();
-		Staff staff = (Staff)request.getSession().getAttribute("staff");
-		if (staff == null) {
-			response.getWriter().append("<br>Chào mừng đến với Hệ thống cửa hàng ABC của chúng tôi");
-		} else {
-			response.getWriter().append("<br>Chào mừng <b>"+staff.getStaffName()+"</b>");
-		}
-		response.getWriter().append("<hr>Blah blah blah ABCD...");
-		
+		session.invalidate();
+		response.sendRedirect("index.jsp");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
