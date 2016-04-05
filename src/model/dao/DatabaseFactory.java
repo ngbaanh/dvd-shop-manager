@@ -24,7 +24,7 @@ public class DatabaseFactory {
 			Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
 			// Đường dẫn ở thư mục mã nguồn, để test CSDL
 			String address = UcanaccessDriver.URL_PREFIX
-					+ "D:\\git\\ql_datn\\QL DATN\\WebContent\\WEB-INF\\Database.accdb";
+					+ "D:\\git\\SE23\\se23\\WebContent\\WEB-INF\\Database.accdb";
 
 			/**
 			 * Đường dẫn tự động ở thư mục đã triển khai (trong thư mục DAO)
