@@ -15,17 +15,12 @@
 </head>
 <body>
 	<div class="container">
-		<!-- Button trigger modal -->
-		<button type="button" class="btn btn-primary btn-lg"
-			data-toggle="modal" data-target="#myModal" data-backdrop="static"
-			data-keyboard="false">Launch demo modal</button>
-
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-				<!-- FORM -->
+					<!-- FORM -->
 					<div class="modal-body">
 						<form class="form-horizontal">
 							<div class="form-group">
@@ -64,8 +59,8 @@
 							</div>
 							<div class="form-group">
 								<div class="col-sm-2 col-sm-offset-6">
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">Cập nhật</button>
+									<button type="submit" class="btn btn-default" name="capnhat">Cập
+										nhật</button>
 								</div>
 							</div>
 						</form>
@@ -74,7 +69,7 @@
 				</div>
 			</div>
 		</div>
-	<!--/Modal -->
+		<!--/Modal -->
 
 	</div>
 </body>
