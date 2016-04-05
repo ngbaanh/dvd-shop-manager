@@ -47,8 +47,10 @@ public class Login extends HttpServlet {
 			staff.setStaffId(username);
 			staff.setPassword(password);
 			if (staffBO.validateSaff(staff)) {
-				staff.setStaffName("Anh Chủ Tiệm");
-				staff.setManager(true);
+				//staff.setStaffName("Anh Chủ Tiệm");
+				//staff.setManager(true);
+				staff.setStaffName("Anh Nhân Viên");
+				staff.setManager(false);
 				session = request.getSession();
 				session.setAttribute("staff", staff);
 				response.sendRedirect("index.jsp");

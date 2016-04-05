@@ -8,7 +8,7 @@
 	staff = (Staff) session.getAttribute("staff");
 	if (staff == null) {
 		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
-		response.sendRedirect("default.jsp"); 
+		response.sendRedirect("default.jsp");
 	} else {
 		boolean isManager = staff.isManager() ? true : false;
 %>
@@ -30,7 +30,8 @@
 		<div class="row">
 			<div class="col-md-6">
 				<h3>
-					<a href="index.jsp"><span class="glyphicon glyphicon-align-justify"></span></a> <span
+					<a href="index.jsp"><span
+						class="glyphicon glyphicon-align-justify"></span></a> <span
 						class="text text-success">Cửa hàng thuê đĩa ABC</span>
 				</h3>
 			</div>
@@ -78,8 +79,14 @@
 									target="_main">Quản lí các bộ đĩa</a></li>
 								<li class="list-group-item"><a href="ManageDiscCategory"
 									target="_main">Quản lí các thể loại</a></li>
+								<%
+									if (isManager) {
+								%>
 								<li class="list-group-item"><a href="ManageDiscPrice"
 									target="_main">Quản lí giá thuê đĩa</a></li>
+								<%
+									}
+								%>
 							</ul>
 						</div>
 					</div>
@@ -103,16 +110,24 @@
 						</div>
 						<div id="StaffManagement" class="panel-collapse collapse">
 							<ul class="list-group">
+								<%
+									if (isManager) {
+								%>
 								<li class="list-group-item"><a href="ViewStaffList"
 									target="_main">DS nhân viên</a></li>
 								<li class="list-group-item"><a href="AddNewStaff"
 									target="_main">Thêm nhân viên</a></li>
+								<%
+									}
+								%>
 								<li class="list-group-item"><a href="ChangePassword"
 									target="_main">Đổi mật khẩu</a></li>
 							</ul>
 						</div>
 					</div>
-
+					<%
+						if (isManager) {
+					%>
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
@@ -121,6 +136,9 @@
 							</h4>
 						</div>
 					</div>
+					<%
+						}
+					%>
 
 					<div class="panel panel-default">
 						<div class="panel-heading">
