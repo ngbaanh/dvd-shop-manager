@@ -3,6 +3,9 @@
  */
 package model.dao;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import model.bean.Staff;
 import util.IStaff;
 
@@ -10,13 +13,9 @@ import util.IStaff;
  * @author NguyenBaAnh
  *
  */
-public class StaffDAO implements IStaff {
-
-	/**
-	 * 
-	 */
+public class StaffDAO extends DatabaseFactory implements IStaff {
 	public StaffDAO() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/* (non-Javadoc)
@@ -24,6 +23,50 @@ public class StaffDAO implements IStaff {
 	 */
 	@Override
 	public boolean validateSaff(Staff staff) {
+		String validQuery = "select StaffId, Password from STAFF where StaffId=? and Password=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, staff.getStaffId());
+			preparedStatement.setString(2, staff.getPassword());
+			return (preparedStatement.execute());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public Staff getStaff(String staffId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Staff> getListStaffs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean addNewStaff(Staff staff) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateStaff(Staff staff) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeStaff(String staffId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean changePassword(String newPass) {
 		// TODO Auto-generated method stub
 		return false;
 	}
