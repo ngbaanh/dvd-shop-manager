@@ -21,17 +21,6 @@ public class DatabaseFactory {
 	/**
 	 * 
 	 */
-	public Connection getConnectMySQL(){
-			
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/se23?useUnicode=true&characterEncoding=UTF-8","root","");
-			} catch (Exception e) {
-				
-			}
-			return connection;
-		}
-	
 	public DatabaseFactory() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();

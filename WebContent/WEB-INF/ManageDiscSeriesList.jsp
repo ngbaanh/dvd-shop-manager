@@ -45,7 +45,7 @@
 					<div class="col-md-2 col-md-offset-3">
 						<div class="input-group">
 						<%
-								ArrayList<Category> alCat=(ArrayList<Category>)request.getAttribute("alCat");
+								ArrayList<Category> categoryList=(ArrayList<Category>)request.getAttribute("categoryList");
 							%>
 							<input type="text" class="form-control" placeholder="Thể loại" disabled="disabled">
 							<div class="input-group-btn">
@@ -53,8 +53,8 @@
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-menu-right">
 									<%
-										if(alCat!=null){
-											for(Category objCat:alCat){
+										if(categoryList!=null){
+											for(Category objCat:categoryList){
 												
 									%>
 									<li><a href="#"><%=objCat.getCategoryName() %></a></li>
@@ -76,11 +76,11 @@
 							<th>Thao tác</th>
 						</tr>
 						<%
-							ArrayList<DiscSeries> DanhSachBoDia = (ArrayList<DiscSeries>)request.getAttribute("DanhSachBoDia");
+							ArrayList<DiscSeries> discSeriesList = (ArrayList<DiscSeries>)request.getAttribute("discSeriesList");
 						%>
 						<%
-							if(DanhSachBoDia!=null){
-								for (DiscSeries ds :DanhSachBoDia ) {
+							if(discSeriesList!=null){
+								for (DiscSeries ds :discSeriesList ) {
 						%>
 						<tr>
 						<td><%=ds.getDiscSeriesId() %></td>
@@ -101,7 +101,7 @@
 				<div class="row">
 					<div class="col-md-2 col-md-offset-0">
 						<div class="">
-							<button type="button" class="btn btn-primary btn-sm ">Thêm mới bộ đĩa</button>
+							<button type="button" class="btn btn-primary btn-sm "><a href="<%=request.getContextPath() %>/AddNewDisc" style="color: White">Thêm mới bộ đĩa</a></button>
 						</div>
 					</div>
 					<div class="col-md-1 col-md-offset-7">
