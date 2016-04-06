@@ -138,9 +138,9 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean updateDiscSeries(DiscSeries discSeries) {
-		String addQuery = "update DISC_SERIES set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
+		String updateQuery = "update DISC_SERIES set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
 		try {
-			preparedStatement = connection.prepareStatement(addQuery);
+			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
 			preparedStatement.setString(2, discSeries.getDescription());
 			preparedStatement.setInt(3, discSeries.getCategory().getCategoryId());
@@ -161,8 +161,17 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean validateDiscSeries(String dsName) {
-		// TODO Auto-generated method stub
-		return false;
+		String validQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, dsName);
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/*
@@ -171,9 +180,18 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 * @see util.IDiscSeries#removeDiscSeries(java.lang.String)
 	 */
 	@Override
-	public boolean removeDiscSeries(String discSeriesId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removeDiscSeries(int discSeriesId) {
+		String removeQuery = "delete * from DISC_SERIES where DiscSeriesId=?";
+		try {
+			preparedStatement = connection.prepareStatement(removeQuery);
+			preparedStatement.setInt(1, discSeriesId);
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/*
@@ -199,8 +217,8 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	}
 	
 	
-	//=================================================================== 
-	// Các hàm bổ trợ
+	//==========================================================================
+	// Các hàm bổ trợ, các thành viên tự thiết kế những hàm có ích cho công việc
 	
 	/**
 	 * Lấy mã bộ đĩa theo tên
