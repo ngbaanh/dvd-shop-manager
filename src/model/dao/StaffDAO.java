@@ -32,7 +32,9 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, staff.getStaffId());
 			preparedStatement.setString(2, staff.getPassword());
-			return (preparedStatement.execute());
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -69,30 +71,35 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 	@Override
 	public ArrayList<Staff> getListStaffs() {
 		// TODO Auto-generated method stub
+		// Không nằm trong phạm vi cần triển khai
 		return null;
 	}
 
 	@Override
 	public boolean addNewStaff(Staff staff) {
 		// TODO Auto-generated method stub
+		// Không nằm trong phạm vi cần triển khai
 		return false;
 	}
 
 	@Override
 	public boolean updateStaff(Staff staff) {
 		// TODO Auto-generated method stub
+		// Không nằm trong phạm vi cần triển khai
 		return false;
 	}
 
 	@Override
 	public boolean removeStaff(String staffId) {
 		// TODO Auto-generated method stub
+		// Không nằm trong phạm vi cần triển khai
 		return false;
 	}
 
 	@Override
 	public boolean changePassword(String newPass) {
 		// TODO Auto-generated method stub
+		// Không nằm trong phạm vi cần triển khai
 		return false;
 	}
 

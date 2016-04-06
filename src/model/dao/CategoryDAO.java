@@ -85,7 +85,9 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setInt(1, cat.getCategoryId());
 			preparedStatement.setString(2, cat.getCategoryName());
-			return preparedStatement.execute();
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -103,7 +105,9 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setInt(1, catId);
-			return preparedStatement.execute();
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -122,7 +126,9 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
 			preparedStatement.setInt(2, cat.getCategoryId());
-			return preparedStatement.execute();
+			boolean actionResult = preparedStatement.execute();
+			preparedStatement.close();
+			return actionResult;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
