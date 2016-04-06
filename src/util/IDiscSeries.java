@@ -12,12 +12,12 @@ import model.bean.DiscSeries;
  *
  */
 public interface IDiscSeries {
-	public DiscSeries getDiscSeries(int DicSeriesId);
+	public DiscSeries getDiscSeries(int discSeriesId);
 	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int page);
 	public boolean addNewDiscSeries(DiscSeries discSeries);
 	public boolean updateDiscSeries(DiscSeries discSeries);
 	public boolean validateDiscSeries(String dsName);
-	public boolean removeDiscSeries(String discSeriesId);
+	public boolean removeDiscSeries(int discSeriesId);
 	public int getOverallDiscNumber();
 	public int getOverallDiscSeriesNumber();
 	

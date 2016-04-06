@@ -101,9 +101,9 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean removeCategory(int catId) {
-		String addQuery = "delete * from CATEGORY where categoryId=?";
+		String removeQuery = "delete * from CATEGORY where categoryId=?";
 		try {
-			preparedStatement = connection.prepareStatement(addQuery);
+			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, catId);
 			boolean actionResult = preparedStatement.execute();
 			preparedStatement.close();
@@ -121,9 +121,9 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean updateCategory(Category cat) {
-		String addQuery = "update CATEGORY set CategoryName=? where categoryId=?";
+		String updateQuery = "update CATEGORY set CategoryName=? where categoryId=?";
 		try {
-			preparedStatement = connection.prepareStatement(addQuery);
+			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
 			preparedStatement.setInt(2, cat.getCategoryId());
 			boolean actionResult = preparedStatement.execute();
