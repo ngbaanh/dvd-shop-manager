@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.bo.CategoryBO;
+import model.bo.DiscSeriesBO;
+
 /**
  * Servlet implementation class ManageDiscSeriesList
  */
@@ -20,7 +23,7 @@ public class ManageDiscSeriesList extends HttpServlet {
      */
     public ManageDiscSeriesList() {
         super();
-        discSeriesBO = new DiscSeriesBO();
+        //discSeriesBO = new DiscSeriesBO();
     }
 
 	/**
@@ -29,7 +32,13 @@ public class ManageDiscSeriesList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		CategoryBO catBO=new CategoryBO();
+		request.setAttribute("alCat", catBO.getListCat());
+		discSeriesBO = new DiscSeriesBO();
+		request.setAttribute("DanhSachBoDia", discSeriesBO.getDiscSeriesList());
+		
 		request.getRequestDispatcher("/WEB-INF/ManageDiscSeriesList.jsp").forward(request, response);
+
 	}
 
 	/**

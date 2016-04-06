@@ -3,8 +3,6 @@
  */
 package model.bean;
 
-import java.util.ArrayList;
-
 /**
  * @author NguyenBaAnh
  *
@@ -15,8 +13,8 @@ public class DiscSeries {
 	private String description;
 	private int totalDisc;
 	private int remainingDisc;
-	private ArrayList<Disc> listDisc;
-	private Category category;
+	//private ArrayList<Disc> listDisc;
+	private int categoryId;
 	
 	public DiscSeries() {
 		super();
@@ -95,29 +93,29 @@ public class DiscSeries {
 	/**
 	 * @return the listDisc
 	 */
-	public ArrayList<Disc> getListDisc() {
+/*	public ArrayList<Disc> getListDisc() {
 		return listDisc;
 	}
 
-	/**
+	*//**
 	 * @param listDisc the listDisc to set
-	 */
+	 *//*
 	public void setListDisc(ArrayList<Disc> listDisc) {
 		this.listDisc = listDisc;
-	}
+	}*/
 
 	/**
 	 * @return the category
 	 */
-	public Category getCategory() {
-		return category;
+	public int getCategory() {
+		return categoryId;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 	

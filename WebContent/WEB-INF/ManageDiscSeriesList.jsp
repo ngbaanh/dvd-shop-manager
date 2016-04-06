@@ -1,3 +1,6 @@
+<%@page import="model.bean.Category"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.bean.DiscSeries"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -15,8 +18,7 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="panel panel-default" style="margin-top:20px">
+	<div class="container-fluid">
 			<div class="panel-body">
 				<ol class="breadcrumb">
 					<li><a href="#">Quản lý đĩa</a></li>
@@ -26,20 +28,39 @@
 					<div class="col-md-3 col-md-offset-0">
 						<div class="input-group input-group-sm">
 							<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
-							<input type="text" class="form-control" placeholder="Tìm kiếm tên bộ đĩa">
+							<input type="text" class="form-control" id="textSearch" placeholder="Tìm kiếm tên bộ đĩa" required="required">
+							<script type="text/javascript">
+							$(".form-control").keypress(function (event) { 
+							if (event.which == 13) { 
+								var keyword = document.getElementById("textSearch").value;
+								if(keyword ==""){
+									alert("Gợi ý: Bạn phải nhập từ khóa cần tìm kiếm trước khi nhấn Enter.");
+								}
+							return false; 
+							} 
+							});
+							</script> 
 						</div>
 					</div>
 					<div class="col-md-2 col-md-offset-3">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Chọn thể loại">
+						<%
+								ArrayList<Category> alCat=(ArrayList<Category>)request.getAttribute("alCat");
+							%>
+							<input type="text" class="form-control" placeholder="Thể loại" disabled="disabled">
 							<div class="input-group-btn">
+							
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="#">Phim điện ảnh</a></li>
+									<%
+										if(alCat!=null){
+											for(Category objCat:alCat){
+												
+									%>
+									<li><a href="#"><%=objCat.getCategoryName() %></a></li>
 									<li class="divider"></li>
-									<li><a href="#">Phim hoạt hình</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Ca nhạc</a></li>
+									
+									<%}} %>
 								</ul>
 							</div><!-- /btn-group -->
 						</div><!-- /input-group -->
@@ -54,61 +75,27 @@
 							<th>SL</th>
 							<th>Thao tác</th>
 						</tr>
+						<%
+							ArrayList<DiscSeries> DanhSachBoDia = (ArrayList<DiscSeries>)request.getAttribute("DanhSachBoDia");
+						%>
+						<%
+							if(DanhSachBoDia!=null){
+								for (DiscSeries ds :DanhSachBoDia ) {
+						%>
 						<tr>
-							<td>1</td>
-							<td>Fast And Furious 1</td>
-							<td>Phim điện ảnh</td>
-							<td>4/10</td>
-							<td>
+						<td><%=ds.getDiscSeriesId() %></td>
+						<td><%=ds.getDiscSeriesName()%></td>
+						<td><%=ds.getCategory()%></td>
+						<td><%=ds.getRemainingDisc()%> / <%=ds.getTotalDisc()%></td>
+						<td>
 								<a href="#">Xem</a>
 								<a href="#">Sửa</a>
 								<a href="#">Xóa</a>
 							</td>
 						</tr>
-						<tr>
-							<td>2</td>
-							<td>Avatar 1</td>
-							<td>Phim điện ảnh</td>
-							<td>2/5</td>
-							<td>
-								<a href="#">Xem</a>
-								<a href="#">Sửa</a>
-								<a href="#">Xóa</a>
-							</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Naruto: Boruto</td>
-							<td>Phim hoạt hình</td>
-							<td>5/5</td>
-							<td>
-								<a href="#">Xem</a>
-								<a href="#">Sửa</a>
-								<a href="#">Xóa</a>
-							</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>HKT 2013</td>
-							<td>Nhạc Việt</td>
-							<td>4/10</td>
-							<td>
-								<a href="#">Xem</a>
-								<a href="#">Sửa</a>
-								<a href="#">Xóa</a>
-							</td>
-						</tr>
-						<tr>
-							<td>5</td>
-							<td>Mario 3</td>
-							<td>Phim hoạt hình</td>
-							<td>4/10</td>
-							<td>
-								<a href="#">Xem</a>
-								<a href="#">Sửa</a>
-								<a href="#">Xóa</a>
-							</td>
-						</tr>
+						<%
+							}}
+						%>
 					</table>
 				</div>
 				<div class="row">
@@ -122,7 +109,7 @@
 					</div>
 					<div class="col-md-2 col-md-offset-0">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="3/10">
+							<input type="text" class="form-control" placeholder="3/10" di>
 							<div class="input-group-btn">
 								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
 								<ul class="dropdown-menu dropdown-menu-right">
@@ -138,6 +125,5 @@
 				</div><!-- /.row -->
 			</div>
 		</div>
-	</div>
 </body>
 </html>
