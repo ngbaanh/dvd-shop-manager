@@ -14,75 +14,83 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-<div class="row">
-	<div class="col-md-9">
-    	 <ol class="breadcrumb" style="margin-bottom: 5px;">
-     			 <li><a href="#">Quản lý phiếu thuê</a></li>
-     			 <li><a href="#">Xem danh sách phiếu</a></li>
-     			 <li class="active">Xem chi tiết phiếu</li>
-   		 </ol>
-    </div><!--col-md9-->
-    <div class="col-md-2">
-    	<button type="button" class="btn btn-sm btn-info">Đóng</button>
-    </div> <!--col-md2-->
-</div><!--row-->
-<h5> <em>Thêm một đĩa hoàn toàn mới vào hệ thống</em> </h5>
-<div class="row">
-	<div class="col-md-2">
-    	<p>Tên bộ đĩa*</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    	<input type="Name" class="form-control" >
-    </div><!--col-md3-->
-</div><!--row-->    
-<div class="row">
-	<div class="col-md-2">
-    	<p>Mô tả</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    	<input type="Text" class="form-control" >
-    </div><!--col-md3-->
-</div><!--row--> 
-<div class="row">
-	<div class="col-md-2">
-    	<p>Thể loại</p>
-    </div><!--col-md2-->
-    <div class="row">    
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-md-9">
+    		<ol class="breadcrumb" style="margin-bottom: 5px;">
+     			<li><a href="#">Quản lý phiếu thuê</a></li>
+     			<li><a href="#">Xem danh sách phiếu</a></li>
+     			<li class="active">Xem chi tiết phiếu</li>
+   		 	</ol>
+    	</div><!--col-md9-->
     	<div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Phim điện ảnh
+    		<button type="button" class="btn btn-sm btn-info">Đóng</button>
     	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Nhạc việt
+	</div><!--row-->
+    
+	<h5> <em>Thêm một đĩa hoàn toàn mới vào hệ thống</em> </h5>
+    
+	<div class="row">
+		<div class="col-md-2">
+    		<p>Tên bộ đĩa*</p>
     	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Phim truyền hình
-    	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Ca nhạc
-    	</div><!--col-md2-->
-     </div><!--row-->
-</div> 
-<div class="row">
-	<div class="col-md-2">
-    	<p>Số lượng đĩa</p>
-    </div><!--col-md2-->
-    <div class="col-md-2">
-    	<input type="Text" class="form-control" >
-    </div><!--col-md2-->
-    <div class="col-md-4">
-    	<p>Tất cả đĩa mới có chất lượng mặc định 3*</p>
-    </div><!--col-md4-->
-</div><!--row-->
-<div class="row">
-	<div class="col-md-2">
-    	<p>Vị trí</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    		<input type="Text" class="form-control" ><br>
-            <button type="button" class="btn btn-sm btn-info">Lưu</button>
+    	<div class="col-md-3">
+    		<input type="Name" class="form-control" >
     	</div><!--col-md3-->
-</div><!--row--> 
+	</div><!--row--> 
+       
+	<div class="row">
+		<div class="col-md-2">
+    		<p>Mô tả</p>
+    	</div><!--col-md2-->
+    	<div class="col-md-3">
+    		<input type="Text" class="form-control" >
+    	</div><!--col-md3-->
+	</div><!--row--> 
+    
+	<div class="row">
+		<div class="col-md-2">
+    		<p>Thể loại</p>
+    	</div><!--col-md2-->
+    		<div class="row">    
+    			<div class="col-md-2">
+    				<input type="checkbox" name="TheLoai" >Phim điện ảnh
+    			</div><!--col-md2-->
+        		<div class="col-md-2">
+    				<input type="checkbox" name="TheLoai" >Nhạc việt
+    			</div><!--col-md2-->
+        		<div class="col-md-2">
+    				<input type="checkbox" name="TheLoai" >Phim truyền hình
+    			</div><!--col-md2-->
+        		<div class="col-md-2">
+    				<input type="checkbox" name="TheLoai" >Ca nhạc
+    			</div><!--col-md2-->
+     		</div><!--row-->
+		</div><!--row-->
+         
+	<div class="row">
+		<div class="col-md-2">
+    		<p>Số lượng đĩa</p>
+    	</div><!--col-md2-->
+    	<div class="col-md-2">
+    		<input type="Text" class="form-control" >
+   	 	</div><!--col-md2-->
+    	<div class="col-md-4">
+    		<p>Tất cả đĩa mới có chất lượng mặc định 3*</p>
+    	</div><!--col-md4-->
+	</div><!--row-->
+    
+	<div class="row">
+		<div class="col-md-2">
+    		<p>Vị trí</p>
+    	</div><!--col-md2-->
+    	<div class="col-md-3">
+    		<input type="Text" class="form-control" ><br>
+           <button type="submit" class="btn btn-sm btn-info" name="Luu">Lưu</button>
+    	</div><!--col-md3-->
+	</div><!--row-->
+     
 </div><!--container--> 
 </body>
 </html>
