@@ -17,6 +17,6 @@ public interface IStaff {
 	public boolean addNewStaff(Staff staff);
 	public boolean updateStaff(Staff staff);
 	public boolean removeStaff(String staffId);
-	public boolean validateSaff(Staff staff);
+	public boolean validateStaff(Staff staff);
 	public boolean changePassword(String newPass);
 }
