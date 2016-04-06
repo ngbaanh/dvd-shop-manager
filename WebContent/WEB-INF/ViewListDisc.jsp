@@ -1,3 +1,4 @@
+<%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Disc"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.bean.Staff"%>
@@ -14,8 +15,9 @@
 	} else {
 		boolean isManager = staff.isManager() ? true : false;
 	}
-	String DiscSeriesName = (String) request.getAttribute("DiscSeriesName");
-	ArrayList<Disc> listDisc = (ArrayList<Disc>) request.getAttribute("listDisc");
+	DiscSeries discSeries = (DiscSeries) request.getAttribute("DiscSeries");
+	ArrayList<Disc> listDisc = discSeries.getListDisc();
+	String available = "";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -29,6 +31,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function redirect(){
+			<% response.sendRedirect("AddNewDisc");%>
+		}
+	</script>
 </head>
 </head>
 <body>
@@ -45,7 +52,7 @@
 					btn-sm>Đóng</button>
 			</div>
 			<div class="col-md-12">
-				<label class="col-md-12 control-label">Bộ đĩa: <%=DiscSeriesName%></label>
+				<label class="col-md-12 control-label">Bộ đĩa: <%=discSeries.getDiscSeriesName()%></label>
 			</div>
 		</div>
 		<!-- /.row -->
@@ -62,7 +69,6 @@
 					<th>Thao tác</th>
 				</tr>
 				<%
-					String available = "";
 					for (int i = 0; i < listDisc.size(); i++) {
 						Disc disc = listDisc.get(i);
 						if (disc.isAvailable()) {
@@ -89,7 +95,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<button class="btn btn-xs btn-default btn-block" type="submit"
-					btn-sm>
+					btn-sm  onclick="redirect()">
 					<h4>Thêm đĩa mới vào bộ</h4>
 				</button>
 			</div>

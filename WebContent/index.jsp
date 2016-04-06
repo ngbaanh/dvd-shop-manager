@@ -77,7 +77,7 @@
 							<ul class="list-group">
 								<li class="list-group-item"><a href="ManageDiscSeriesList"
 									target="_main">Quản lí các bộ đĩa</a></li>
-								<li class="list-group-item"><a href="UpdateDiscSeries"
+								<li class="list-group-item"><a href="ManageDiscCategory"
 									target="_main">Quản lí các thể loại</a></li>
 								<%
 									if (isManager) {
