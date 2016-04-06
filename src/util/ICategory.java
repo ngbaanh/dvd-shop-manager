@@ -45,4 +45,11 @@ public interface ICategory {
 	 * @return true nếu thành công, false nếu thất bại.
 	 */
 	public boolean updateCategory(Category cat);
+	
+	/**
+	 * Kiểm tra xem 1 thể loại đã tồn tại trong hệ thống hay chưa
+	 * @param cat thể loại với nội dung đã được sửa
+	 * @return true nếu thành công, false nếu thất bại.
+	 */
+	public boolean isExist(String categoryName);
 }

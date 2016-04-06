@@ -68,10 +68,13 @@ public class CategoryBO implements ICategory {
 	public boolean removeCategory(int catId) {
 		if (catId < 0) {
 			return false;
-		} else {
+		} else if (this.isFreeToDelete(catId)) {
 			return categoryDAO.removeCategory(catId);
+		} else {
+			return false;
 		}
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -85,6 +88,16 @@ public class CategoryBO implements ICategory {
 		} else {
 			return categoryDAO.updateCategory(cat);
 		}
+	}
+
+	@Override
+	public boolean isExist(String categoryName) {
+		return categoryDAO.isExist(categoryName);
+	}
+	
+	//=============================
+	private boolean isFreeToDelete(int catId) {
+		return categoryDAO.isFreeToDelete(catId);
 	}
 
 }
