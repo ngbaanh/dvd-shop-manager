@@ -20,11 +20,10 @@ public interface ICategory {
 	public Category getCategory(int catId);
 	
 	/**
-	 * Lấy danh sách thể loại của một bộ đĩa
-	 * @param discSeriesId mã bộ đĩa, nếu mã = 0 thì lấy tất cả thể loại đang có trong hệ thống
+	 * Lấy danh sách thể loại trong hệ thống
 	 * @return
 	 */
-	public ArrayList<Category> getListCategories(int discSeriesId);
+	public ArrayList<Category> getListCategories();
 	
 	/**
 	 * Thêm một thể loại mới
