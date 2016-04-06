@@ -1,5 +1,6 @@
 /**
- * 
+ * Lưu ý, phải kiểm tra ràng buộc, các điều kiện ở đây thật kĩ trước khi đẩy qua DAO.
+ * ở DAO sẽ không xử lí gì cái này nữa mà sẽ chạy luôn.
  */
 package model.bo;
 
