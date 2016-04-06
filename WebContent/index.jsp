@@ -77,7 +77,7 @@
 							<ul class="list-group">
 								<li class="list-group-item"><a href="ManageDiscSeriesList"
 									target="_main">Quản lí các bộ đĩa</a></li>
-								<li class="list-group-item"><a href="ManageDiscCategory"
+								<li class="list-group-item"><a href="UpdateDiscSeries"
 									target="_main">Quản lí các thể loại</a></li>
 								<%
 									if (isManager) {
@@ -90,7 +90,6 @@
 							</ul>
 						</div>
 					</div>
-
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h4 class="panel-title">
