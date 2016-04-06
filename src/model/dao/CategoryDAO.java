@@ -80,12 +80,11 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean addNewCategory(Category cat) {
-		String addQuery = "insert into CATEGORY(CategoryId, CategoryName) values(?, ?)";
+		String addQuery = "insert into CATEGORY(CategoryName) values(?)";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
-			preparedStatement.setInt(1, cat.getCategoryId());
-			preparedStatement.setString(2, cat.getCategoryName());
-			boolean actionResult = preparedStatement.execute();
+			preparedStatement.setString(1, cat.getCategoryName());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -101,11 +100,11 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean removeCategory(int catId) {
-		String removeQuery = "delete * from CATEGORY where categoryId=?";
+		String removeQuery = "delete from CATEGORY where categoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, catId);
-			boolean actionResult = preparedStatement.execute();
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -126,9 +125,39 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
 			preparedStatement.setInt(2, cat.getCategoryId());
-			boolean actionResult = preparedStatement.execute();
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExist(String categoryName) {
+		String validQuery = "select CategoryId from CATEGORY where CategoryName=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, categoryName);
+			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	//==============================================
+	public boolean isFreeToDelete(int catId) {
+		String validQuery = "select DiscSeriesId from DISC_SERIES where CategoryId=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setInt(1, catId);
+			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			preparedStatement.close();
+			return !actionResult;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
