@@ -14,6 +14,7 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+<form action="AddNewDiscSeries" method="post">
 <div class="container-fluid">
 
 	<div class="row">
@@ -36,7 +37,7 @@
     		<p>Tên bộ đĩa*</p>
     	</div><!--col-md2-->
     	<div class="col-md-3">
-    		<input type="Name" class="form-control" >
+    		<input type="Name" name="tenDia" class="form-control" >
     	</div><!--col-md3-->
 	</div><!--row--> 
        
@@ -45,7 +46,7 @@
     		<p>Mô tả</p>
     	</div><!--col-md2-->
     	<div class="col-md-3">
-    		<input type="Text" class="form-control" >
+    		<input type="Text" name="moTa" class="form-control" >
     	</div><!--col-md3-->
 	</div><!--row--> 
     
@@ -55,16 +56,16 @@
     	</div><!--col-md2-->
     		<div class="row">    
     			<div class="col-md-2">
-    				<input type="checkbox" name="TheLoai" >Phim điện ảnh
+    				<input type="checkbox" name="TheLoai" value = "Phim điện ảnh">
     			</div><!--col-md2-->
         		<div class="col-md-2">
-    				<input type="checkbox" name="TheLoai" >Nhạc việt
+    				<input type="checkbox" name="TheLoai" value = "Nhạc việt">
     			</div><!--col-md2-->
         		<div class="col-md-2">
-    				<input type="checkbox" name="TheLoai" >Phim truyền hình
+    				<input type="checkbox" name="TheLoai" value="Phim truyền hình">
     			</div><!--col-md2-->
         		<div class="col-md-2">
-    				<input type="checkbox" name="TheLoai" >Ca nhạc
+    				<input type="checkbox" name="TheLoai" value="Ca nhạc">
     			</div><!--col-md2-->
      		</div><!--row-->
 		</div><!--row-->
@@ -74,7 +75,7 @@
     		<p>Số lượng đĩa</p>
     	</div><!--col-md2-->
     	<div class="col-md-2">
-    		<input type="Text" class="form-control" >
+    		<input type="Text" name="soLuong" class="form-control" >
    	 	</div><!--col-md2-->
     	<div class="col-md-4">
     		<p>Tất cả đĩa mới có chất lượng mặc định 3*</p>
@@ -86,11 +87,12 @@
     		<p>Vị trí</p>
     	</div><!--col-md2-->
     	<div class="col-md-3">
-    		<input type="Text" class="form-control" ><br>
+    		<input type="Text" name="viTri" class="form-control" ><br>
            <button type="submit" class="btn btn-sm btn-info" name="Luu">Lưu</button>
     	</div><!--col-md3-->
 	</div><!--row-->
      
 </div><!--container--> 
+</form>
 </body>
 </html>

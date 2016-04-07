@@ -14,6 +14,7 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+<form action="AddNewDisc" method="post">
 <div class="container">
 
 	<div class="row">
@@ -32,7 +33,7 @@
     		<p>Vị trí*</p>
     	</div><!--col-md2-->
     	<div class="col-md-3">
-    		<input class="form-control" >
+    		<input class="form-control" name="viTri" >
     	</div><!--col-md3-->
 	</div><!--row-->  
 	  
@@ -41,12 +42,13 @@
     		<p>Số lượng đĩa</p>
     	</div><!--col-md2-->
     	<div class="col-md-3">
-    		<input type="Text" class="form-control" ><br>
+    		<input type="Text" class="form-control" name="soLuongDia"><br>
         	<p>Tất cả đĩa mới có chất lượng mặc định 3*</p>
-        	<button type="button" class="btn btn-sm btn-info">Lưu</button>
+        	<button type="submit" class="btn btn-sm btn-info">Lưu</button>
    	 </div><!--col-md3-->
 	</div><!--row-->
 	
 </div><!--container-->
+</form>
 </body>
 </html>
