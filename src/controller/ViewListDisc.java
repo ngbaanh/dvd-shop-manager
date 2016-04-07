@@ -1,11 +1,15 @@
 package controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.bean.DiscSeries;
+import model.bo.DiscSeriesBO;
 
 /**
  * Servlet implementation class ViewListDisc
@@ -13,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/ViewListDisc")
 public class ViewListDisc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    DiscSeriesBO discSeriesBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ViewListDisc() {
         super();
-        // TODO Auto-generated constructor stub
+        discSeriesBO = new DiscSeriesBO();
     }
 
 	/**
@@ -28,7 +32,23 @@ public class ViewListDisc extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		request.getRequestDispatcher("/WEB-INF/ViewListDisc.jsp").forward(request, response);
+		boolean isValidId = false;
+		int discSeriesId = 0;
+		try {
+			discSeriesId = Integer.parseInt(request.getParameter("DiscSeriesId"));
+			isValidId = true;
+		} catch (NumberFormatException e) {
+			// Bẫy lỗi nhập Id lung tung hoặc không nhập
+		}
+		if (isValidId && discSeriesId > 0) {  
+			DiscSeries discSeries = discSeriesBO.getDiscSeries(discSeriesId);
+			request.setAttribute("DiscSeries", discSeries);
+			request.getRequestDispatcher("/WEB-INF/ViewListDisc.jsp").forward(request, response);
+		} else {
+			String message = "Lỗi;Nhập sai mã bộ đĩa;ManageDiscSeriesList;Quay về trang quản lí đĩa";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
+		}
 	}
 
 	/**

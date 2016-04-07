@@ -33,7 +33,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public DiscSeries getDiscSeries(int discSeriesId) {
-		String getDiscSeriesQuery = "select * from DISC_SERIES where DicSeriesId=?";
+		String getDiscSeriesQuery = "select * from DISC_SERIES where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getDiscSeriesQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -44,7 +44,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 				discSeries.setDescription(resultSet.getString("Description"));
 				discSeries.setDiscSeriesName(resultSet.getString("DiscSeriesName"));
 				discSeries.setTotalDisc(resultSet.getInt("TotalDisc"));
-				discSeries.setRemainingDisc(resultSet.getInt("RemaningDisc"));
+				discSeries.setRemainingDisc(resultSet.getInt("RemainingDisc"));
 				discSeries.setCategory(categoryDAO.getCategory(resultSet.getInt("CategoryId")));
 				discSeries.setListDisc(discDAO.getListDisc(discSeriesId));
 				preparedStatement.close();

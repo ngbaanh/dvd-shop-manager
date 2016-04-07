@@ -27,7 +27,7 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	 */
 	@Override
 	public Disc getDisc(int discId) {
-		String getQuery = "select DISC.DiscSeriesId, DISC.Available, DISC.Place, PRICE.Price "
+		String getQuery = "select DISC.DiscSeriesId, DISC.Available, DISC.Place, PRICE.Price, DISC.QualityId "
 				+ " from DISC, PRICE where DiscId=? and DISC.QualityId=PRICE.QualityId";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
@@ -37,6 +37,7 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 				Disc disc = new Disc();
 				disc.setDiscId(discId);
 				disc.setDiscSeriesId(resultSet.getInt("DiscSeriesId"));
+				disc.setQualityId(resultSet.getByte("QualityId"));
 				disc.setPlace(resultSet.getString("Place"));
 				disc.setAvailable(resultSet.getBoolean("Available"));
 				disc.setPrice(resultSet.getInt("Price"));

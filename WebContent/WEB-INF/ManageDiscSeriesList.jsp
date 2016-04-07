@@ -55,6 +55,17 @@
 							<th>Thao tác</th>
 						</tr>
 						<tr>
+							<td>``</td>
+							<td>Bộ đĩa 1</td>
+							<td></td>
+							<td>...</td>
+							<td>
+								<a href="ViewListDisc?DiscSeriesId=5">Xem</a>
+								<a href="#">Sửa</a>
+								<a href="#">Xóa</a>
+							</td>
+						</tr>
+						<tr>
 							<td>1</td>
 							<td>Fast And Furious 1</td>
 							<td>Phim điện ảnh</td>

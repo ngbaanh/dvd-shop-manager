@@ -6,18 +6,11 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	String staffName = "";
-	Staff staff = new Staff();
-	staff = (Staff) session.getAttribute("staff");
-	if (staff == null) {
-		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
-		response.sendRedirect("default.jsp");
-	} else {
-		boolean isManager = staff.isManager() ? true : false;
-	}
 	DiscSeries discSeries = (DiscSeries) request.getAttribute("DiscSeries");
-	ArrayList<Disc> listDisc = discSeries.getListDisc();
-	String available = "";
+	if (discSeries == null) {
+		response.sendRedirect("ManageDiscSeriesList");
+	} else {
+		ArrayList<Disc> listDisc = discSeries.getListDisc();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,76 +24,74 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-		function redirect(){
-			<% response.sendRedirect("AddNewDisc");%>
-		}
-	</script>
-</head>
 </head>
 <body>
-	<div class="container-fluid" style="margin-top: 20px">
-		<ol class="breadcrumb">
-			<li><a href="#">Quản lý đĩa thuê</a></li>
-			<li class="active">Quản lý các bộ đĩa</li>
-			<li class="active">Danh sách đĩa</li>
-		</ol>
+	<div class="container" style="margin-top: 20px">
 		<div class="row">
-			<label class="col-sm-5 control-label">Quản lý các bộ đĩa </label>
-			<div class="col-md-1 col-md-offset-6">
-				<button class="btn btn-md btn-default btn-block" type="submit"
-					btn-sm>Đóng</button>
+			<div class="col-md-11">
+				<ol class="breadcrumb">
+					<li>Quản lý đĩa</li>
+					<li><a href="ManageDiscSeriesList">Quản lý các bộ đĩa</a></li>
+					<li class="active">Danh sách đĩa</li>
+				</ol>
 			</div>
-			<div class="col-md-12">
-				<label class="col-md-12 control-label">Bộ đĩa: <%=discSeries.getDiscSeriesName()%></label>
+			<div class="col-md-1">
+				<a href="ManageDiscSeriesList" class="btn btn-default">Đóng</a>
 			</div>
 		</div>
+		<div class="row">
+			<h4 class="col-md-6 col-md-offset-1">Danh sách các đĩa</h4>
+			<h5 class="col-md-6 col-md-offset-1">
+				Bộ đĩa: <strong><%=discSeries.getDiscSeriesName()%></strong>
+			</h5>
+		</div>
+		<br>
 		<!-- /.row -->
 		<!-- TABLE -->
-		<div class="table-responsive"
-			style="margin: 10px 0px 10px 0px; height: 223px; overflow: auto">
-			<table class="table table-bordered">
-				<tr class="active">
-					<th>STT</th>
-					<th>Mã đĩa</th>
-					<th>Chất lượng</th>
-					<th>Tình trạng</th>
-					<th>Giá/DVD/Tuần</th>
-					<th>Thao tác</th>
-				</tr>
-				<%
-					for (int i = 0; i < listDisc.size(); i++) {
-						Disc disc = listDisc.get(i);
-						if (disc.isAvailable()) {
-							available = "Sẵn sàng";
-						} else {
-							available = "Đang được thuê";
-						}
-				%>
-				<tr>
-					<td><%=i + 1%></td>
-					<td><%=disc.getDiscId()%></td>
-					<td><%=disc.getQualityId()%></td>
-					<td><%=available%></td>
-					<td><%=disc.getPrice()%></td>
-					<td><a href="UpdateDisc" style="text-decoration: underline;">Sửa</a>
-						<a href="RemoveDisc" style="text-decoration: underline;">Xóa</a></td>
-				</tr>
-				<%
-					}
-				%>
-			</table>
-		</div>
+		<%
+			if (listDisc.isEmpty()) {
+					out.print("Danh sách rỗng không có đĩa nào!");
+				} else {
+		%>
+		<table class="table table-striped">
+			<tr class="active">
+				<th>STT</th>
+				<th>Mã đĩa</th>
+				<th>Chất lượng</th>
+				<th>Tình trạng</th>
+				<th>Giá/DVD/Tuần</th>
+				<th>Thao tác</th>
+			</tr>
+			<%
+				int i = 1;
+				for (Disc disc : listDisc) {
+			%>
+			<tr>
+				<td><%=i++%></td>
+				<td><%=disc.getDiscId()%></td>
+				<td><%=disc.getQualityId()%>*</td>
+				<td><%=disc.isAvailable() ? "Sẵn sàng" : "Đang được thuê"%></td>
+				<td><%=disc.getPrice()%></td>
+				<td><a href="#">Sửa</a> <a
+					href="RemoveDisc?DiscId=<%=disc.getDiscId()%>">Xóa</a></td>
+			</tr>
+			<%
+				}
+			%>
+		</table>
+		<%
+			}
+		%>
 		<!-- /TABLE -->
 		<div class="row">
-			<div class="col-md-3">
-				<button class="btn btn-xs btn-default btn-block" type="submit"
-					btn-sm  onclick="redirect()">
-					<h4>Thêm đĩa mới vào bộ</h4>
-				</button>
+			<div class="col-md-3 col-md-offset-1">
+				<a class="btn btn-primary btn-block" href="#modal-them-moi">Thêm đĩa mới vào bộ</a>
 			</div>
 		</div>
 		<!-- /.row -->
 	</div>
 </body>
 </html>
+<%
+	}
+%>
