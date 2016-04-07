@@ -4,6 +4,7 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%
+	@SuppressWarnings("unchecked")
 	ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -59,15 +60,12 @@
 					<td><%=cat.getCategoryId()%></td>
 					<td><%=cat.getCategoryName()%></td>
 					<!-- // TODO -->
-					<td>
-						<span class="glyphicon glyphicon-edit"></span>
-						<a data-toggle="modal" data-target="#UpdateCategory"
-							onClick="setSource(<%=cat.getCategoryId()%>)">Sửa</a>
-						<a href="RemoveCategory?CategoryId=<%=cat.getCategoryId()%>"
-							onClick="return confirmAct('<%=cat.getCategoryName()%>')">Xóa</a>
-						<span class="glyphicon glyphicon-remove"></span>
-							
-					</td>
+					<td><span class="glyphicon glyphicon-edit"></span> <a
+						data-toggle="modal" data-target="#UpdateCategory"
+						onClick="setSource(<%=cat.getCategoryId()%>)">Sửa</a> <a
+						href="RemoveCategory?CategoryId=<%=cat.getCategoryId()%>"
+						onClick="return confirmAct('<%=cat.getCategoryName()%>')">Xóa</a>
+						<span class="glyphicon glyphicon-remove"></span></td>
 				</tr>
 				<%
 					}
@@ -81,7 +79,8 @@
 				<form role="form" action="AddNewCategory" method="get">
 					<div class="row">
 						<div class="input-group input-group-md">
-							<input type="text" class="form-control" placeholder="Nhập tên thể loại mới *" name="CategoryName">
+							<input type="text" class="form-control"
+								placeholder="Nhập tên thể loại mới *" name="CategoryName">
 							<div class="input-group-btn">
 								<button type="submit" class="btn btn-primary">Thêm</button>
 							</div>
@@ -109,7 +108,8 @@
 
 					</div>
 					<div class="modal-body">
-						<iframe id="ModalFrame" src="" style="border: none; width: 100%; height: 250px;"></iframe>
+						<iframe id="ModalFrame" src=""
+							style="border: none; width: 100%; height: 250px;"></iframe>
 					</div>
 				</div>
 
