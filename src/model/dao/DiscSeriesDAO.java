@@ -242,4 +242,18 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		}
 	}
 
+	public boolean isExist(String discSeriesName) {
+		String validQuery = "select DiscSeriesName from DISC_SERIES where DiscSeriesName=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, discSeriesName);
+			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

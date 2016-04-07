@@ -2,7 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="model.bean.Category"%>
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List"%>
 <%
 	@SuppressWarnings("unchecked")
 	ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");

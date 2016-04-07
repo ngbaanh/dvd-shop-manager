@@ -1,88 +1,110 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ page import="model.bean.Category"%>
+<%@ page import="model.bean.DiscSeries"%>
+<%@ page import="java.util.ArrayList"%>
+<%
+	@SuppressWarnings("unchecked")
+	ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
+	DiscSeries failedDiscSeries = (DiscSeries) request.getAttribute("FailedDiscSeries");
+	String discSeriesName = "", description = "", place = "";
+	int totalDisc = 1, categoryId = 0;
+	if (failedDiscSeries != null) {
+		discSeriesName = failedDiscSeries.getDiscSeriesName();
+		description = failedDiscSeries.getDescription();
+		place = failedDiscSeries.getListDisc().get(0).getPlace();
+		totalDisc = failedDiscSeries.getTotalDisc();
+		categoryId = failedDiscSeries.getCategory().getCategoryId();
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset = "utf-8">
-	<meta name="description" content="Manager disc series list">
-
-	
-    
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+<meta author="LeMinh, NguyenBaAnh">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-<div class="row">
-	<div class="col-md-9">
-    	 <ol class="breadcrumb" style="margin-bottom: 5px;">
-     			 <li><a href="#">Quản lý phiếu thuê</a></li>
-     			 <li><a href="#">Xem danh sách phiếu</a></li>
-     			 <li class="active">Xem chi tiết phiếu</li>
-   		 </ol>
-    </div><!--col-md9-->
-    <div class="col-md-2">
-    	<button type="button" class="btn btn-sm btn-info">Đóng</button>
-    </div> <!--col-md2-->
-</div><!--row-->
-<h5> <em>Thêm một đĩa hoàn toàn mới vào hệ thống</em> </h5>
-<div class="row">
-	<div class="col-md-2">
-    	<p>Tên bộ đĩa*</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    	<input type="Name" class="form-control" >
-    </div><!--col-md3-->
-</div><!--row-->    
-<div class="row">
-	<div class="col-md-2">
-    	<p>Mô tả</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    	<input type="Text" class="form-control" >
-    </div><!--col-md3-->
-</div><!--row--> 
-<div class="row">
-	<div class="col-md-2">
-    	<p>Thể loại</p>
-    </div><!--col-md2-->
-    <div class="row">    
-    	<div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Phim điện ảnh
-    	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Nhạc việt
-    	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Phim truyền hình
-    	</div><!--col-md2-->
-        <div class="col-md-2">
-    	<input type="checkbox" name="TheLoai" >Ca nhạc
-    	</div><!--col-md2-->
-     </div><!--row-->
-</div> 
-<div class="row">
-	<div class="col-md-2">
-    	<p>Số lượng đĩa</p>
-    </div><!--col-md2-->
-    <div class="col-md-2">
-    	<input type="Text" class="form-control" >
-    </div><!--col-md2-->
-    <div class="col-md-4">
-    	<p>Tất cả đĩa mới có chất lượng mặc định 3*</p>
-    </div><!--col-md4-->
-</div><!--row-->
-<div class="row">
-	<div class="col-md-2">
-    	<p>Vị trí</p>
-    </div><!--col-md2-->
-    <div class="col-md-3">
-    		<input type="Text" class="form-control" ><br>
-            <button type="button" class="btn btn-sm btn-info">Lưu</button>
-    	</div><!--col-md3-->
-</div><!--row--> 
-</div><!--container--> 
+	<div class="container-fluid" style="margin-top:15px;">
+		<div class="row">
+			<div class="col-md-10">
+				<ol class="breadcrumb">
+					<li><a href="ManageDiscSeriesList">Quản lý đĩa</a></li>
+					<li><a href="ManageDiscSeriesList">Quản lí các bộ đĩa</a></li>
+					<li class="active">Thêm mới một bộ đĩa</li>
+				</ol>
+				<p style="margin-top:-15px; margin-left:50px;"><i>Thêm mới một bộ đĩa hoàn toàn mới vào hệ thống</i></p>
+			</div>
+			<div class="col-md-2">
+				<a class="btn btn-default btn-block" href="ManageDiscSeriesList">Đóng</a>
+			</div>
+		</div>
+		<br>
+		<form action="CreateNewDiscSeries" method="get"
+			class="form-horizontal">
+			<div class="form-group">
+				<label class="col-md-2 control-label">Tên bộ đĩa *</label>
+				<div class="col-md-10">
+					<input class="form-control" name="DiscSeriesName"
+						value="<%=discSeriesName%>">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">Mô tả</label>
+				<div class="col-md-10">
+					<textarea class="form-control" name="Description" rows="2"><%=description%></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">Thể loại</label>
+				<div class="col-md-4">
+					<select class="form-control" name="CategoryId">
+						<%
+							if (listCategories.isEmpty()) {
+								out.println("<option>Không thể chọn thể loại</option>");
+							} else {
+								for (Category cat : listCategories) {
+									String selectedChoice = "";
+									if (cat.getCategoryId() == categoryId) {
+										selectedChoice = "selected";
+									}
+									out.println("<option " + selectedChoice + " value=\"" + cat.getCategoryId() + "\">"
+											+ cat.getCategoryName() + "</option>");
+								}
+							}
+						%>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">Số lượng đĩa *</label>
+				<div class="col-md-4">
+					<input type="number" class="form-control" name="TotalDisc"
+						value="1">
+				</div>
+				<div class="col-md-6">
+					<label class="control-label"><i>Tất cả đĩa mới có chất
+							lượng mặc định 3*</i></label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-2 control-label">Vị trí *</label>
+				<div class="col-md-10">
+					<input class="form-control" name="Place" value="<%=place%>">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-md-3 col-md-offset-3">
+					<input type="hidden" name="doCreate"> <input
+						class="btn btn-primary btn-block" type="submit" value="Lưu">
+				</div>
+			</div>
+		</form>
+	</div>
 </body>
 </html>

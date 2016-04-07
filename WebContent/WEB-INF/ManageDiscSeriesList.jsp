@@ -114,7 +114,7 @@
 				<div class="row">
 					<div class="col-md-2 col-md-offset-0">
 						<div class="">
-							<button type="button" class="btn btn-primary btn-sm ">Thêm mới bộ đĩa</button>
+							<a type="button" href="CreateNewDiscSeries" class="btn btn-primary btn-sm">Thêm mới bộ đĩa</a>
 						</div>
 					</div>
 					<div class="col-md-1 col-md-offset-7">

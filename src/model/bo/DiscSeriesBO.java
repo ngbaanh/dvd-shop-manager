@@ -3,6 +3,8 @@
  */
 package model.bo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import model.bean.Disc;
@@ -49,6 +51,9 @@ public class DiscSeriesBO implements IDiscSeries {
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
 		// TODO Auto-generated method stub
 		// ... 
+		if ("".equals(discSeries.getDiscSeriesName().trim())) {
+			return false;
+		}
 		return discSeriesDAO.addNewDiscSeries(discSeries);
 	}
 
@@ -127,6 +132,19 @@ public class DiscSeriesBO implements IDiscSeries {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Lấy mã bộ đĩa theo tên
+	 * @param discSeriesName
+	 * @return
+	 */
+	public int getIdByName(String discSeriesName) {
+		return discSeriesDAO.getIdByName(discSeriesName);
+	}
+	
+	public boolean isExist(String discSeriesName) {
+		return discSeriesDAO.isExist(discSeriesName);
 	}
 
 }

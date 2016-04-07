@@ -49,8 +49,8 @@ public class AddNewDisc extends HttpServlet {
 			try {
 				Disc disc = new Disc();
 				disc.setPlace(viTri);
-				
-				DiscSeries.this.setTotalDisc(DiscSeries.this.getTotalDisc()+Integer.parseInt(soLuong));
+				// FIXME
+				//DiscSeries.this.setTotalDisc(DiscSeries.this.getTotalDisc()+Integer.parseInt(soLuong));
 				
 			} catch (Exception e) {
 				String message = "Lỗi;format data error;index.jsp;Quay về Trang Chủ"; // Tiêu-đề;Nội-dung;URL;Tên-URL
