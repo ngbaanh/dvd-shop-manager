@@ -117,9 +117,9 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			boolean actionResult = preparedStatement.execute();
 			if (actionResult == true) {
 				int discSeriesId = this.getIdByName(discSeries.getDiscSeriesName());
-				ArrayList<Disc> listDisc = discSeries.getListDisc();
-				for (Disc disc : listDisc) {
-					disc.setDiscSeriesId(discSeriesId);
+				Disc disc = discSeries.getListDisc().get(0);
+				disc.setDiscSeriesId(discSeriesId);
+				for (int i = 0; i < discSeries.getTotalDisc(); i++) {
 					discDAO.addNewDisc(disc);
 				}
 			}

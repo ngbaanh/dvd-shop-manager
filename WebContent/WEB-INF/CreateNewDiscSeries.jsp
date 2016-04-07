@@ -85,7 +85,7 @@
 				<label class="col-md-2 control-label">Số lượng đĩa *</label>
 				<div class="col-md-4">
 					<input type="number" class="form-control" name="TotalDisc"
-						value="1">
+						value="<%=totalDisc%>">
 				</div>
 				<div class="col-md-6">
 					<label class="control-label"><i>Tất cả đĩa mới có chất

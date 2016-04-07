@@ -83,16 +83,16 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	 */
 	@Override
 	public boolean addNewDisc(Disc disc) {
-		String addQuery = "insert into DISC(DiscId, DiscSeriesId, Available, QualityId, Place) "
-				+ "values(?, ?, ?, ?, ?)";
+		// FIXME
+		String addQuery = "insert into DISC(DiscSeriesId, QualityId, Place) "
+				+ "values(?, ?, ?)";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
-			preparedStatement.setInt(1, disc.getDiscId());
-			preparedStatement.setInt(2, disc.getDiscSeriesId());
-			preparedStatement.setBoolean(3, disc.isAvailable());
-			preparedStatement.setInt(4, disc.getQualityId());
-			preparedStatement.setString(5, disc.getPlace());
-			boolean actionResult = preparedStatement.execute();
+			preparedStatement.setInt(1, disc.getDiscSeriesId());
+			preparedStatement.setInt(2, disc.getQualityId());
+			preparedStatement.setString(3, disc.getPlace());
+System.out.println(preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
