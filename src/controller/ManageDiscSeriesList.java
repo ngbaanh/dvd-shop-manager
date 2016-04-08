@@ -40,28 +40,31 @@ public class ManageDiscSeriesList extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// Lấy params từ dưới giao diện lên
 		String searchQuery = request.getParameter("SearchQuery");
-		if ("".equals(searchQuery)) {
+		if (searchQuery == null || "".equals(searchQuery)) {
 			searchQuery = "";
 		}
 		int catId = 0;
 		int page = 1;
 		try {
 			catId = Integer.parseInt(request.getParameter("CategoryId"));
+		} catch (NumberFormatException e) {}
+		try {
 			page = Integer.parseInt(request.getParameter("page"));
-		} catch (NumberFormatException e) {
-			String message = "Lỗi;Xin nhập đúng dữ liệu số học;ManageDiscSeriesList;Quay về trang quản lí đĩa";
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
-		}
+		} catch (NumberFormatException e) {}
+		int maxPage = discSeriesBO.getMaxPage(catId);
+System.out.println("ManageDiscSeriesList: SearchQuery = '" + searchQuery + "'; categoryId = " + catId + "; page = " + page);
 		// Lấy danh sách toàn bộ thể loại
 		ArrayList<Category> allCategories = categoryBO.getListCategories();
+		Category currentCategory = categoryBO.getCategory(catId);
 		request.setAttribute("AllCategories", allCategories);
 		// Lấy danh sách bộ đĩa dựa vào các thông số
 		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, catId, page);
 		// Trả lại các thông số mà người dùng đã nhập
 		request.setAttribute("ListDiscSeries", listDiscSeries);
+		request.setAttribute("CurrentCategory", currentCategory);
+		request.setAttribute("CurrentSearchQuery", searchQuery);
 		request.setAttribute("CurrentPage", page);
-		request.setAttribute("CurrentCategoryId", catId);
+		request.setAttribute("MaxPage", maxPage);
 		request.getRequestDispatcher("/WEB-INF/ManageDiscSeriesList.jsp").forward(request, response);
 	}
 

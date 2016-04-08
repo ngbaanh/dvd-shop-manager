@@ -147,4 +147,9 @@ public class DiscSeriesBO implements IDiscSeries {
 		return discSeriesDAO.isExist(discSeriesName);
 	}
 
+	//=============================================
+	public int getMaxPage(int catId) {
+		return discSeriesDAO.getMaxPage(catId);
+	}
+
 }

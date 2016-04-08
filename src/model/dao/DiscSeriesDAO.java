@@ -69,11 +69,11 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			String getQuery = "select DiscSeriesId from DISC_SERIES ";
 			// Xác định ưu tiên: Khi tìm kiếm thì khóa catId và page
 			if (!"".equals(searchQuery)) { // Khóa
-				getQuery += "where DiscSeriesName=? order by DiscSeriesId desc";
+				getQuery += "where DiscSeriesName like ? order by DiscSeriesId desc";
 				preparedStatement = connection.prepareStatement(getQuery);
-				preparedStatement.setString(1, searchQuery);
+				preparedStatement.setString(1, "%" + searchQuery + "%");
 			} else {
-				int startPosition = Const.ITEMS_PER_PAGE * page;
+				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
 				int endPosition = startPosition + Const.ITEMS_PER_PAGE;
 				if (catId > 0) {
 					getQuery += "where CategoryId=" + catId + " order by DiscSeriesId desc";
@@ -83,6 +83,8 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 				preparedStatement.setInt(1, startPosition);
 				preparedStatement.setInt(2, endPosition);
 			}
+			// Console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<DiscSeries> listDiscSeries = new ArrayList<DiscSeries>();
 			while (resultSet.next()) {
@@ -112,7 +114,8 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
 			preparedStatement.setString(2, discSeries.getDescription());
 			preparedStatement.setInt(3, discSeries.getTotalDisc());
-			preparedStatement.setInt(4, discSeries.getTotalDisc()); // Remain = Total
+			preparedStatement.setInt(4, discSeries.getTotalDisc()); // Remain =
+																	// Total
 			preparedStatement.setInt(5, discSeries.getCategory().getCategoryId());
 			boolean actionResult = preparedStatement.execute();
 			if (actionResult == true) {
@@ -215,13 +218,13 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
-	//==========================================================================
+
+	// ==========================================================================
 	// Các hàm bổ trợ, các thành viên tự thiết kế những hàm có ích cho công việc
-	
+
 	/**
 	 * Lấy mã bộ đĩa theo tên
+	 * 
 	 * @param discSeriesName
 	 * @return
 	 */
@@ -253,6 +256,22 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	public int getMaxPage(int catId) {
+		String getQuery = "select count(*) from DISC_SERIES" + ((catId > 0) ? " where CategoryId=" + catId : "");
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return (int) Math.ceil((double) resultSet.getInt(1) / Const.ITEMS_PER_PAGE);
+			} else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 1;
 		}
 	}
 
