@@ -71,7 +71,7 @@
 				<td><%=disc.getDiscId()%></td>
 				<td><%=disc.getQualityId()%>*</td>
 				<td><%=disc.isAvailable() ? "Sẵn sàng" : "Đang được thuê"%></td>
-				<td><%=disc.getPrice()%></td>
+				<td><%=disc.getPrice()%> (VNĐ)</td>
 				<td><a href="#">Sửa</a> <a
 					href="RemoveDisc?DiscId=<%=disc.getDiscId()%>">Xóa</a></td>
 			</tr>
