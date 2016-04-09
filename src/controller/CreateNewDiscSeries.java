@@ -33,6 +33,8 @@ public class CreateNewDiscSeries extends HttpServlet {
 		super();
 		discSeriesBO = new DiscSeriesBO();
 		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> CreateNewDiscSeries >>>>>>>>>");
 	}
 
 	/**
@@ -61,8 +63,7 @@ public class CreateNewDiscSeries extends HttpServlet {
 			String place = request.getParameter("Place");
 			// đóng gói params vào Bean
 			DiscSeries discSeries = new DiscSeries();
-			Disc disc = new Disc(); // 1 đĩa đại diện cho totalDisc đĩa (có nội
-									// dung giống nhau)
+			Disc disc = new Disc(); // 1 đĩa đại diện cho totalDisc đĩa
 			disc.setQualityId(qualityId);
 			disc.setPlace(place);
 			ArrayList<Disc> discForList = new ArrayList<Disc>();
@@ -76,7 +77,7 @@ public class CreateNewDiscSeries extends HttpServlet {
 			discSeries.setListDisc(discForList);
 			// Hết nhiệm vụ, đẩy qua cho BO xử lí và chờ phản hồi
 			if (discSeriesBO.isExist(discSeriesName)) { // trùng tên
-				String message = "Lỗi;Bộ đĩa <strong>" + discSeriesName
+				String message = "Lỗi khi thêm mới;Bộ đĩa <strong>" + discSeriesName
 						+ "</strong> đã tồn tại trong hệ thống;ManageDiscSeriesList;Quay về trang quản lí đĩa";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);

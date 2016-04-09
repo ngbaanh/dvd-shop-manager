@@ -32,6 +32,8 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, discId);
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				Disc disc = new Disc();
@@ -48,7 +50,7 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null; 
+			return null;
 		}
 	}
 
@@ -63,6 +65,8 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, discSeriesId);
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<Disc> listDisc = new ArrayList<Disc>();
 			while (resultSet.next()) {
@@ -85,14 +89,14 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	@Override
 	public boolean addNewDisc(Disc disc) {
 		// FIXME
-		String addQuery = "insert into DISC(DiscSeriesId, QualityId, Place) "
-				+ "values(?, ?, ?)";
+		String addQuery = "insert into DISC(DiscSeriesId, QualityId, Place) " + "values(?, ?, ?)";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setInt(1, disc.getDiscSeriesId());
 			preparedStatement.setInt(2, disc.getQualityId());
 			preparedStatement.setString(3, disc.getPlace());
-System.out.println(preparedStatement.toString());
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
@@ -115,7 +119,9 @@ System.out.println(preparedStatement.toString());
 			preparedStatement.setInt(1, disc.getQualityId());
 			preparedStatement.setString(2, disc.getPlace());
 			preparedStatement.setInt(3, disc.getDiscId());
-			boolean actionResult = preparedStatement.execute();
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -135,7 +141,9 @@ System.out.println(preparedStatement.toString());
 		try {
 			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, discId);
-			boolean actionResult = preparedStatement.execute();
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {

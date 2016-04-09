@@ -14,27 +14,33 @@ import model.bo.CategoryBO;
 
 /**
  * Servlet implementation class ManageDiscCategory
+ * 
  * @author NguyenBaAnh
  */
 @WebServlet("/ManageDiscCategory")
 public class ManageDiscCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    CategoryBO categoryBO;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ManageDiscCategory() {
-        super();
-        categoryBO = new CategoryBO();
-    }
+	CategoryBO categoryBO;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ManageDiscCategory() {
+		super();
+		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> ManageDiscCategory >>>>>>>>>");
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		
+
 		ArrayList<Category> allCategories = new ArrayList<Category>();
 		allCategories = categoryBO.getListCategories();
 		request.setAttribute("AllCategories", allCategories);
@@ -42,9 +48,11 @@ public class ManageDiscCategory extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

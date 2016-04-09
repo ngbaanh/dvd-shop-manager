@@ -31,6 +31,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, catId);
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				Category cat = new Category();
@@ -57,6 +59,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		String getQuery = "select * from CATEGORY";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<Category> listCategories = new ArrayList<Category>();
 			while (resultSet.next()) {
@@ -84,6 +88,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
@@ -104,6 +110,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, catId);
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
@@ -125,6 +133,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
 			preparedStatement.setInt(2, cat.getCategoryId());
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
@@ -140,6 +150,8 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, categoryName);
+			// FIXME - console
+			System.out.println("CategoryDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
 			preparedStatement.close();
 			return actionResult;
@@ -149,7 +161,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		}
 	}
 
-	//==============================================
+	// ==============================================
 	public boolean isFreeToDelete(int catId) {
 		String validQuery = "select DiscSeriesId from DISC_SERIES where CategoryId=?";
 		try {

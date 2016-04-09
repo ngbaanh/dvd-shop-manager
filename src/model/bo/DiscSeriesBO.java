@@ -16,11 +16,14 @@ import util.IDiscSeries;
  */
 public class DiscSeriesBO implements IDiscSeries {
 	DiscSeriesDAO discSeriesDAO;
+
 	public DiscSeriesBO() {
 		discSeriesDAO = new DiscSeriesDAO();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#getDiscSeries(int)
 	 */
 	@Override
@@ -31,7 +34,9 @@ public class DiscSeriesBO implements IDiscSeries {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#getDiscSeriesList(java.lang.String, int, int)
 	 */
 	@Override
@@ -42,32 +47,42 @@ public class DiscSeriesBO implements IDiscSeries {
 		return discSeriesDAO.getDiscSeriesList(searchQuery, catId, page);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#addNewDiscSeries(model.bean.DiscSeries)
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
 		// TODO Auto-generated method stub
-		// ... 
+		// ...
 		if ("".equals(discSeries.getDiscSeriesName().trim())) {
 			return false;
 		}
 		return discSeriesDAO.addNewDiscSeries(discSeries);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#updateNewDiscSeries(model.bean.DiscSeries)
 	 */
 	@Override
 	public boolean updateDiscSeries(DiscSeries discSeries) {
 		// TODO Auto-generated method stub
 		// ...
+		if ("".equals(discSeries.getDiscSeriesName().trim())) {
+			return false;
+		}
 		return discSeriesDAO.updateDiscSeries(discSeries);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#validateDiscSeries(java.lang.String)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean validateDiscSeries(String dsName) {
 		if ("".equals(dsName.trim())) {
@@ -76,7 +91,9 @@ public class DiscSeriesBO implements IDiscSeries {
 		return discSeriesDAO.validateDiscSeries(dsName);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#removeDiscSeries(java.lang.String)
 	 */
 	@Override
@@ -88,7 +105,9 @@ public class DiscSeriesBO implements IDiscSeries {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#getOverallDiscNumber()
 	 */
 	@Override
@@ -97,7 +116,9 @@ public class DiscSeriesBO implements IDiscSeries {
 		return 0;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDiscSeries#getOverallDiscSeriesNumber()
 	 */
 	@Override
@@ -105,12 +126,13 @@ public class DiscSeriesBO implements IDiscSeries {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	//=============================================================
+
+	// =============================================================
 	// Các hàm bổ trợ
-	
+
 	/**
 	 * Kiểm tra 1 bộ đĩa có thể xóa hay không?
+	 * 
 	 * @return true nếu có thể xóa, false nếu không thể.
 	 */
 	public boolean isFreeToDelete(int discSeriesId) {
@@ -118,6 +140,7 @@ public class DiscSeriesBO implements IDiscSeries {
 			return false;
 		}
 		DiscSeries discSeries = this.getDiscSeries(discSeriesId);
+		/*
 		ArrayList<Disc> listDisc = discSeries.getListDisc();
 		if (listDisc.isEmpty()) { // Bộ đĩa mà không có đĩa nào
 			return true; // thì cho xóa
@@ -128,26 +151,69 @@ public class DiscSeriesBO implements IDiscSeries {
 			} else { // nếu đĩa này sẵn sàng
 				continue; // tiếp tục dò cho đến hết đĩa
 			}
+		}*/
+		if (discSeries.getRemainingDisc() == discSeries.getTotalDisc()) {
+			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Lấy mã bộ đĩa theo tên
+	 * 
 	 * @param discSeriesName
 	 * @return
 	 */
 	public int getIdByName(String discSeriesName) {
 		return discSeriesDAO.getIdByName(discSeriesName);
 	}
-	
-	public boolean isExist(String discSeriesName) {
-		return discSeriesDAO.isExist(discSeriesName);
-	}
 
-	//=============================================
+	// =============================================
+	/**
+	 * Tính tổng số trang
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
 	public int getMaxPage(int catId) {
 		return discSeriesDAO.getMaxPage(catId);
+	}
+
+	/**
+	 * Kiểm tra xem tên một bộ đĩa đã tồn tại trong hệ thống hay chưa?
+	 * 
+	 * @param discSeriesName
+	 *            tên bộ đĩa
+	 * @return true nếu tồn tại, false nếu chưa.
+	 */
+	public boolean isExist(String discSeriesName) {
+		if (discSeriesName == null || "".equals(discSeriesName.trim())) {
+			return false;
+		} else {
+			return discSeriesDAO.isExist(discSeriesName);
+		}
+
+	}
+
+	/**
+	 * Kiểm tra xem bộ đĩa này đã tồn tại trong hệ thống hay chưa?
+	 * 
+	 * @param discSeries
+	 *            bộ đĩa
+	 * @return true nếu có 1 bộ đĩa khác có cùng tên nhưng khác mã số. Ngược lại
+	 *         false
+	 */
+	public boolean hasExistence(DiscSeries discSeries) {
+		if (discSeries == null) {
+			return false;
+		} else if ((this.getIdByName(discSeries.getDiscSeriesName()) > 0)
+				&& (discSeries.getDiscSeriesId() != this.getIdByName(discSeries.getDiscSeriesName()))) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

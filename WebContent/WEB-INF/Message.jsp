@@ -14,7 +14,7 @@
 		header = "".equals(tokens[0]) ? "Thông báo" : tokens[0];
 		mesageContent = tokens[1];
 		alink = "".equals(tokens[2]) ? "<a class=\"btn btn-sm btn-danger\" href=\"HomePage\">Quay về trang chủ</a>"
-				: "<a href=\"" + tokens[2] + "\">" + tokens[3] + "</a>";
+				:  "<a href=\"" + tokens[2] + "\">" + tokens[3] + "</a>";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -46,10 +46,12 @@
 					</div>
 					<%
 						}
+					if (!"#".equals(tokens[2])) {
 					%>
 					<div class="panel-footer">
 						<%=alink%>
 					</div>
+					<%} %>
 				</div>
 			</div>
 		</div>

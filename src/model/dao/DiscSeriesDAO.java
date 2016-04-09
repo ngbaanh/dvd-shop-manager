@@ -37,6 +37,8 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		try {
 			preparedStatement = connection.prepareStatement(getDiscSeriesQuery);
 			preparedStatement.setInt(1, discSeriesId);
+			// FIXME - console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				DiscSeries discSeries = new DiscSeries();
@@ -74,16 +76,16 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 				preparedStatement.setString(1, "%" + searchQuery + "%");
 			} else {
 				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
-				int endPosition = startPosition + Const.ITEMS_PER_PAGE;
+				int endPosition = startPosition + Const.ITEMS_PER_PAGE - (page == 1 ? 0 : 1);
 				if (catId > 0) {
-					getQuery += "where CategoryId=" + catId + " order by DiscSeriesId desc";
+					getQuery += "where CategoryId=" + catId;
 				}
-				getQuery += " limit ?,?";
+				getQuery += " order by DiscSeriesId desc limit ?,?";
 				preparedStatement = connection.prepareStatement(getQuery);
 				preparedStatement.setInt(1, startPosition);
 				preparedStatement.setInt(2, endPosition);
 			}
-			// Console
+			// FIXME - console
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<DiscSeries> listDiscSeries = new ArrayList<DiscSeries>();
@@ -114,10 +116,11 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
 			preparedStatement.setString(2, discSeries.getDescription());
 			preparedStatement.setInt(3, discSeries.getTotalDisc());
-			preparedStatement.setInt(4, discSeries.getTotalDisc()); // Remain =
-																	// Total
+			preparedStatement.setInt(4, discSeries.getTotalDisc());
 			preparedStatement.setInt(5, discSeries.getCategory().getCategoryId());
-			boolean actionResult = preparedStatement.execute();
+			// FIXME - console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			if (actionResult == true) {
 				int discSeriesId = this.getIdByName(discSeries.getDiscSeriesName());
 				Disc disc = discSeries.getListDisc().get(0);
@@ -148,7 +151,9 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			preparedStatement.setString(2, discSeries.getDescription());
 			preparedStatement.setInt(3, discSeries.getCategory().getCategoryId());
 			preparedStatement.setInt(4, discSeries.getDiscSeriesId());
-			boolean actionResult = preparedStatement.execute();
+			// FIXME - console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -162,6 +167,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 * 
 	 * @see util.IDiscSeries#validateDiscSeries(java.lang.String)
 	 */
+	@Deprecated
 	@Override
 	public boolean validateDiscSeries(String dsName) {
 		String validQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
@@ -184,11 +190,21 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean removeDiscSeries(int discSeriesId) {
-		String removeQuery = "delete * from DISC_SERIES where DiscSeriesId=?";
+		String removeListDiscQuery = "delete from DISC where DiscSeriesId=?";
 		try {
-			preparedStatement = connection.prepareStatement(removeQuery);
+			preparedStatement = connection.prepareStatement(removeListDiscQuery);
 			preparedStatement.setInt(1, discSeriesId);
-			boolean actionResult = preparedStatement.execute();
+			// FIXME - console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {}
+		String removeDiscSeriesListQuery = "delete from DISC_SERIES where DiscSeriesId=?";
+		try {
+			preparedStatement = connection.prepareStatement(removeDiscSeriesListQuery);
+			preparedStatement.setInt(1, discSeriesId);
+			// FIXME - console
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -229,33 +245,19 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 * @return
 	 */
 	public int getIdByName(String discSeriesName) {
-		String getQuery = "select DicSeriesId from DISC_SERIES where DicSeriesName=?";
+		String getQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setString(1, discSeriesName);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
-				return resultSet.getInt("DicSeriesId");
+				return resultSet.getInt("DiscSeriesId");
 			} else {
 				return 0;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0;
-		}
-	}
-
-	public boolean isExist(String discSeriesName) {
-		String validQuery = "select DiscSeriesName from DISC_SERIES where DiscSeriesName=?";
-		try {
-			preparedStatement = connection.prepareStatement(validQuery);
-			preparedStatement.setString(1, discSeriesName);
-			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
-			preparedStatement.close();
-			return actionResult;
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
 		}
 	}
 
@@ -272,6 +274,20 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 1;
+		}
+	}
+
+	public boolean isExist(String discSeriesName) {
+		String validQuery = "select DiscSeriesName from DISC_SERIES where DiscSeriesName=?";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			preparedStatement.setString(1, discSeriesName);
+			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 

@@ -5,17 +5,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String staffName = "";
-	Staff staff = new Staff();
-	staff = (Staff) session.getAttribute("staff");
-	if (staff == null) {
-		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
-		response.sendRedirect("default.jsp");
-	} else {
-		boolean isManager = staff.isManager() ? true : false;
-	}
 	DiscSeries discSeries = (DiscSeries) request.getAttribute("DiscSeries");
-	ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
+	if (discSeries == null) {
+		String message = "Lỗi;Không thể lấy thông tin của bộ đĩa;#; ";
+		request.setAttribute("message", message);
+		request.getRequestDispatcher("/Message").forward(request, response);
+	} else {
+		@SuppressWarnings("unchecked")
+		ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -32,68 +29,66 @@
 
 <script type="text/javascript" language="JavaScript">
 	window.onload = function() {
-		document.form.DiscSeriesName.focus();
+		document.updateForm.DiscSeriesName.focus();
 	};
 	function validate() {
 		var input = document.form.DiscSeriesName.value;
 		var pattern = /^[\da-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{1,100}$/
 		if (pattern.test(input)) {
+			return true;
 		} else {
 			alert("Dữ liệu nhập vào không hợp lệ, xin nhập lại!");
-
+			return false;
 		}
 	}
 </script>
 </head>
 <body>
-	<div class="container">
-		<form class="form-horizontal" name="form">
+	<div class="container-fluid">
+		<form class="form-horizontal" name="updateForm">
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Tên bộ đĩa<span
-					style="color: red">*</span></label>
-				<div class="col-sm-9">
-					<div class="col-sm-12">
-						<input type="text" class="form-control" name="DiscSeriesName"
-							value="<%=discSeries.getDiscSeriesName()%>">
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Mô tả</label>
-				<div class="col-sm-9">
-					<div class="col-sm-12">
-						<textarea class="form-control" rows="3" name="Description"><%=discSeries.getDescription()%></textarea>
-
-					</div>
+				<label class="col-xs-2 control-label">Tên bộ đĩa *</label>
+				<div class="col-xs-10">
+					<input type="text" class="form-control" name="DiscSeriesName"
+						value="<%=discSeries.getDiscSeriesName()%>">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label">Thể loại</label>
-				<div class="col-sm-9">
-					<div class="col-sm-5">
-						<select name="CategoryId">
-							<%
-								for (Category cat : listCategories) {
-							%>
-							<option
-								<%=(discSeries.getCategory().getCategoryId() == cat.getCategoryId()) ? "selected" : ""%>
-								value="<%=cat.getCategoryId()%>"><%=cat.getCategoryName()%></option>
-							<%
-								}
-							%>
-						</select>
-					</div>
-
+				<label class="col-xs-2 control-label">Mô tả</label>
+				<div class="col-xs-10">
+					<textarea class="form-control" rows="3" name="Description"><%=discSeries.getDescription()%></textarea>
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 col-sm-offset-6">
-					<button type="submit" class="btn btn-default" name="updateButton"
-						onclick="validate()">Cập nhật</button>
+				<label class="col-xs-2 control-label">Thể loại</label>
+				<div class="col-xs-10">
+					<select name="CategoryId" class="form-control">
+						<%
+							for (Category cat : listCategories) {
+						%>
+						<option
+							<%=(discSeries.getCategory().getCategoryId() == cat.getCategoryId()) ? "selected" : ""%>
+							value="<%=cat.getCategoryId()%>">
+							<%=cat.getCategoryName()%>
+						</option>
+						<%
+							}
+						%>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-xs-4 col-xs-offset-4">
+					<input type="hidden" name="doUpdate">
+					<input type="hidden" name="DiscSeriesId" value="<%=discSeries.getDiscSeriesId()%>">
+					<button type="submit" class="btn btn-primary btn-block"
+						onClick="return validate()">Cập nhật</button>
 				</div>
 			</div>
 		</form>
 	</div>
 </body>
 </html>
+<%
+	}
+%>

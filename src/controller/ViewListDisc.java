@@ -17,19 +17,24 @@ import model.bo.DiscSeriesBO;
 @WebServlet("/ViewListDisc")
 public class ViewListDisc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    DiscSeriesBO discSeriesBO;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ViewListDisc() {
-        super();
-        discSeriesBO = new DiscSeriesBO();
-    }
+	DiscSeriesBO discSeriesBO;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ViewListDisc() {
+		super();
+		discSeriesBO = new DiscSeriesBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> ViewListDisc >>>>>>>>>");
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		boolean isValidId = false;
@@ -40,7 +45,7 @@ public class ViewListDisc extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// Bẫy lỗi nhập Id lung tung hoặc không nhập
 		}
-		if (isValidId && discSeriesId > 0) {  
+		if (isValidId && discSeriesId > 0) {
 			DiscSeries discSeries = discSeriesBO.getDiscSeries(discSeriesId);
 			request.setAttribute("DiscSeries", discSeries);
 			request.getRequestDispatcher("/WEB-INF/ViewListDisc.jsp").forward(request, response);
@@ -52,9 +57,11 @@ public class ViewListDisc extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

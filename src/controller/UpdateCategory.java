@@ -27,6 +27,8 @@ public class UpdateCategory extends HttpServlet {
 	public UpdateCategory() {
 		super();
 		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> UpdateCategory >>>>>>>>>");
 	}
 
 	/**

@@ -15,11 +15,14 @@ import util.IDisc;
  */
 public class DiscBO implements IDisc {
 	DiscDAO discDAO;
+
 	public DiscBO() {
 		discDAO = new DiscDAO();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDisc#getDisc(int)
 	 */
 	@Override
@@ -30,7 +33,9 @@ public class DiscBO implements IDisc {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDisc#getListDisc(int)
 	 */
 	@Override
@@ -41,7 +46,9 @@ public class DiscBO implements IDisc {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDisc#addNewDisc(model.bean.Disc)
 	 */
 	@Override
@@ -51,37 +58,47 @@ public class DiscBO implements IDisc {
 		return discDAO.addNewDisc(disc);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDisc#updateDisc(model.bean.Disc)
 	 */
 	@Override
 	public boolean updateDisc(Disc disc) {
-		// TODO Auto-generated method stub
-		// ...		
-		return discDAO.updateDisc(disc);
+		if ("".equals(disc.getPlace().trim())) {
+			return false;
+		} else if (disc.getQualityId() < 0 || disc.getQualityId() > 3) {
+			return false;
+		} else {
+			return discDAO.updateDisc(disc);
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see util.IDisc#removeDisc(int)
 	 */
 	@Override
 	public boolean removeDisc(int discId) {
-		if (this.isFreeToDelete(discId)) {
+		if (this.isFreeToChange(discId)) {
 			return discDAO.removeDisc(discId);
 		}
 		return false;
 	}
 
-	//============================================================
+	// ============================================================
 	// Hàm bổ trợ
-	
+
 	/**
 	 * Kiểm tra xem 1 đĩa có thể xóa hay không
-	 * @param discId mã đĩa
+	 * 
+	 * @param discId
+	 *            mã đĩa
 	 * @return true nếu có thể, false nếu không thể
 	 */
-	private boolean isFreeToDelete(int discId) {
-		if (discId < 0) {
+	public boolean isFreeToChange(int discId) {
+		if (discId <= 0) {
 			return false;
 		} else {
 			Disc disc = this.getDisc(discId);

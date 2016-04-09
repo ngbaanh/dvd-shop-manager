@@ -16,19 +16,24 @@ import model.bo.CategoryBO;
 @WebServlet("/RemoveCategory")
 public class RemoveCategory extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    CategoryBO categoryBO;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public RemoveCategory() {
-        super();
-        categoryBO = new CategoryBO();
-    }
+	CategoryBO categoryBO;
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public RemoveCategory() {
+		super();
+		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> RemoveCategory >>>>>>>>>");
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		int CategoryId = Integer.parseInt(request.getParameter("CategoryId"));
@@ -42,9 +47,11 @@ public class RemoveCategory extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

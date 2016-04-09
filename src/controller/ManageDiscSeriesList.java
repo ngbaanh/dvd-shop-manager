@@ -30,6 +30,8 @@ public class ManageDiscSeriesList extends HttpServlet {
 		super();
 		discSeriesBO = new DiscSeriesBO();
 		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> ManageDiscSeriesList >>>>>>>>>");
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class ManageDiscSeriesList extends HttpServlet {
 		request.setAttribute("ListDiscSeries", listDiscSeries);
 		request.setAttribute("CurrentCategory", currentCategory);
 		request.setAttribute("CurrentSearchQuery", searchQuery);
-		request.setAttribute("CurrentPage", (listDiscSeries.isEmpty() || catId==0) ? 1 : page);
+		request.setAttribute("CurrentPage", (listDiscSeries == null || listDiscSeries.isEmpty()) ? 1 : page);
 		request.setAttribute("MaxPage", maxPage);
 		request.getRequestDispatcher("/WEB-INF/ManageDiscSeriesList.jsp").forward(request, response);
 	}

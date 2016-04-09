@@ -51,6 +51,7 @@
 							var searchQuery = document
 									.getElementById("SearchQuery").value;
 							// kiểm tra valid searchQuery ở đây
+							// TODO
 							document.location = "#?SearchQuery=" + searchQuery;
 						}
 					});
@@ -108,39 +109,43 @@
 		<%
 			} else {
 		%>
-		<div class="table">
-			<script>
-				$(document).ready(function() {
-					$('[data-toggle="tooltip"]').tooltip();
-				});
-			</script>
-			<table class="table table-bordered">
-				<caption><%=("".equals(currentSearchQuery)
+		<script type="text/javascript">
+			function setSource(Id) {
+				document.getElementById('ModalFrame').src='UpdateDiscSeries?DiscSeriesId='+Id;
+			}
+			function confirmAct(Name) {
+				return confirm('Bạn chắc chắn muốn xóa bộ đĩa: '+Name+"?");
+			}
+		</script>
+		<table class="table table-bordered">
+			<caption><%=("".equals(currentSearchQuery)
 						? "Danh sách các bộ đĩa (" + Const.ITEMS_PER_PAGE + " bộ/trang)" : "Kết quả tìm kiếm")%></caption>
-				<tr class="active">
-					<th>STT</th>
-					<th>Tên bộ đĩa</th>
-					<th>Thể loại</th>
-					<th>SL</th>
-					<th>Thao tác</th>
-				</tr>
-				<%
-					for (DiscSeries ds : listDiscSeries) {
-				%>
-				<tr>
-					<td><%=(startIndex++)%></td>
-					<td><%=ds.getDiscSeriesName()%></td>
-					<td><%=ds.getCategory().getCategoryName()%></td>
-					<td><%=ds.getRemainingDisc()%> / <%=ds.getTotalDisc()%></td>
-					<td><a
-						href="ViewListDisc?DiscSeriesId=<%=ds.getDiscSeriesId()%>">Xem</a>
-						<a href="#">Sửa</a> <a href="#">Xóa</a></td>
-				</tr>
-				<%
-					}
-				%>
-			</table>
-		</div>
+			<tr class="active">
+				<th>STT</th>
+				<th>Tên bộ đĩa</th>
+				<th>Thể loại</th>
+				<th>SL</th>
+				<th>Thao tác</th>
+			</tr>
+			<%
+				for (DiscSeries ds : listDiscSeries) {
+			%>
+			<tr>
+				<td><%=(startIndex++)%></td>
+				<td><%=ds.getDiscSeriesName()%></td>
+				<td><%=ds.getCategory().getCategoryName()%></td>
+				<td><%=ds.getRemainingDisc()%> / <%=ds.getTotalDisc()%></td>
+				<td><a
+					href="ViewListDisc?DiscSeriesId=<%=ds.getDiscSeriesId()%>">Xem</a>
+					<a data-toggle="modal" data-target="#UpdateDiscSeries"
+					onClick="setSource(<%=ds.getDiscSeriesId()%>)">Sửa</a> <a
+					href="RemoveDiscSeries?DiscSeriesId=<%=ds.getDiscSeriesId()%>"
+					onClick="return confirmAct('<%=ds.getDiscSeriesName()%>')">Xóa</a></td>
+			</tr>
+			<%
+				}
+			%>
+		</table>
 		<%
 			} // end ----------- listDiscSeries
 			if ("".equals(currentSearchQuery)) {
@@ -162,7 +167,7 @@
 						<%=maxPage%>
 						&nbsp; <span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
+					<ul class="col-sm-2 dropdown-menu">
 						<%
 							String pageLink;
 								for (int i = 1; i <= maxPage; i++) {
@@ -180,6 +185,33 @@
 		<%
 			}
 		%>
-	
+		<!-- -----------UpdateDiscSeries Modal------------ -->
+		<div id="UpdateDiscSeries" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg"
+				style="width: 750px; height: 500px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="col-md-11">
+							<h4 class="modal-title">
+								<strong>Sửa thông tin bộ đĩa</strong>
+							</h4>
+						</div>
+						<div class="col-md-1">
+							<button type="button" class="btn btn-sm btn-default"
+								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
+						</div>
+
+					</div>
+					<div class="modal-body">
+						<iframe id="ModalFrame" src=""
+							style="border: none; width: 100%; height: 400px;"></iframe>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- -------------------------------------- -->
+	</div>
 </body>
 </html>

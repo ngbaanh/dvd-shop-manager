@@ -16,7 +16,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Xem danh sách đĩa của một bộ đia</title>
 
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -46,13 +46,20 @@
 			</h5>
 		</div>
 		<br>
-		<!-- /.row -->
-		<!-- TABLE -->
 		<%
 			if (listDisc.isEmpty()) {
 					out.print("Danh sách rỗng không có đĩa nào!");
 				} else {
 		%>
+		<script type="text/javascript">
+			function setSource(Id, Name) {
+				document.getElementById('ModalFrame').src=(Name==0?'UpdateDisc?DiscId='+Id:'/AddNewDisc');
+				document.getElementById('ModalName').innerHTML = (Name==0?'Sửa chi tiết thông tin đĩa':'Thêm đĩa mới');
+			}
+			function confirmAct(Name) {
+				return confirm('Bạn chắc chắn muốn đĩa có mã số: '+Name+"?");
+			}
+		</script>
 		<table class="table table-striped">
 			<tr class="active">
 				<th>STT</th>
@@ -64,7 +71,7 @@
 			</tr>
 			<%
 				int i = 1;
-				for (Disc disc : listDisc) {
+						for (Disc disc : listDisc) {
 			%>
 			<tr>
 				<td><%=i++%></td>
@@ -72,8 +79,10 @@
 				<td><%=disc.getQualityId()%>*</td>
 				<td><%=disc.isAvailable() ? "Sẵn sàng" : "Đang được thuê"%></td>
 				<td><%=disc.getPrice()%> (VNĐ)</td>
-				<td><a href="#">Sửa</a> <a
-					href="RemoveDisc?DiscId=<%=disc.getDiscId()%>">Xóa</a></td>
+				<td><a data-toggle="modal" data-target="#DiscModal"
+					onClick="setSource(<%=disc.getDiscId()%>,0)">Sửa</a> <a
+					href="RemoveDisc?DiscId=<%=disc.getDiscId()%>"
+					onClick="return confirmAct('<%=disc.getDiscId()%>')">Xóa</a></td>
 			</tr>
 			<%
 				}
@@ -82,13 +91,41 @@
 		<%
 			}
 		%>
-		<!-- /TABLE -->
 		<div class="row">
 			<div class="col-md-3 col-md-offset-1">
-				<a class="btn btn-primary btn-block" href="#modal-them-moi">Thêm đĩa mới vào bộ</a>
+				<a class="btn btn-primary btn-block" data-toggle="modal" data-target="#DiscModal"
+					onClick="setSource('/AddNewDisc',1)">Thêm
+					đĩa mới vào bộ</a>
 			</div>
 		</div>
-		<!-- /.row -->
+
+		<!-- -----------Disc Modal------------ -->
+		<div id="DiscModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg"
+				style="margin-top:50px; width: 750px; height: 370px;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="col-xs-10">
+							<h4 class="modal-title">
+								<strong id="ModalName">Sửa chi tiết thông tin đĩa</strong>
+							</h4>
+						</div>
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-sm btn-block btn-default"
+								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
+						</div>
+
+					</div>
+					<div class="modal-body">
+						<iframe id="ModalFrame" src=""
+							style="border: none; width: 100%; height: 370px;"></iframe>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- -------------------------------------- -->
 	</div>
 </body>
 </html>

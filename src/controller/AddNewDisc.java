@@ -22,6 +22,8 @@ public class AddNewDisc extends HttpServlet {
 	 */
 	public AddNewDisc() {
 		// TODO Auto-generated constructor stub
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> AddNewDisc >>>>>>>>>");
 	}
 
 	/**

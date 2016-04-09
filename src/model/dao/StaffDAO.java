@@ -32,6 +32,8 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, staff.getStaffId());
 			preparedStatement.setString(2, staff.getPassword());
+			// FIXME - console
+			System.out.println("StaffDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.execute();
 			preparedStatement.close();
 			return actionResult;
@@ -47,6 +49,8 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setString(1, staffId);
+			// FIXME - console
+			System.out.println("StaffDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				Staff staff = new Staff();

@@ -27,6 +27,8 @@ public class AddNewCategory extends HttpServlet {
 	public AddNewCategory() {
 		super();
 		categoryBO = new CategoryBO();
+		// FIXME - console
+		System.out.println("\n>>>>>>>>> AddNewCategory >>>>>>>>>");
 	}
 
 	/**
@@ -44,7 +46,7 @@ public class AddNewCategory extends HttpServlet {
 			String message = "Lỗi;Thể loại <strong>" + CategoryName
 					+ "</strong> đã tồn tại trong hệ thống;ManageDiscCategory;Quay về trang quản lí thể loại";
 			request.setAttribute("message", message);
-			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);			
+			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
 		} else if (categoryBO.addNewCategory(category)) {
 			response.sendRedirect("ManageDiscCategory");
 		} else {

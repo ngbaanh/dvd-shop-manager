@@ -23,7 +23,7 @@ public class DatabaseFactory {
 	 */
 	public DatabaseFactory() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.jdbc.Driver");
 			String address = "jdbc:mysql://localhost:3306/se23?useUnicode=true&characterEncoding=utf-8";
 			connection = DriverManager.getConnection(address,"root","");
 			statement = connection.createStatement();
