@@ -90,6 +90,7 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	public boolean addNewDisc(Disc disc) {
 		// FIXME
 		String addQuery = "insert into DISC(DiscSeriesId, QualityId, Place) " + "values(?, ?, ?)";
+		String incNumber = "update DISC_SERIES set TotalDisc = (TotalDisc+1), RemainingDisc = (RemainingDisc+1) where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setInt(1, disc.getDiscSeriesId());
@@ -98,6 +99,13 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 			// FIXME - console
 			System.out.println("DiscDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			if (actionResult == true) {
+				preparedStatement = connection.prepareStatement(incNumber);
+				preparedStatement.setInt(1, disc.getDiscSeriesId());
+				// FIXME - console
+				System.out.println("DiscDAO: " + preparedStatement.toString());
+				preparedStatement.executeUpdate();
+			}
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -114,7 +122,6 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	@Override
 	public boolean updateDisc(Disc disc) {
 		String updateQuery = "update DISC set QualityId=?, Place=? where DiscId=?";
-		String decNumber = "update DISC_SERIES set TotalDisc = (TotalDisc-1), RemainingDisc = (RemainingDisc-1) where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setInt(1, disc.getQualityId());
@@ -123,11 +130,6 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 			// FIXME - console
 			System.out.println("DiscDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
-			if (actionResult == true) {
-				preparedStatement = connection.prepareStatement(decNumber);
-				preparedStatement.setInt(1, disc.getDiscSeriesId());
-				preparedStatement.executeUpdate();
-			}
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -144,7 +146,8 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	@Override
 	public boolean removeDisc(int discId) {
 		String removeQuery = "delete from DISC where DiscId=?";
-		String decNumber = "update DISC_SERIES set TotalDisc = (TotalDisc-1), RemainingDisc = (RemainingDisc-1) where DiscSeriesId=" + this.getDisc(discId).getDiscSeriesId();
+		String decNumber = "update DISC_SERIES set TotalDisc = (TotalDisc-1), RemainingDisc = (RemainingDisc-1) where DiscSeriesId="
+				+ this.getDisc(discId).getDiscSeriesId();
 		try {
 			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, discId);

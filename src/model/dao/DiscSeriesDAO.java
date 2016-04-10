@@ -110,16 +110,14 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
-		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, TotalDisc, RemainingDisc, CategoryId) "
+		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, CategoryId) "
 				+ "values(?, ?, ?, ?, ?)";
 		try {
 			preparedStatement = connection.prepareStatement(addDiscSeriesQuery);
 			// Auto increment DiscSeriesId
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
 			preparedStatement.setString(2, discSeries.getDescription());
-			preparedStatement.setInt(3, discSeries.getTotalDisc());
-			preparedStatement.setInt(4, discSeries.getTotalDisc());
-			preparedStatement.setInt(5, discSeries.getCategory().getCategoryId());
+			preparedStatement.setInt(3, discSeries.getCategory().getCategoryId());
 			// FIXME - console
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.bean.Disc;
+import model.bean.DiscSeries;
+import model.bo.DiscBO;
+import model.bo.DiscSeriesBO;
+import util.Const;
 
 /**
  * Servlet implementation class AddNewDisc
@@ -16,12 +20,15 @@ import model.bean.Disc;
 @WebServlet("/AddNewDisc")
 public class AddNewDisc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	DiscBO discBO;
+	DiscSeriesBO discSeriesBO;
 
 	/**
 	 * Default constructor.
 	 */
 	public AddNewDisc() {
-		// TODO Auto-generated constructor stub
+		discBO = new DiscBO();
+		discSeriesBO = new DiscSeriesBO();
 		// FIXME - console
 		System.out.println("\n>>>>>>>>> AddNewDisc >>>>>>>>>");
 	}
@@ -32,40 +39,65 @@ public class AddNewDisc extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		request.getRequestDispatcher("/WEB-INF/ThemDiaMoiVaoMotBoDia.jsp").forward(request, response);
 
-		String soLuong = request.getParameter("soLuong");
-		String viTri = request.getParameter("viTri");
-
-		// check validate
-		if (soLuong == null || viTri == null) {
-			String message = "Lỗi;Thieu thong tin;index.jsp;Quay về Trang Chủ"; // Tiêu-đề;Nội-dung;URL;Tên-URL
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("/WEB-INF/Message.jsp").include(request, response); // show
-																								// messages
-			request.getRequestDispatcher("/WEB-INF/ThemDiaMoiVaoMotBoDia.jsp").include(request, response);
-		} else {
-			try {
-				Disc disc = new Disc();
-				disc.setPlace(viTri);
-				// FIXME
-				// DiscSeries.this.setTotalDisc(DiscSeries.this.getTotalDisc()+Integer.parseInt(soLuong));
-
-			} catch (Exception e) {
-				String message = "Lỗi;format data error;index.jsp;Quay về Trang Chủ"; // Tiêu-đề;Nội-dung;URL;Tên-URL
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("/WEB-INF/Message.jsp").include(request, response); // show
-																									// messages
-				request.getRequestDispatcher("/WEB-INF/ThemMoiMotBoDia.jsp").include(request, response); // load
-																											// JSP
-			}
-			response.sendRedirect("ViewListDisc.jsp");
+		int discSeriesId = 0, discNumber = 1;
+		String discSeriesName = request.getParameter("DiscSeriesName");
+		String place = request.getParameter("Place");
+		try {
+			discSeriesId = Integer.parseInt(request.getParameter("DiscSeriesId"));
+			discNumber = Integer.parseInt(request.getParameter("DiscNumber"));
+		} catch (NumberFormatException e) {
 		}
+		DiscSeries discSeries = discSeriesBO.getDiscSeries(discSeriesId);
+		if (discSeries == null) {
+			String message = "Lỗi;Không thể lấy thông tin bộ đĩa;#; ";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("/Message").forward(request, response);
+		} else if (request.getParameter("doAdd") == null) {
+			discSeriesName = discSeries.getDiscSeriesName();
+			place = discSeries.getListDisc().get(0).getPlace();
+		} else if (discNumber < 1) {
+			String message = "Lỗi;" + Const.INPUT_POSITIVE_NUMBER + ";#; ";
+			discSeriesName = discSeries.getDiscSeriesName();
+			place = discSeries.getListDisc().get(0).getPlace();
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
+		} else {
+			Disc disc = new Disc();
+			disc.setDiscSeriesId(discSeriesId);
+			disc.setPlace(place);
+			disc.setQualityId((byte) 3);
+			boolean added = true;
+			int index = 1;
+			for (index = 1; index <= discNumber; index++) {
+				if (!discBO.addNewDisc(disc)) {
+					added = false;
+					break;
+				}
+			}
+			if (added) {
+				String message = "Lỗi khi thêm đĩa; Thêm " + discNumber + " đĩa thành công;#; ";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
+			} else if (index == 1) {
+				String message = "Lỗi khi thêm đĩa; Thêm " + discNumber + " đĩa thất bại;#; ";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
+			} else {
+				String message = "Thông báo; Chỉ thêm " + index + "/" + discNumber + " đĩa thành công;#; ";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
+			}
+			discSeriesName = discSeries.getDiscSeriesName();
+			place = discSeries.getListDisc().get(0).getPlace();
+		}
+		request.setAttribute("DiscSeriesId", discSeriesId);
+		request.setAttribute("DiscSeriesName", discSeriesName);
+		request.setAttribute("Place", place);
+		request.setAttribute("DiscNumber", discNumber);
+		request.getRequestDispatcher("/WEB-INF/AddNewDisc.jsp").include(request, response);
 	}
 
 	/**
@@ -74,7 +106,6 @@ public class AddNewDisc extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="model.bean.Disc"%>
-<%@page import="java.util.ArrayList"%>
 <%
 	Disc disc = (Disc) request.getAttribute("Disc");
 	if (disc != null) {

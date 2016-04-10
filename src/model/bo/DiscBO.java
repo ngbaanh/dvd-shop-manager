@@ -53,9 +53,11 @@ public class DiscBO implements IDisc {
 	 */
 	@Override
 	public boolean addNewDisc(Disc disc) {
-		// TODO Auto-generated method stub
-		// ...
-		return discDAO.addNewDisc(disc);
+		if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
+			return false;
+		} else {
+			return discDAO.addNewDisc(disc);
+		}
 	}
 
 	/*
@@ -65,7 +67,7 @@ public class DiscBO implements IDisc {
 	 */
 	@Override
 	public boolean updateDisc(Disc disc) {
-		if ("".equals(disc.getPlace().trim())) {
+		if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
 			return false;
 		} else if (disc.getQualityId() < 0 || disc.getQualityId() > 3) {
 			return false;

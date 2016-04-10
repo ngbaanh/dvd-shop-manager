@@ -1,7 +1,6 @@
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Disc"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.bean.Staff"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -42,7 +41,8 @@
 		<div class="row">
 			<h4 class="col-md-6 col-md-offset-1">Danh sách các đĩa</h4>
 			<h5 class="col-md-6 col-md-offset-1">
-				Bộ đĩa: <strong><%=discSeries.getDiscSeriesName()%></strong>
+				Bộ đĩa: <strong><%=discSeries.getDiscSeriesName()%></strong> 
+				<small>(có <%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%> đĩa có thể cho thuê)</small>
 			</h5>
 		</div>
 		<br>
@@ -53,7 +53,7 @@
 		%>
 		<script type="text/javascript">
 			function setSource(Id, Name) {
-				document.getElementById('ModalFrame').src=(Name==0?'UpdateDisc?DiscId='+Id:'/AddNewDisc');
+				document.getElementById('ModalFrame').src=(Name==0?'UpdateDisc?DiscId='+Id:'AddNewDisc?DiscSeriesId='+Id);
 				document.getElementById('ModalName').innerHTML = (Name==0?'Sửa chi tiết thông tin đĩa':'Thêm đĩa mới');
 			}
 			function confirmAct(Name) {
@@ -93,8 +93,9 @@
 		%>
 		<div class="row">
 			<div class="col-md-3 col-md-offset-1">
-				<a class="btn btn-primary btn-block" data-toggle="modal" data-target="#DiscModal"
-					onClick="setSource('/AddNewDisc',1)">Thêm
+				<a class="btn btn-primary btn-block" data-toggle="modal"
+					data-target="#DiscModal"
+					onClick="setSource(<%=discSeries.getDiscSeriesId()%>,1)">Thêm
 					đĩa mới vào bộ</a>
 			</div>
 		</div>
@@ -102,7 +103,7 @@
 		<!-- -----------Disc Modal------------ -->
 		<div id="DiscModal" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg"
-				style="margin-top:50px; width: 750px; height: 400px;">
+				style="margin-top: 50px; width: 750px; height: 400px;">
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
