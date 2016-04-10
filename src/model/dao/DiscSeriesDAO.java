@@ -89,7 +89,6 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<DiscSeries> listDiscSeries = new ArrayList<DiscSeries>();
-			if (resultSet.next())
 			while (resultSet.next()) {
 				int discSeriesId = resultSet.getInt("DiscSeriesId");
 				DiscSeries discSeries = this.getDiscSeries(discSeriesId);
