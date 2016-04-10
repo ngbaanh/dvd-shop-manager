@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import model.bean.Category;
 import model.dao.CategoryDAO;
+import util.Const;
 import util.ICategory;
 
 /**
@@ -28,7 +29,7 @@ public class CategoryBO implements ICategory {
 	 */
 	@Override
 	public Category getCategory(int catId) {
-		if (catId < 0) {
+		if (catId <= 0) {
 			return null;
 		} else {
 			return categoryDAO.getCategory(catId);
@@ -54,6 +55,10 @@ public class CategoryBO implements ICategory {
 	public boolean addNewCategory(Category cat) {
 		if (cat == null) {
 			return false;
+		} else if (cat.getCategoryId() <= 0 || "".equals(cat.getCategoryName().trim())) {
+			return false;
+		} else if (Const.MAXLENGTH_NAME < cat.getCategoryName().length()) {
+			return false;
 		} else {
 			return categoryDAO.addNewCategory(cat);
 		}
@@ -66,7 +71,7 @@ public class CategoryBO implements ICategory {
 	 */
 	@Override
 	public boolean removeCategory(int catId) {
-		if (catId < 0) {
+		if (catId <= 0) {
 			return false;
 		} else if (this.isFreeToDelete(catId)) {
 			return categoryDAO.removeCategory(catId);
@@ -74,7 +79,6 @@ public class CategoryBO implements ICategory {
 			return false;
 		}
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -85,6 +89,10 @@ public class CategoryBO implements ICategory {
 	public boolean updateCategory(Category cat) {
 		if (cat == null) {
 			return false;
+		} else if (cat.getCategoryId() <= 0 || "".equals(cat.getCategoryName().trim())) {
+			return false;
+		} else if (Const.MAXLENGTH_NAME < cat.getCategoryName().length()) {
+			return false;
 		} else {
 			return categoryDAO.updateCategory(cat);
 		}
@@ -92,12 +100,20 @@ public class CategoryBO implements ICategory {
 
 	@Override
 	public boolean isExist(String categoryName) {
-		return categoryDAO.isExist(categoryName);
+		if (categoryName == null || "".equals(categoryName.trim())) {
+			return false;
+		} else {
+			return categoryDAO.isExist(categoryName);
+		}
 	}
-	
-	//=============================
+
+	// =============================
 	private boolean isFreeToDelete(int catId) {
-		return categoryDAO.isFreeToDelete(catId);
+		if (catId <= 0) {
+			return false;
+		} else {
+			return categoryDAO.isFreeToDelete(catId);
+		}
 	}
 
 }

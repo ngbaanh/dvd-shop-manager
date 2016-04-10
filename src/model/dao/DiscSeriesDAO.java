@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.PreparedStatement;
-
 import model.bean.Disc;
 import model.bean.DiscSeries;
 import util.Const;

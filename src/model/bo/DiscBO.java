@@ -53,7 +53,11 @@ public class DiscBO implements IDisc {
 	 */
 	@Override
 	public boolean addNewDisc(Disc disc) {
-		if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
+		if (disc == null) {
+			return false;
+		} else if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
+			return false;
+		} else if (disc.getDiscSeriesId() <= 0) {
 			return false;
 		} else {
 			return discDAO.addNewDisc(disc);
@@ -67,7 +71,9 @@ public class DiscBO implements IDisc {
 	 */
 	@Override
 	public boolean updateDisc(Disc disc) {
-		if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
+		if (disc == null) {
+			return false;
+		} else if (disc.getPlace() == null || "".equals(disc.getPlace().trim())) {
 			return false;
 		} else if (disc.getQualityId() < 0 || disc.getQualityId() > 3) {
 			return false;
@@ -83,7 +89,11 @@ public class DiscBO implements IDisc {
 	 */
 	@Override
 	public boolean removeDisc(int discId) {
-		if (this.isFreeToChange(discId)) {
+		if (discId <= 0) {
+			return false;
+		} else if (new DiscSeriesBO().getDiscSeries(getDisc(discId).getDiscSeriesId()).getTotalDisc() == 1) {
+			return false; // không cho phép xóa đĩa cuối cùng của bộ đĩa
+		} else if (this.isFreeToChange(discId)) {
 			return discDAO.removeDisc(discId);
 		}
 		return false;
@@ -104,7 +114,7 @@ public class DiscBO implements IDisc {
 			return false;
 		} else {
 			Disc disc = this.getDisc(discId);
-			return disc.isAvailable();
+			return (disc == null) ? false : disc.isAvailable();
 		}
 	}
 

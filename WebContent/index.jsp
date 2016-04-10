@@ -31,8 +31,7 @@
 			<div class="col-md-6">
 				<h3>
 					<a href="index.jsp"><span
-						class="glyphicon glyphicon-align-justify"></span></a> <span
-						class="text text-success">Cửa hàng thuê đĩa ABC</span>
+						class="glyphicon glyphicon-align-justify"></span></a> Cửa hàng thuê đĩa <strong>SE23</strong>
 				</h3>
 			</div>
 			<div class="col-md-2 col-md-offset-3" style="padding-top: 15px;">

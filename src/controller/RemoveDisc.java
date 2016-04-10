@@ -55,7 +55,7 @@ public class RemoveDisc extends HttpServlet {
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
 			} else {
-				String message = "Thao tác thất bại; Xóa đĩa có mã số<strong>" + disc.getDiscId()
+				String message = "Thao tác thất bại; Xóa đĩa có mã số <strong>" + disc.getDiscId()
 						+ "</strong> thất bại.;javascript:history.go(-1);Quay lại";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
