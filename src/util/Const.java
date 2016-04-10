@@ -13,6 +13,7 @@ public final class Const {
 	public static int MAXLENGTH_PASSWORD = 30;
 	public static int MAXLENGTH_NAME = 100;
 	public static int MAXLENGTH_DESCRIPTION = 1000;
+	public static int MAX_ITEM = 100; // số đĩa mỗi bộ
 	
 	// String
 	public static final String NOT_FOUND_ON_SEARCH = "Không tìm thấy";

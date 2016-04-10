@@ -111,8 +111,8 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
-		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, CategoryId) "
-				+ "values(?, ?, ?, ?, ?)";
+		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, CategoryId, TotalDisc, RemainingDisc) "
+				+ "values(?, ?, ?, 0, 0)";
 		try {
 			preparedStatement = connection.prepareStatement(addDiscSeriesQuery);
 			// Auto increment DiscSeriesId

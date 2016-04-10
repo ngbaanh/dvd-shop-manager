@@ -54,11 +54,9 @@ public class DiscSeriesBO implements IDiscSeries {
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
-		// TODO Auto-generated method stub
-		// ...
 		if ("".equals(discSeries.getDiscSeriesName().trim())) {
 			return false;
-		} else if (discSeries.getTotalDisc() < 1) {
+		} else if (discSeries.getTotalDisc() < 1 || discSeries.getTotalDisc() > 100) {
 			return false;
 		} else if ("".equals(discSeries.getListDisc().get(0).getPlace().trim())) {
 			return false;
@@ -66,7 +64,7 @@ public class DiscSeriesBO implements IDiscSeries {
 			return false;
 		} else if (Const.MAXLENGTH_DESCRIPTION < discSeries.getDescription().length()) {
 			return false;
-		} else if (new CategoryBO().getCategory(discSeries.getCategory().getCategoryId()) == null) {
+		} else if (discSeries.getCategory() == null) {
 			return false;
 		}
 		return discSeriesDAO.addNewDiscSeries(discSeries);
