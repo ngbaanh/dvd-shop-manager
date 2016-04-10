@@ -78,7 +78,7 @@ public class AddNewDisc extends HttpServlet {
 				}
 			}
 			if (added) {
-				String message = "Lỗi khi thêm đĩa; Thêm " + discNumber + " đĩa thành công;#; ";
+				String message = "Thông báo; Thêm " + discNumber + " đĩa thành công;#; ";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
 			} else if (index == 1) {
