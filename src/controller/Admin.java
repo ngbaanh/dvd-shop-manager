@@ -39,20 +39,17 @@ public class Admin extends HttpServlet {
 		Staff staff = (Staff) session.getAttribute("staff");
 		if (staff != null && "admin".equals(staff.getStaffId())) {
 			int itemsPerPage = Const.ITEMS_PER_PAGE;
-			if (request.getParameter("doSave") == null) {
-				String items_per_page = request.getParameter("items_per_page");
-				if (items_per_page == null || "".equals(items_per_page)) {
-					itemsPerPage = Const.ITEMS_PER_PAGE;
-				} else {
-					itemsPerPage = Integer.parseInt(items_per_page);
-				}
-				if (itemsPerPage > 0) {
+			int maxItem = Const.MAX_ITEM;
+			if (request.getParameter("doSave") != null) {
+				itemsPerPage = Integer.parseInt(request.getParameter("items_per_page"));
+				maxItem = Integer.parseInt(request.getParameter("max_item"));
+				if (itemsPerPage > 0 && maxItem > 0) {
 					Const.ITEMS_PER_PAGE = itemsPerPage;
+					Const.MAX_ITEM = maxItem;
 				}
-			} else {
-
 			}
 			request.setAttribute("items_per_page", itemsPerPage);
+			request.setAttribute("max_item", maxItem);
 			request.getRequestDispatcher("/WEB-INF/Admin.jsp").include(request, response);
 		} else {
 			String message = "Lỗi khi vào trang quản lí;Bạn không đủ quyền hạn thực hiện chức năng này, vui lòng đăng nhập tài khoản <strong>admin</strong>;javascript:history.go(-1);Quay lại";

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%
 	int itemsPerPage = (int) request.getAttribute("items_per_page");
+	int maxItem = (int) request.getAttribute("max_item");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,13 +17,7 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style>
 html {
-	background: repeating-linear-gradient(
-  -45deg,
-  #222,
-  #222 10px,
-  #333 10px,
-  #333 20px
-);
+	background: repeating-linear-gradient(-45deg, #222, #222 10px, #333 10px, #333 20px);
 }
 </style>
 </head>
@@ -38,6 +33,14 @@ html {
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="col-xs-6 control-label">Tổng số đĩa / bộ đĩa</label>
+				<div class="col-xs-6">
+					<input class="form-control" type="number" name="max_item"
+						value="<%=maxItem%>">
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="hidden" name="doSave">
 				<div class="col-xs-2 col-xs-offset-6">
 					<input class="btn btn-primary btn-block" type="submit" value="Lưu">
 				</div>

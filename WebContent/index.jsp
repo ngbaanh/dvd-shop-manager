@@ -162,7 +162,7 @@
 		</div>
 		<!-- /BOTTOM -->
 	</div>
-	<div style="display:none"><a href="Admin" accesskey="a">Admin</a></div>
+	<div style="display:none"><a href="Admin" target="_blank" accesskey="a">Admin</a></div>
 </body>
 </html>
 <%

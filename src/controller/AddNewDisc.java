@@ -59,9 +59,18 @@ public class AddNewDisc extends HttpServlet {
 			discSeriesName = discSeries.getDiscSeriesName();
 			place = discSeries.getListDisc().get(0).getPlace();
 		} else if (discNumber < 1) {
-			String message = "Lỗi;" + Const.INPUT_POSITIVE_NUMBER + ";#; ";
 			discSeriesName = discSeries.getDiscSeriesName();
 			place = discSeries.getListDisc().get(0).getPlace();
+			String message = "Lỗi;" + Const.INPUT_POSITIVE_NUMBER + ";#; ";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
+		} else if (Const.MAX_ITEM < discSeries.getTotalDisc() + discNumber) {
+			discSeriesName = discSeries.getDiscSeriesName();
+			place = discSeries.getListDisc().get(0).getPlace();
+			String message = "Lỗi khi thêm đĩa; Mỗi bộ đĩa chỉ có thể chứa tối đa " + Const.MAX_ITEM
+					+ " đĩa.<br>Có thể thêm tối đa <strong>"
+					+ ((Const.MAX_ITEM > discSeries.getTotalDisc()) ? Const.MAX_ITEM - discSeries.getTotalDisc() : 0)
+					+ "</strong> đĩa nữa;#; ";
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
 		} else {
