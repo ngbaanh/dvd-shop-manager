@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.PreparedStatement;
+
 import model.bean.Disc;
 import model.bean.DiscSeries;
 import util.Const;
@@ -52,6 +54,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 				preparedStatement.close();
 				return discSeries;
 			} else {
+				preparedStatement.close();
 				return null;
 			}
 		} catch (SQLException e) {
@@ -76,14 +79,13 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 				preparedStatement.setString(1, "%" + searchQuery + "%");
 			} else {
 				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
-				int endPosition = startPosition + Const.ITEMS_PER_PAGE - (page == 1 ? 0 : 1);
 				if (catId > 0) {
 					getQuery += "where CategoryId=" + catId;
 				}
 				getQuery += " order by DiscSeriesId desc limit ?,?";
 				preparedStatement = connection.prepareStatement(getQuery);
 				preparedStatement.setInt(1, startPosition);
-				preparedStatement.setInt(2, endPosition);
+				preparedStatement.setInt(2, Const.ITEMS_PER_PAGE);
 			}
 			// FIXME - console
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());

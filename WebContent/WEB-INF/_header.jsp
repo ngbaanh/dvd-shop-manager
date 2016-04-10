@@ -6,7 +6,7 @@
 $(document).ready(function() {
     setTimeout(function(){
         $('body').addClass('loaded');
-    }, 300);
+    }, 700);
  
 });
 </script>

@@ -25,7 +25,6 @@ public class DatabaseFactory {
 			Class.forName("com.mysql.jdbc.Driver");
 			String address = "jdbc:mysql://localhost:3306/se23?useUnicode=true&characterEncoding=utf-8";
 			connection = DriverManager.getConnection(address,"root","");
-			statement = connection.createStatement();
 		} catch (Exception e) {
 			System.err.println("[Database constructor] Loi: " + e);
 		}
