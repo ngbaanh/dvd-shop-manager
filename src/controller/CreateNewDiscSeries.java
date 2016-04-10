@@ -55,12 +55,12 @@ public class CreateNewDiscSeries extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/CreateNewDiscSeries.jsp").forward(request, response);
 		} else { // Khi gửi dữ liệu từ giao diện lên
 			// Lấy params
-			String discSeriesName = request.getParameter("DiscSeriesName");
-			String description = request.getParameter("Description");
+			String discSeriesName = request.getParameter("DiscSeriesName").trim();
+			String description = request.getParameter("Description").trim();
 			int categoryId = Integer.parseInt(request.getParameter("CategoryId"));
 			int totalDisc = Integer.parseInt(request.getParameter("TotalDisc"));
 			byte qualityId = 3; // mặc định là 3*
-			String place = request.getParameter("Place");
+			String place = request.getParameter("Place").trim();
 			// đóng gói params vào Bean
 			DiscSeries discSeries = new DiscSeries();
 			Disc disc = new Disc(); // 1 đĩa đại diện cho totalDisc đĩa
@@ -75,21 +75,21 @@ public class CreateNewDiscSeries extends HttpServlet {
 			discSeries.setTotalDisc(totalDisc);
 			discSeries.setRemainingDisc(totalDisc); // mới remain = total
 			discSeries.setListDisc(discForList);
+			// Gửi về lại giao diện những thông tin vừa nhập
+			request.setAttribute("AllCategories", listCategories);
+			request.setAttribute("FailedDiscSeries", discSeries);
+			request.getRequestDispatcher("/WEB-INF/CreateNewDiscSeries.jsp").include(request, response);
 			// Hết nhiệm vụ, đẩy qua cho BO xử lí và chờ phản hồi
 			if (discSeriesBO.isExist(discSeriesName)) { // trùng tên
 				String message = "Lỗi khi thêm mới;Bộ đĩa <strong>" + discSeriesName
-						+ "</strong> đã tồn tại trong hệ thống;ManageDiscSeriesList;Quay về trang quản lí đĩa";
+						+ "</strong> đã tồn tại trong hệ thống;javascript:history.go(-1);Quay lại";
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
 			} else if (discSeriesBO.addNewDiscSeries(discSeries)) {
 				int newDiscSeriesId = discSeriesBO.getIdByName(discSeriesName);
 				response.sendRedirect("ViewListDisc?DiscSeriesId=" + newDiscSeriesId);
 			} else { // thất bại
-				// Gửi về lại giao diện những thông tin vừa nhập
-				request.setAttribute("AllCategories", listCategories);
-				request.setAttribute("FailedDiscSeries", discSeries);
-				request.getRequestDispatcher("/WEB-INF/CreateNewDiscSeries.jsp").include(request, response);
-				// Kèm theo thông báo lỗi ở dưới
+				// Kèm theo thông báo lỗi
 				String message = "Thêm bộ đĩa thất bại;Dữ liệu nhập vào không hợp lệ, xin nhập lại!;ManageDiscSeriesList;Quay về trang quản lí đĩa";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);

@@ -5,9 +5,9 @@ package model.bo;
 
 import java.util.ArrayList;
 
-import model.bean.Disc;
 import model.bean.DiscSeries;
 import model.dao.DiscSeriesDAO;
+import util.Const;
 import util.IDiscSeries;
 
 /**
@@ -57,6 +57,16 @@ public class DiscSeriesBO implements IDiscSeries {
 		// TODO Auto-generated method stub
 		// ...
 		if ("".equals(discSeries.getDiscSeriesName().trim())) {
+			return false;
+		} else if (discSeries.getTotalDisc() < 1) {
+			return false;
+		} else if ("".equals(discSeries.getListDisc().get(0).getPlace().trim())) {
+			return false;
+		} else if (Const.MAXLENGTH_NAME < discSeries.getDiscSeriesName().length()) {
+			return false;
+		} else if (Const.MAXLENGTH_DESCRIPTION < discSeries.getDescription().length()) {
+			return false;
+		} else if (new CategoryBO().getCategory(discSeries.getCategory().getCategoryId()) == null) {
 			return false;
 		}
 		return discSeriesDAO.addNewDiscSeries(discSeries);
@@ -140,7 +150,7 @@ public class DiscSeriesBO implements IDiscSeries {
 			return false;
 		}
 		DiscSeries discSeries = this.getDiscSeries(discSeriesId);
-		/*
+		/* ràng buộc mạnh
 		ArrayList<Disc> listDisc = discSeries.getListDisc();
 		if (listDisc.isEmpty()) { // Bộ đĩa mà không có đĩa nào
 			return true; // thì cho xóa
@@ -152,6 +162,7 @@ public class DiscSeriesBO implements IDiscSeries {
 				continue; // tiếp tục dò cho đến hết đĩa
 			}
 		}*/
+		// ràng buộc yếu
 		if (discSeries.getRemainingDisc() == discSeries.getTotalDisc()) {
 			return true;
 		}
@@ -165,7 +176,13 @@ public class DiscSeriesBO implements IDiscSeries {
 	 * @return
 	 */
 	public int getIdByName(String discSeriesName) {
-		return discSeriesDAO.getIdByName(discSeriesName);
+		if (discSeriesName == null || "".equals(discSeriesName.trim())) {
+			return 0;
+		} else if (discSeriesName.length() > Const.MAXLENGTH_NAME) {
+			return 0;
+		} else {
+			return discSeriesDAO.getIdByName(discSeriesName);
+		}
 	}
 
 	// =============================================
@@ -178,7 +195,7 @@ public class DiscSeriesBO implements IDiscSeries {
 	 *         loại catId khi catId>0
 	 */
 	public int getMaxPage(int catId) {
-		return discSeriesDAO.getMaxPage(catId);
+		return discSeriesDAO.getMaxPage(catId); //ok
 	}
 
 	/**

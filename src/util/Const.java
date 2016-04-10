@@ -8,9 +8,13 @@ package util;
  * Chú ý thay đổi các hằng số dưới đây sẽ trực tiếp ảnh hưởng lên toàn bộ hê thống
  */
 public final class Const {
-	public static final int ITEMS_PER_PAGE = 10;
-	public static final int MAXLENGTH_STAFFID = 30;
-	public static final int MAXLENGTH_NAME = 100;
-	public static final int MAXLENGTH_DESCRIPTION = 255;
-	public static final int MAXLENGTH_PASSWORD = 30;
+	public static int ITEMS_PER_PAGE = 2;
+	public static int MAXLENGTH_STAFFID = 30;
+	public static int MAXLENGTH_PASSWORD = 30;
+	public static int MAXLENGTH_NAME = 100;
+	public static int MAXLENGTH_DESCRIPTION = 1000;
+	
+	// String
+	public static final String NOT_FOUND_ON_SEARCH = "Không tìm thấy";
+	public static final String NOT_FOUND_ON_FILTER = "Không có kết quả";
 }

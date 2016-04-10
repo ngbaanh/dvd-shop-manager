@@ -154,7 +154,7 @@
 			<!-- RIGHT -->
 			<div class="col-md-10">
 				<div class="well">
-					<iframe src="HomePage" name="_main"
+						<iframe src="HomePage" name="_main" id="_main"
 						style="border: none; width: 100%; height: 585px;"> </iframe>
 				</div>
 			</div>

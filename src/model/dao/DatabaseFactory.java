@@ -6,7 +6,6 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -31,30 +30,17 @@ public class DatabaseFactory {
 			System.err.println("[Database constructor] Loi: " + e);
 		}
 	}
-	
-	/**
-	 * Truy vấn cập nhật
-	 * 
-	 * @param query
-	 *            các thao tác liên quan đến tạo mới, cập nhật, xóa bản ghi
-	 * @return số dòng thao tác hoặc 0 nếu thất bại
-	 * @throws SQLException
-	 */
-	public int update(String query) throws SQLException {
-		return statement.executeUpdate(query);
+
+	public Connection getConnection() {
+		return connection;
 	}
 
-	/**
-	 * Truy vấn chọn và trích dữ liệu
-	 * 
-	 * @param query
-	 *            các thao tác liên quan đến chọn dữ liệu
-	 * @return Một đối tượng ResultSet
-	 * @throws SQLException
-	 */
-	public ResultSet execute(String query) throws SQLException {
-		ResultSet resultSet = statement.executeQuery(query);
-		return resultSet;
+	public Statement getStatement() {
+		return statement;
+	}
+
+	public PreparedStatement getPreparedStatement() {
+		return preparedStatement;
 	}
 
 	/**

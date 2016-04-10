@@ -64,6 +64,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 				preparedStatement.close();
 				return staff;
 			} else {
+				preparedStatement.close();
 				return null;
 			}
 		} catch (SQLException e) {

@@ -102,7 +102,7 @@
 		<!-- -----------Disc Modal------------ -->
 		<div id="DiscModal" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg"
-				style="margin-top:50px; width: 750px; height: 370px;">
+				style="margin-top:50px; width: 750px; height: 400px;">
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
@@ -119,7 +119,7 @@
 					</div>
 					<div class="modal-body">
 						<iframe id="ModalFrame" src=""
-							style="border: none; width: 100%; height: 370px;"></iframe>
+							style="border: none; width: 100%; height: 400px;"></iframe>
 					</div>
 				</div>
 

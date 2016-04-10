@@ -60,36 +60,54 @@
 			<div class="col-md-4">
 				<form>
 					<div class="form-group">
-						<input type="text" class="form-control"
-							placeholder="Tìm kiếm tên bộ đĩa" id="SearchQuery"
-							name="SearchQuery" value="<%=currentSearchQuery%>">
+						<div class="input-group">
+							<span class="input-group-btn">
+								<button disabled class="btn btn-success" type="button">
+									<span class="glyphicon glyphicon-search"></span>
+								</button>
+							</span> <input type="text" class="form-control"
+								placeholder="Tìm kiếm tên bộ đĩa" id="SearchQuery"
+								name="SearchQuery" value="<%=currentSearchQuery%>">
+						</div>
 					</div>
-
 				</form>
 			</div>
+			<%
+				if ("".equals(currentSearchQuery)) {
+			%>
 			<div class="col-md-3 col-md-offset-5">
 				<div class="dropdown">
 					<button class="btn btn-default btn-block dropdown-toggle"
 						type="button" data-toggle="dropdown"><%=currentCaterogyName%>
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu dropdown-menu-right">
 						<%
 							if (!listCategories.isEmpty()) {
-								String pageLink;
-								out.print("<li><a href=\"ManageDiscSeriesList?CategoryId=0&page=" + currentPage
-										+ "\"><i>[Không chọn]</i></a></li>");
-								for (Category cat : listCategories) {
-									pageLink = "ManageDiscSeriesList?CategoryId=" + cat.getCategoryId() + "&page=" + currentPage;
+									String pageLink;
+									out.print("<li><a href=\"ManageDiscSeriesList?CategoryId=0&page=" + currentPage
+											+ "\"><i>[Không chọn]</i></a></li>");
+									for (Category cat : listCategories) {
+										pageLink = "ManageDiscSeriesList?CategoryId=" + cat.getCategoryId() + "&page=" + currentPage;
 						%>
 						<li><a href="<%=pageLink%>"><%=cat.getCategoryName()%></a></li>
 						<%
 							}
-							}
+								}
 						%>
 					</ul>
 				</div>
 			</div>
+			<%
+				} else {
+			%>
+			<div class="col-md-2 col-md-offset-6">
+				<a href="javascript:history.go(-1)"
+					class="btn btn-default btn-block">Đóng</a>
+			</div>
+			<%
+				}
+			%>
 		</div>
 		<!-- /.row -->
 		<%
@@ -102,7 +120,7 @@
 					<div class="panel-heading">
 						<h4 class="panel-title">Kết quả</h4>
 					</div>
-					<div class="panel-body">Không tìm thấy</div>
+					<div class="panel-body"><%=("".equals(currentSearchQuery) ? Const.NOT_FOUND_ON_FILTER : Const.NOT_FOUND_ON_SEARCH)%></div>
 				</div>
 			</div>
 		</div>
@@ -160,25 +178,29 @@
 			</div>
 			<div class="col-md-2">
 				<div class="dropdown">
-					<button class="btn btn-default btn-block dropdown-toggle"
+					<button class="btn btn-default btn-block dropdown-toggle "
 						type="button" data-toggle="dropdown">
 						<%=currentPage%>
 						/
 						<%=maxPage%>
 						&nbsp; <span class="caret"></span>
 					</button>
-					<ul class="col-sm-2 dropdown-menu">
+					<div class="dropdown-menu dropdown-menu-right"
+						style="padding: 5px; width: 600px !important;">
 						<%
 							String pageLink;
 								for (int i = 1; i <= maxPage; i++) {
 									pageLink = "ManageDiscSeriesList?page=" + i
 											+ (currentCaterogyId > 0 ? "&CategoryId=" + currentCaterogyId : "");
 						%>
-						<li><a href="<%=pageLink%>"><%=i%> / <%=maxPage%></a></li>
+						<a
+							class="btn <%=(i == currentPage) ? "btn-link disabled" : "btn-default"%> btn-xs"
+							style="float: right; width: 40px; margin: 1px;"
+							href="<%=pageLink%>"><%=i%></a>
 						<%
 							}
 						%>
-					</ul>
+					</div>
 				</div>
 			</div>
 		</div>
