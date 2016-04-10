@@ -18,7 +18,9 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
+<jsp:include page="_header.jsp" />
 <body>
+<jsp:include page="_top.jsp" />
 	<br>
 	<div class="container">
 		<ol class="breadcrumb">

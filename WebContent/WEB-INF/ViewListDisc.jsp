@@ -24,7 +24,9 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
+<jsp:include page="_header.jsp" />
 <body>
+<jsp:include page="_top.jsp" />
 	<div class="container" style="margin-top: 20px">
 		<div class="row">
 			<div class="col-md-11">
@@ -41,8 +43,10 @@
 		<div class="row">
 			<h4 class="col-md-6 col-md-offset-1">Danh sách các đĩa</h4>
 			<h5 class="col-md-6 col-md-offset-1">
-				Bộ đĩa: <strong><%=discSeries.getDiscSeriesName()%></strong> 
-				<small>(có <%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%> đĩa có thể cho thuê)</small>
+				Bộ đĩa: <strong><%=discSeries.getDiscSeriesName()%></strong> <small>(có
+					<%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%>
+					đĩa có thể cho thuê)
+				</small>
 			</h5>
 		</div>
 		<br>
