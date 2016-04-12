@@ -16,6 +16,7 @@ public final class Const {
 	public static int MAX_ITEM = 50; // số đĩa mỗi bộ
 	
 	// String
+	public static final String INVALID_FORM = "Dữ liệu nhập vào không hợp lệ, xin nhập lại!";
 	public static final String NOT_FOUND_ON_SEARCH = "Không tìm thấy";
 	public static final String NOT_FOUND_ON_FILTER = "Không có kết quả";
 	public static final String INPUT_POSITIVE_NUMBER = "Số lượng phải là số dương";

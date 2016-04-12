@@ -23,18 +23,13 @@
 <head>
 <meta charset="utf-8">
 <meta author="LeMinh, NguyenBaAnh">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 <script type="text/javascript">
 	function validateForm() {
 		var x1 = document.forms["createForm"]["DiscSeriesName"].value;
 		var x2 = document.forms["createForm"]["Description"].value;
 		var x3 = document.forms["createForm"]["TotalDisc"].value;
-		var x4 = document.forms["createForm"]["Description"].value;
+		var x4 = document.forms["createForm"]["Place"].value;
 		var validated = true;
 		if (x1 == null || x1 == "" || x2 == null || x2 == "") {
 			validated = false;
@@ -45,11 +40,11 @@
 		} else if (x3 <= 0 || x3 > <%=Const.MAX_ITEM%>) {
 			validated = false;
 		}
-		if (validated == false) {
-			alert("Dữ liệu nhập vào không hợp lệ, xin nhập lại!");
-			return false;
-		} else {
+		if (validated) {
 			return true;
+		} else {
+			alert("<%=Const.INVALID_FORM%>");
+			return false;
 		}
 	}
 </script>
@@ -112,7 +107,7 @@
 				<label class="col-md-2 control-label">Số lượng đĩa *</label>
 				<div class="col-md-4">
 					<input type="number" class="form-control" name="TotalDisc"
-						value="<%=totalDisc%>" required>
+						value="<%=totalDisc%>" min="1" max="<%=Const.MAX_ITEM %>" required>
 				</div>
 				<div class="col-md-6">
 					<label class="control-label"><i>Tất cả đĩa mới có chất

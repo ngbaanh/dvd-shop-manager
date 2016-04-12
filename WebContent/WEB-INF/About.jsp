@@ -5,17 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Thông tin</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 </head>
+<jsp:include page="_header.jsp" />
 <body>
+<jsp:include page="_top.jsp" />
 	<div class="container">
 		<br>
-		<div class="panel panel-primary">
+		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<span class="glyphicon glyphicon-copyright-mark"></span> Thông tin
