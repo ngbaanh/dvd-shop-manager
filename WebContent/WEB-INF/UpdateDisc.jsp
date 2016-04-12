@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="model.bean.Disc"%>
+<%@page import="util.Const"%>
 <%
 	Disc disc = (Disc) request.getAttribute("Disc");
 	if (disc != null) {
@@ -12,10 +13,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Sửa thông tin đĩa</title>
 <jsp:include page="_bootstrap.jsp" />
+<script type="text/javascript">
+	function validateForm() {
+		var x1 = document.forms["updateForm"]["Place"].value;
+		var validated = true;
+		if (x1 == null || x1.trim() == "") {
+			validated = false;
+		} else if (x1.length > <%=Const.MAXLENGTH_NAME%>) {
+			validated = false;
+		}
+		if (validated) {
+			return true;
+		} else {
+			alert("<%=Const.INVALID_FORM%>");
+			return false;
+		}
+	}
+</script>
 </head>
 <body>
 	<div class="container-fluid">
-		<form class="form-horizontal">
+		<form class="form-horizontal" action="UpdateDisc" method="get" name="updateForm" onSubmit="return validateForm()">
 			<div class="form-group">
 				<div class="col-xs-3">
 					<label>Mã đĩa</label>
@@ -52,7 +70,7 @@
 				</div>
 				<div class="col-xs-9">
 					<input type="text" class="form-control" name="Place"
-						value="<%=disc.getPlace()%>">
+						value="<%=disc.getPlace()%>" required>
 				</div>
 			</div>
 			<div class="form-group">

@@ -77,9 +77,13 @@ public class DiscSeriesBO implements IDiscSeries {
 	 */
 	@Override
 	public boolean updateDiscSeries(DiscSeries discSeries) {
-		// TODO Auto-generated method stub
-		// ...
 		if ("".equals(discSeries.getDiscSeriesName().trim())) {
+			return false;
+		} else if (Const.MAXLENGTH_NAME < discSeries.getDiscSeriesName().length()) {
+			return false;
+		} else if (Const.MAXLENGTH_DESCRIPTION < discSeries.getDescription().length()) {
+			return false;
+		} else if (discSeries.getCategory() == null) {
 			return false;
 		}
 		return discSeriesDAO.updateDiscSeries(discSeries);

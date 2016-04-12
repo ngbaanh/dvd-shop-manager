@@ -32,7 +32,7 @@
 </head>
 <jsp:include page="_header.jsp" />
 <body>
-<jsp:include page="_top.jsp" />
+	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
 		<div style="margin-top: 15px">
 			<ol class="breadcrumb">
@@ -44,18 +44,25 @@
 			$("input#SearchQuery").live(
 					"keyup",
 					function(e) {
+						result = true;
 						if (e.which == 13) {
-							var searchQuery = document
-									.getElementById("SearchQuery").value;
-							// kiểm tra valid searchQuery ở đây
-							// TODO
+							var searchQuery = document.forms["searchForm"]["SearchQuery"].value;
+							if (searchQuery == null || searchQuery.trim() == "" || searchQuery.length > <%=Const.MAXLENGTH_NAME%>) {
+								result = false;
+							} else {
+								result = true;
+							}
+						}
+						if (result == false){
+							alert("<%=Const.INVALID_FORM%>");
+						} else {
 							document.location = "#?SearchQuery=" + searchQuery;
 						}
 					});
 		</script>
 		<div class="row">
 			<div class="col-md-4">
-				<form>
+				<form name="searchForm">
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-btn">

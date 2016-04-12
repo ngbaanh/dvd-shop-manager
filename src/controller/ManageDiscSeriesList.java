@@ -47,6 +47,7 @@ public class ManageDiscSeriesList extends HttpServlet {
 		if (searchQuery == null || "".equals(searchQuery)) {
 			searchQuery = "";
 		}
+		searchQuery = searchQuery.trim();
 		int catId = 0;
 		int page = 1;
 		try {
