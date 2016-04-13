@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ViewDiscSeriesList
+ * Servlet implementation class ViewStatistics
  */
-@WebServlet("/ViewDiscSeriesList")
-public class ViewDiscSeriesList extends HttpServlet {
+@WebServlet("/ViewStatistics")
+public class ViewStatistics extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewDiscSeriesList() {
+    public ViewStatistics() {
         super();
     }
 
@@ -27,7 +27,7 @@ public class ViewDiscSeriesList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String message = "Đang xây dựng...;Chức năng dành cho Khách hàng <b>Xem danh sách các bộ đĩa</b> chưa thiết kế;HomePage;Quay về trang chủ";
+		String message = "Đang xây dựng...;Chức năng dành cho Quản lí <b>Xem thống kê</b> chưa thiết kế;HomePage;Quay về trang chủ";
 		request.setAttribute("message", message);
 		request.getRequestDispatcher("Message").forward(request, response);
 	}

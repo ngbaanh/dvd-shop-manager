@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="util.Const"%>
+<%@ page import="model.bean.Staff"%>
+<%
+	Staff loggedInStaff = (Staff) session.getAttribute("staff");
+	if (loggedInStaff != null) {
+		response.sendRedirect("index.jsp");
+	} // END
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,7 +28,8 @@
 		if (validated) {
 			return true;
 		} else {
-			alert("<%=Const.INVALID_FORM%>");
+			alert("<%=Const.INVALID_FORM%>
+	");
 			return false;
 		}
 	}
@@ -39,13 +47,14 @@
 				</h3>
 			</div>
 			<div class="col-md-4 col-md-offset-2" style="padding-top: 15px;">
-				<form method="post" action="Login" name="loginForm" onSubmit="return validateForm()">
+				<form method="post" action="Login" name="loginForm"
+					onSubmit="return validateForm()">
 					<div class="input-group">
 						<input type="text" name="username" class="form-control"
 							placeholder="Tài khoản"> <span class="input-group-btn"
-							style="width: 0px;"><input type="hidden" name="loginAct"
-							value="yes"></span> <input type="password" name="password"
-							class="form-control" placeholder="Mật khẩu">
+							style="width: 0px;"><input type="hidden" name="doLogin"></span>
+						<input type="password" name="password" class="form-control"
+							placeholder="Mật khẩu">
 						<div class="input-group-btn">
 							<button type="submit" class="btn btn-primary">Đăng nhập</button>
 						</div>
@@ -84,6 +93,16 @@
 								<span class="glyphicon glyphicon-info-sign"></span> <a
 									href="About" target="_main">Thông tin</a>
 							</h4>
+						</div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span class="glyphicon glyphicon-copyright-mark"></span> <i>SE23</i>
+							</h4>
+						</div>
+						<div class="panel-body">
+							Đồ án PTTK HTTT
 						</div>
 					</div>
 				</div>

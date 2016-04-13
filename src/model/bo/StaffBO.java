@@ -35,10 +35,9 @@ public class StaffBO implements IStaff {
 		if (staff == null) {
 			return false; // null
 		} else {
-			if ("".equals(staff.getStaffId().trim()) || "".equals(staff.getPassword().trim())) {
-				return false; // để trống hoặc nhập toàn dấu cách
-			}
-			if (staff.getStaffId().length() > Const.MAXLENGTH_STAFFID
+			if ("".equals(staff.getStaffId().trim()) 
+					|| "".equals(staff.getPassword().trim())
+					|| staff.getStaffId().length() > Const.MAXLENGTH_STAFFID
 					|| staff.getPassword().length() > Const.MAXLENGTH_PASSWORD) {
 				return false; // vượt quá maxlength
 			}
