@@ -14,7 +14,7 @@ import java.sql.Statement;
  *
  */
 public class DatabaseFactory {
-	Connection connection = null;
+	static Connection connection = null;
 	Statement statement = null;
 	PreparedStatement preparedStatement = null;
 	/**

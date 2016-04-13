@@ -48,8 +48,10 @@
 		}
 	}
 </script>
+<jsp:include page="_header.jsp" />
 </head>
 <body>
+<jsp:include page="_top.jsp" />
 	<div class="container-fluid" style="margin-top: 15px;">
 		<div class="row">
 			<div class="col-md-10">

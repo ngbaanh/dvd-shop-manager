@@ -48,7 +48,7 @@ public class UpdateCategory extends HttpServlet {
 			String categoryName = request.getParameter("CategoryName");
 			Category category = new Category();
 			category.setCategoryId(categoryId);
-			category.setCategoryName(categoryName);
+			category.setCategoryName(categoryName.trim());
 			if (categoryBO.updateCategory(category)) {
 				response.sendRedirect("UpdateCategory?CategoryId=" + categoryId);
 			} else {

@@ -41,7 +41,7 @@ public class AddNewCategory extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		String CategoryName = request.getParameter("CategoryName");
 		Category category = new Category();
-		category.setCategoryName(CategoryName);
+		category.setCategoryName(CategoryName.trim());
 		if (categoryBO.isExist(CategoryName)) { // trùng tên
 			String message = "Lỗi;Thể loại <strong>" + CategoryName
 					+ "</strong> đã tồn tại trong hệ thống;ManageDiscCategory;Quay về trang quản lí thể loại";

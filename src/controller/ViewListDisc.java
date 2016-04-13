@@ -45,12 +45,12 @@ public class ViewListDisc extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// Bẫy lỗi nhập Id lung tung hoặc không nhập
 		}
-		if (isValidId && discSeriesId > 0) {
+		if (isValidId && discSeriesBO.getDiscSeries(discSeriesId) != null) {
 			DiscSeries discSeries = discSeriesBO.getDiscSeries(discSeriesId);
 			request.setAttribute("DiscSeries", discSeries);
 			request.getRequestDispatcher("/WEB-INF/ViewListDisc.jsp").forward(request, response);
 		} else {
-			String message = "Lỗi;Nhập sai mã bộ đĩa;ManageDiscSeriesList;Quay về trang quản lí đĩa";
+			String message = "Lỗi;Không thể tìm thấy bộ đĩa tương ứng mã số <strong>"+discSeriesId+"</strong>;ManageDiscSeriesList;Quay về trang quản lí đĩa";
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
 		}

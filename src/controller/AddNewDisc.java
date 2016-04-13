@@ -45,6 +45,9 @@ public class AddNewDisc extends HttpServlet {
 		int discSeriesId = 0, discNumber = 1;
 		String discSeriesName = request.getParameter("DiscSeriesName");
 		String place = request.getParameter("Place");
+		if (place != null) {
+			place = place.trim();
+		}
 		try {
 			discSeriesId = Integer.parseInt(request.getParameter("DiscSeriesId"));
 			discNumber = Integer.parseInt(request.getParameter("DiscNumber"));

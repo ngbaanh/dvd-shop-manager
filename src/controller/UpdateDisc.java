@@ -56,7 +56,7 @@ public class UpdateDisc extends HttpServlet {
 			String place = request.getParameter("Place");
 			byte qualityId = Byte.parseByte(request.getParameter("QualityId"));
 			disc.setQualityId(qualityId);
-			disc.setPlace(place);
+			disc.setPlace(place.trim());
 			if (!discBO.isFreeToChange(discId)) {
 				String message = "Lỗi khi cập nhật;Đĩa này hiện không thể thay đổi thông tin do có người đang mượn;#; ";
 				request.setAttribute("message", message);

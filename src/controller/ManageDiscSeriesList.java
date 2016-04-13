@@ -44,7 +44,7 @@ public class ManageDiscSeriesList extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		// Lấy params từ dưới giao diện lên
 		String searchQuery = request.getParameter("SearchQuery");
-		if (searchQuery == null || "".equals(searchQuery)) {
+		if (searchQuery == null || "".equals(searchQuery.trim())) {
 			searchQuery = "";
 		}
 		searchQuery = searchQuery.trim();

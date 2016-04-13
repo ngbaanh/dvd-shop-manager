@@ -21,6 +21,7 @@
 	currentSearchQuery = (String) request.getAttribute("CurrentSearchQuery");
 	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
 	int maxPage = (int) request.getAttribute("MaxPage");
+	// TODO cần sửa nhiều ở phần lọc thể loại và quay ngược số trang.
 %>
 <!DOCTYPE html>
 <html>
@@ -31,6 +32,29 @@
 <jsp:include page="_bootstrap.jsp" />
 </head>
 <jsp:include page="_header.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#SearchForm').keydown(function(e) {
+			var x = $("#searchQuery").val();
+			var key = e.which;
+			if (key == 13) {
+				if (x == null || x.trim() == "" 
+						|| x.length > <%=Const.MAXLENGTH_NAME%>
+						|| x.trim().length < 3) {
+					//$("#SearchForm").submit(function(e2){
+					//    return false;
+					//});
+					e.preventDefault();
+					// alert("<%=Const.INVALID_FORM%>");
+				} else {
+					$('#SearchForm').submit();
+				}
+			} else if (x == "") {
+				
+			}
+		});
+	});
+</script>
 <body>
 	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
@@ -40,38 +64,18 @@
 				<li class="active">Quản lí các bộ đĩa</li>
 			</ol>
 		</div>
-		<script type="text/javascript">
-			$("input#SearchQuery").live(
-					"keyup",
-					function(e) {
-						result = true;
-						if (e.which == 13) {
-							var searchQuery = document.forms["searchForm"]["SearchQuery"].value;
-							if (searchQuery == null || searchQuery.trim() == "" || searchQuery.length > <%=Const.MAXLENGTH_NAME%>) {
-								result = false;
-							} else {
-								result = true;
-							}
-						}
-						if (result == false){
-							alert("<%=Const.INVALID_FORM%>");
-						} else {
-							document.location = "#?SearchQuery=" + searchQuery;
-						}
-					});
-		</script>
 		<div class="row">
 			<div class="col-md-4">
-				<form name="searchForm">
+				<form name="SearchForm" id="SearchForm" method="get" action="#">
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-btn">
 								<button disabled class="btn btn-success" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
-							</span> <input type="text" class="form-control"
-								placeholder="Tìm kiếm tên bộ đĩa" id="SearchQuery"
-								name="SearchQuery" value="<%=currentSearchQuery%>">
+							</span> <input type="text" class="form-control" <%="".equals(currentSearchQuery)?"":"readonly" %>
+								placeholder="Tìm kiếm tên bộ đĩa" id="searchQuery" autocomplete="off"
+								name="SearchQuery" value="<%=currentSearchQuery%>" required>
 						</div>
 					</div>
 				</form>
@@ -177,6 +181,7 @@
 				<a type="button" href="CreateNewDiscSeries"
 					class="btn btn-primary btn-block">Thêm mới bộ đĩa</a>
 			</div>
+			<%if (!listDiscSeries.isEmpty() && "".equals(currentSearchQuery)) { %>
 			<div class="col-md-1 col-md-offset-5">
 				<strong class="text text-muted">Trang </strong>
 			</div>
@@ -207,6 +212,7 @@
 					</div>
 				</div>
 			</div>
+			<%} %>
 		</div>
 		<%
 			}

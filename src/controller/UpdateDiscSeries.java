@@ -52,8 +52,8 @@ public class UpdateDiscSeries extends HttpServlet {
 			request.setAttribute("AllCategories", listCategories);
 			request.getRequestDispatcher("/WEB-INF/UpdateDiscSeries.jsp").forward(request, response);
 		} else {
-			String discSeriesName = request.getParameter("DiscSeriesName");
-			String description = request.getParameter("Description");
+			String discSeriesName = request.getParameter("DiscSeriesName").trim();
+			String description = request.getParameter("Description").trim();
 			int categoryId = Integer.parseInt(request.getParameter("CategoryId"));
 			DiscSeries discSeries = new DiscSeries();
 			discSeries.setDiscSeriesId(discSeriesId);

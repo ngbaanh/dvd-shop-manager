@@ -29,11 +29,11 @@
 						class="glyphicon glyphicon-align-justify"></span></a> Cửa hàng thuê đĩa <strong>SE23</strong>
 				</h3>
 			</div>
-			<div class="col-md-2 col-md-offset-3" style="padding-top: 15px;">
-				Chào <span class="text text-lg text-danger"><b><%=staff.getStaffName()%></b></span>
+			<div class="col-md-3 col-md-offset-2" style="padding-top: 15px;">
+				<p class="text text-right"> Chào <b class="text-lg text-danger"><%=staff.getStaffName()%></b></p>
 			</div>
 			<div class="col-md-1" style="padding-top: 10px;">
-				<a class="btn btn-warning btn-block" href="Logout">Thoát</a>
+				<a class="btn btn-danger btn-block" href="Logout">Thoát</a>
 			</div>
 		</div>
 		<!-- /TOP -->

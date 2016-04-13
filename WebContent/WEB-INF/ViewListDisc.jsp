@@ -1,6 +1,7 @@
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Disc"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="util.Const"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -91,7 +92,7 @@
 		%>
 		<div class="row">
 			<div class="col-md-3 col-md-offset-1">
-				<a class="btn btn-primary btn-block" data-toggle="modal"
+				<a class="btn btn-primary btn-block <%=(Const.MAX_ITEM <= discSeries.getTotalDisc())?"disabled":"" %>" data-toggle="modal"
 					data-target="#DiscModal"
 					onClick="setSource(<%=discSeries.getDiscSeriesId()%>,1)">Thêm
 					đĩa mới vào bộ</a>

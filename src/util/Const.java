@@ -13,7 +13,9 @@ public final class Const {
 	public static int MAXLENGTH_PASSWORD = 30;
 	public static int MAXLENGTH_NAME = 100;
 	public static int MAXLENGTH_DESCRIPTION = 1000;
-	public static int MAX_ITEM = 50; // số đĩa mỗi bộ
+	public static int MAX_ITEM = 30; // số đĩa mỗi bộ
+	public static boolean USE_BOOTSTRAP_ONLINE = true; // CDN bootstrap
+	public static boolean ENABLE_LOADING_SCREEN = true; // loading screen
 	
 	// String
 	public static final String INVALID_FORM = "Dữ liệu nhập vào không hợp lệ, xin nhập lại!";
