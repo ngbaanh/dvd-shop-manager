@@ -10,7 +10,8 @@
 		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
 		response.sendRedirect("default.jsp");
 	} else {
-		boolean isManager = staff.isManager() ? true : false;
+		boolean isManager = staff.isManager();
+		System.out.println("staff --> " + staff.isManager());
 		String feedBack = (String) session.getAttribute("FeedBack");
 		session.removeAttribute("FeedBack");
 		if (feedBack == null) {		

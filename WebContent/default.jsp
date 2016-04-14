@@ -42,8 +42,8 @@
 			<div class="col-md-6">
 				<h3>
 					<a href="index.jsp"><span
-						class="glyphicon glyphicon-align-justify"></span></a> <span
-						class="text text-success">Cửa hàng thuê đĩa ABC</span>
+						class="glyphicon glyphicon-align-justify"></span></a> Cửa hàng thuê
+					đĩa <strong>SE23</strong>
 				</h3>
 			</div>
 			<div class="col-md-4 col-md-offset-2" style="padding-top: 15px;">
@@ -101,9 +101,7 @@
 								<span class="glyphicon glyphicon-copyright-mark"></span> <i>SE23</i>
 							</h4>
 						</div>
-						<div class="panel-body">
-							Đồ án PTTK HTTT
-						</div>
+						<div class="panel-body">Đồ án PTTK HTTT</div>
 					</div>
 				</div>
 				<!-- /Groups -->

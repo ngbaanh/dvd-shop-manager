@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
 			// Send to StaffBO and wait return
 			if (staffBO.validateStaff(staff)) { // validated successful
 				session = request.getSession();
-				staff = staffBO.getStaff(staff.getStaffId());
+				staff = staffBO.getStaff(username);
 				session.setAttribute("staff", staff);
 				String feedBack = (String) request.getParameter("FeedBack");
 				session.setAttribute("FeedBack", feedBack);
