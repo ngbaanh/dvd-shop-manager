@@ -224,13 +224,13 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<div class="col-md-11">
+						<div class="col-xs-10">
 							<h4 class="modal-title">
 								<strong>Sửa thông tin bộ đĩa</strong>
 							</h4>
 						</div>
-						<div class="col-md-1">
-							<button type="button" class="btn btn-sm btn-default"
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-sm btn-block btn-default"
 								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
 						</div>
 

@@ -55,7 +55,7 @@ public class CategoryBO implements ICategory {
 	public boolean addNewCategory(Category cat) {
 		if (cat == null) {
 			return false;
-		} else if (cat.getCategoryId() <= 0 || "".equals(cat.getCategoryName().trim())) {
+		} else if ("".equals(cat.getCategoryName().trim())) {
 			return false;
 		} else if (Const.MAXLENGTH_NAME < cat.getCategoryName().length()) {
 			return false;

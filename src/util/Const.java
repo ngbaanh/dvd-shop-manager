@@ -12,8 +12,8 @@ public final class Const {
 	public static int MAXLENGTH_STAFFID = 30;
 	public static int MAXLENGTH_PASSWORD = 30;
 	public static int MAXLENGTH_NAME = 100;
-	public static int MAXLENGTH_DESCRIPTION = 1000;
-	public static int MAX_ITEM = 30; // số đĩa mỗi bộ
+	public static int MAXLENGTH_DESCRIPTION = 255;
+	public static int MAX_ITEM = 100; // số đĩa mỗi bộ
 	public static boolean USE_BOOTSTRAP_ONLINE = true; // CDN bootstrap
 	public static boolean ENABLE_LOADING_SCREEN = true; // loading screen
 	

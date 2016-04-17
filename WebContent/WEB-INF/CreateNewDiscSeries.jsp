@@ -31,7 +31,7 @@
 		var x3 = document.forms["createForm"]["TotalDisc"].value;
 		var x4 = document.forms["createForm"]["Place"].value;
 		var validated = true;
-		if (x1 == null || x1 == "" || x2 == null || x2 == "") {
+		if (x1 == null || x1.trim() == "") {
 			validated = false;
 		} else if (x1.length > <%=Const.MAXLENGTH_NAME%> 
 			|| x2.length > <%=Const.MAXLENGTH_DESCRIPTION%>

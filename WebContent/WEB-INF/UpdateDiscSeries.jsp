@@ -28,7 +28,7 @@
 		var x1 = document.forms["updateForm"]["DiscSeriesName"].value;
 		var x2 = document.forms["updateForm"]["Description"].value;
 		var validated = true;
-		if (x1 == null || x1.trim() == "" || x2 == null || x2.trim() == "") {
+		if (x1 == null || x1.trim() == "") {
 			validated = false;
 		} else if (x1.length > <%=Const.MAXLENGTH_NAME%> 
 			|| x2.length > <%=Const.MAXLENGTH_DESCRIPTION%>) {
@@ -51,7 +51,7 @@
 				<label class="col-xs-2 control-label">Tên bộ đĩa *</label>
 				<div class="col-xs-10">
 					<input type="text" class="form-control" name="DiscSeriesName"
-						value="<%=discSeries.getDiscSeriesName()%>" required>
+						value="<%=discSeries.getDiscSeriesName()%>" required readonly>
 				</div>
 			</div>
 			<div class="form-group">

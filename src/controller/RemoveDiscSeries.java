@@ -68,7 +68,7 @@ public class RemoveDiscSeries extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
 		} else if (discSeriesBO.isFreeToDelete(discSeriesId)) {
 			if (discSeriesBO.removeDiscSeries(discSeriesId)) {
-				String message = "Thao tác thành công; Xóa bộ đĩa <strong>" + discSeries.getDiscSeriesName()
+				String message = "Thao tác thành công; Bộ đĩa <strong>" + discSeries.getDiscSeriesName()
 						+ "</strong> đã xóa thành công khỏi hệ thống.;ManageDiscSeriesList;Quay về trang quản lí đĩa";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("WEB-INF/Message.jsp").include(request, response);
