@@ -27,6 +27,8 @@ public class DatabaseFactory {
 			//String address = "jdbc:mysql://127.6.73.2:3306/se23?useUnicode=true&characterEncoding=utf-8";
 			connection = DriverManager.getConnection(address,"root","");
 			//connection = DriverManager.getConnection(address,"adminMwGeTFy","3smXm8ppTMM5");
+			//String url = "jdbc:mysql://127.6.73.2:3306/se23?useUnicode=true&characterEncoding=utf-8";
+			//connection = DriverManager.getConnection(url,"adminMwGeTFy","3smXm8ppTMM5");
 		} catch (Exception e) {
 			System.err.println("[Database constructor] Loi: " + e);
 		}

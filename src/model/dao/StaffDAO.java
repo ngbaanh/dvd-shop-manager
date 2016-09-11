@@ -27,7 +27,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 	 */
 	@Override
 	public boolean validateStaff(Staff staff) {
-		String validQuery = "select StaffId, Password from STAFF where StaffId=? and Password=?";
+		String validQuery = "select StaffId, Password from staff where StaffId=? and Password=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, staff.getStaffId());
@@ -45,7 +45,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 
 	@Override
 	public Staff getStaff(String staffId) {
-		String getQuery = "select * from STAFF where StaffId=?";
+		String getQuery = "select * from staff where StaffId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setString(1, staffId);
