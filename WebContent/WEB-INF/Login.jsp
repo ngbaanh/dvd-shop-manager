@@ -49,7 +49,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-xs-4 control-label">Tài khoản</label>
+						<label class="col-xs-4 control-label">Mật khẩu</label>
 						<div class="col-xs-8">
 							<input type="password" class="form-control" name="password">
 						</div>

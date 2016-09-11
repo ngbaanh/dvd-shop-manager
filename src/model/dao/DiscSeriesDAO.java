@@ -33,7 +33,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public DiscSeries getDiscSeries(int discSeriesId) {
-		String getDiscSeriesQuery = "select * from DISC_SERIES where DiscSeriesId=?";
+		String getDiscSeriesQuery = "select * from disc_series where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getDiscSeriesQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -69,7 +69,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	@Override
 	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int page) {
 		try {
-			String getQuery = "select DiscSeriesId from DISC_SERIES ";
+			String getQuery = "select DiscSeriesId from disc_series ";
 			// Xác định ưu tiên: Khi tìm kiếm thì khóa catId và page
 			if (!"".equals(searchQuery)) { // Khóa
 				getQuery += "where DiscSeriesName like ? order by DiscSeriesId desc";
@@ -109,7 +109,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
-		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, CategoryId, TotalDisc, RemainingDisc) "
+		String addDiscSeriesQuery = "insert into disc_series(DiscSeriesName, Description, CategoryId, TotalDisc, RemainingDisc) "
 				+ "values(?, ?, ?, 0, 0)";
 		try {
 			preparedStatement = connection.prepareStatement(addDiscSeriesQuery);
@@ -143,7 +143,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean updateDiscSeries(DiscSeries discSeries) {
-		String updateQuery = "update DISC_SERIES set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
+		String updateQuery = "update disc_series set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
@@ -169,7 +169,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	@Deprecated
 	@Override
 	public boolean validateDiscSeries(String dsName) {
-		String validQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
+		String validQuery = "select DiscSeriesId from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, dsName);
@@ -189,7 +189,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean removeDiscSeries(int discSeriesId) {
-		String removeListDiscQuery = "delete from DISC where DiscSeriesId=?";
+		String removeListDiscQuery = "delete from disc where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeListDiscQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -197,7 +197,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {}
-		String removeDiscSeriesListQuery = "delete from DISC_SERIES where DiscSeriesId=?";
+		String removeDiscSeriesListQuery = "delete from disc_series where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeDiscSeriesListQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -244,7 +244,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 * @return
 	 */
 	public int getIdByName(String discSeriesName) {
-		String getQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
+		String getQuery = "select DiscSeriesId from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setString(1, discSeriesName);
@@ -261,7 +261,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	}
 
 	public int getMaxPage(int catId) {
-		String getQuery = "select count(*) from DISC_SERIES" + ((catId > 0) ? " where CategoryId=" + catId : "");
+		String getQuery = "select count(*) from disc_series" + ((catId > 0) ? " where CategoryId=" + catId : "");
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -277,7 +277,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	}
 
 	public boolean isExist(String discSeriesName) {
-		String validQuery = "select DiscSeriesName from DISC_SERIES where DiscSeriesName=?";
+		String validQuery = "select DiscSeriesName from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, discSeriesName);

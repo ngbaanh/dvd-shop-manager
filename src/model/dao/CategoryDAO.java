@@ -27,7 +27,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public Category getCategory(int catId) {
-		String getQuery = "select * from CATEGORY where categoryId=?";
+		String getQuery = "select * from category where categoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, catId);
@@ -56,7 +56,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public ArrayList<Category> getListCategories() {
-		String getQuery = "select * from CATEGORY";
+		String getQuery = "select * from category";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			// FIXME - console
@@ -84,7 +84,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean addNewCategory(Category cat) {
-		String addQuery = "insert into CATEGORY(CategoryName) values(?)";
+		String addQuery = "insert into category(CategoryName) values(?)";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
@@ -106,7 +106,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean removeCategory(int catId) {
-		String removeQuery = "delete from CATEGORY where categoryId=?";
+		String removeQuery = "delete from category where categoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeQuery);
 			preparedStatement.setInt(1, catId);
@@ -128,7 +128,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 	 */
 	@Override
 	public boolean updateCategory(Category cat) {
-		String updateQuery = "update CATEGORY set CategoryName=? where categoryId=?";
+		String updateQuery = "update category set CategoryName=? where categoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, cat.getCategoryName());
@@ -146,7 +146,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 
 	@Override
 	public boolean isExist(String categoryName) {
-		String validQuery = "select CategoryId from CATEGORY where CategoryName=?";
+		String validQuery = "select CategoryId from category where CategoryName=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, categoryName);
@@ -163,7 +163,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 
 	// ==============================================
 	public boolean isFreeToDelete(int catId) {
-		String validQuery = "select DiscSeriesId from DISC_SERIES where CategoryId=?";
+		String validQuery = "select DiscSeriesId from disc_series where CategoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setInt(1, catId);
