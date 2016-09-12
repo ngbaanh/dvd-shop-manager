@@ -27,7 +27,7 @@ public class ViewTicketList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().append("Chức năng <b>Quản lí phiếu thuê</b> chưa thiết kế.");
+		request.getRequestDispatcher("/ViewTicketList.jsp").forward(request, response);
 	}
 
 	/**
