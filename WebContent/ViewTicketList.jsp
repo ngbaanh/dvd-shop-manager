@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="Tran Thanh Sang, Nguyen Ba Anh">
+<meta name="author" content="Tran Thanh Sang">
 <title>ViewTicketList</title>
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -113,7 +113,7 @@
 				<td>Nguyễn Long</td>
 				<td>Đã trả</td>
 				<td><a
-					href="">Xem chi tiết</a>
+					href="/ViewTicketDetail">Xem chi tiết</a>
 			</tr>
 			
 		</table>
@@ -166,33 +166,6 @@
 			</div>
 		</div>
 		
-		<!-- -----------UpdateDiscSeries Modal------------ -->
-		<div id="UpdateDiscSeries" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-lg"
-				style="width: 750px; height: 500px;">
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header">
-						<div class="col-md-11">
-							<h4 class="modal-title">
-								<strong>Sửa thông tin bộ đĩa</strong>
-							</h4>
-						</div>
-						<div class="col-md-1">
-							<button type="button" class="btn btn-sm btn-default"
-								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
-						</div>
-
-					</div>
-					<div class="modal-body">
-						<iframe id="ModalFrame" src=""
-							style="border: none; width: 100%; height: 400px;"></iframe>
-					</div>
-				</div>
-
-			</div>
-		</div>
-		<!-- -------------------------------------- -->
 	</div>
 </body>
 </body>
