@@ -171,14 +171,14 @@
 				<p>Thao tác</p>
 				<div
 					style="border-style: solid; border-width: medium; padding: 20px 20px 20px 20px">
-					<button type="button" class="btn btn-primary btn-md btn-block"
-						style="margin-bottom: 12px">Cấp phiếu</button>
+					<button type="button" class="btn btn-primary btn-md btn-block">Cấp
+						phiếu</button>
 					<button type="button" class="btn btn-default btn-md btn-block"
-						style="margin-bottom: 12px" disabled="disabled">Gia hạn</button>
+						disabled="disabled">Gia hạn</button>
 					<button type="button" class="btn btn-default btn-md btn-block"
-						style="margin-bottom: 12px" disabled="disabled">Trả đĩa</button>
-					<button type="button" class="btn btn-default btn-md btn-block"
-						style="margin-bottom: 4px">Hủy phiếu</button>
+						disabled="disabled">Trả đĩa</button>
+					<button type="button" class="btn btn-default btn-md btn-block"">Hủy
+						phiếu</button>
 				</div>
 			</div>
 		</div>
