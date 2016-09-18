@@ -36,7 +36,7 @@
 						<td>1</td>
 						<td>Nguyễn Văn Quang</td>
 						<td>12T4</td>
-						<td>....</td>
+						<td>0167 3708 739</td>
 					</tr>
 					<tr>
 						<td>2</td>
@@ -46,15 +46,15 @@
 					</tr>
 					<tr>
 						<td>3</td>
-						<td>T</td>
-						<td>12T2</td>
-						<td>0974 107 924</td>
+						<td>Thái Thị Hồng</td>
+						<td>12T4</td>
+						<td>0167 2960 753</td>
 					</tr>
 					<tr>
 						<td>4</td>
-						<td>Lê Minh</td>
-						<td>12T1</td>
-						<td>0120 6146 046</td>
+						<td>Nguyễn Khắc Tam</td>
+						<td>12T4</td>
+						<td>0163 8021 280</td>
 					</tr>
 					<tr>
 						<td>5</td>
