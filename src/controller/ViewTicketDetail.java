@@ -8,17 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ViewTicketList
+ * Servlet implementation class ViewTicketDetail
  */
-@WebServlet("/ViewTicketList")
-public class ViewTicketList extends HttpServlet {
+@WebServlet(description = "Xem chi tiết phiếu thuê", urlPatterns = { "/ViewTicketDetail" })
+public class ViewTicketDetail extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ViewTicketList() {
+    public ViewTicketDetail() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -27,13 +28,14 @@ public class ViewTicketList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		request.getRequestDispatcher("/ViewTicketList.jsp").forward(request, response);
+		request.getRequestDispatcher("/ViewTicketDetail.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
