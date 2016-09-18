@@ -17,10 +17,10 @@
 			? "Chọn thể loại"
 			: currentCategory.getCategoryName();
 	String currentSearchQuery = "";
-	currentPage = (int) request.getAttribute("CurrentPage");
+	currentPage = Integer.parseInt(request.getAttribute("CurrentPage").toString());
 	currentSearchQuery = (String) request.getAttribute("CurrentSearchQuery");
 	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
-	int maxPage = (int) request.getAttribute("MaxPage");
+	int maxPage = Integer.parseInt(request.getAttribute("MaxPage").toString());
 	// TODO cần sửa nhiều ở phần lọc thể loại và quay ngược số trang.
 %>
 <!DOCTYPE html>

@@ -34,6 +34,40 @@
 					</tr>
 					<tr class="active">
 						<td>1</td>
+						<td>Nguyễn Văn Quang</td>
+						<td>12T4</td>
+						<td>....</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Nguyễn Bá Anh</td>
+						<td>12T2</td>
+						<td>0163 6342 448</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>T</td>
+						<td>12T2</td>
+						<td>0974 107 924</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>Lê Minh</td>
+						<td>12T1</td>
+						<td>0120 6146 046</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>Trần Thanh Sang</td>
+						<td>12T2</td>
+						<td>0162 8956 057</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4">Nhóm SE23 cũ</td>
+					</tr>
+					<tr class="active">
+						<td>1</td>
 						<td>Nguyễn Bá Anh</td>
 						<td>12T2</td>
 						<td>0163 6342 448</td>

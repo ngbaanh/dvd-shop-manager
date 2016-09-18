@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class ManageDiscPrice
+ * Servlet implementation class BuildTicket
  */
-@WebServlet("/ManageDiscPrice")
-public class ManageDiscPrice extends HttpServlet {
+@WebServlet("/BuildTicket")
+public class BuildTicket extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ManageDiscPrice() {
+    public BuildTicket() {
         super();
     }
 
@@ -28,11 +28,7 @@ public class ManageDiscPrice extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
-		request.getRequestDispatcher("/WEB-INF/ManageDiscPrice.jsp").include(request, response);
-		
-		/*String message = "Đang xây dựng...;Chức năng dành cho Quản lí <b>Giá thuê đĩa</b> chưa thiết kế;HomePage;Quay về trang chủ";
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("Message").forward(request, response);*/
+		request.getRequestDispatcher("/WEB-INF/BuildTicket.jsp").include(request, response);
 	}
 
 	/**
