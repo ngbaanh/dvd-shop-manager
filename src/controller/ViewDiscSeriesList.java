@@ -27,9 +27,7 @@ public class ViewDiscSeriesList extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String message = "Đang xây dựng...;Chức năng dành cho Khách hàng <b>Xem danh sách các bộ đĩa</b> chưa thiết kế;HomePage;Quay về trang chủ";
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("Message").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);
 	}
 
 	/**
