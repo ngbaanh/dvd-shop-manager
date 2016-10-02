@@ -14,6 +14,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
+ * @author NguyenVanQuang
  *
  */
 public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {

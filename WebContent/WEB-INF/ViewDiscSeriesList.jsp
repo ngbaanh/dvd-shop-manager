@@ -1,3 +1,5 @@
+<%@page import="model.bean.DiscSeries"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="util.Const"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -38,7 +40,7 @@
 			</div>
 			<div class="col-md-2">
 				<select class="form-control">
-					<option>3/10</option>
+					<option>1/2</option>
 				</select>
 			</div>
 		</div>
@@ -55,38 +57,24 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>1</td>
-						<td>Fast And Furious 1</td>
-						<td>Phim điện ảnh</td>
-						<td>4/10</td>
-						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#bo_dia_01">Xem</a></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Avatar 1</td>
-						<td>Phim điện ảnh</td>
-						<td>2/5</td>
-						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Naruto: Boruto</td>
-						<td>Phim hoạt hình</td>
-						<td>1/7</td>
-						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#bo_dia_03">Xem</a></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>Mario 3</td>
-						<td>Phim điện ảnh</td>
-						<td>3/5</td>
-						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#bo_dia_04">Xem</a></td>
-					</tr>
+				<%
+				ArrayList<DiscSeries> listDiscSeries = (ArrayList<DiscSeries>) request.getAttribute("listDiscSeries");
+				if (listDiscSeries != null) {
+					for (int i = 0; i < listDiscSeries.size(); i++) {
+						DiscSeries discSeries = listDiscSeries.get(i);
+						%>
+						<tr>
+							<td><%=i+1 %></td>
+							<td><%=discSeries.getDiscSeriesName() %></td>
+							<td><%=discSeries.getCategory().getCategoryName() %></td>
+							<td><%=discSeries.getRemainingDisc() %>/<%=discSeries.getTotalDisc() %></td>
+							<!-- Trigger the modal with a link inside table -->
+							<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
+						</tr>
+						<%
+					}
+				}
+				%>
 				</tbody>
 			</table>
 
