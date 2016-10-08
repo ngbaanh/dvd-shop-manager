@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.bean.Category;
 import model.bean.DiscSeries;
+import model.bo.CategoryBO;
 import model.bo.DiscSeriesBO;
 
 /**
@@ -45,6 +47,12 @@ public class ViewDiscSeriesList extends HttpServlet {
 		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", 0, 1);
 		
 		request.setAttribute("listDiscSeries", listDiscSeries);
+		
+		CategoryBO categoryBO = new CategoryBO();
+		
+		ArrayList<Category> listCategories = categoryBO.getListCategories();
+		
+		request.setAttribute("listCategories", listCategories);
 		
 		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);
 	}

@@ -1,3 +1,4 @@
+<%@page import="model.bean.Category"%>
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="util.Const"%>
@@ -32,6 +33,15 @@
 				<div class="input-group">
 					<select name="PickedType" class="form-control">
 						<option>Chọn thể loại</option>
+						<%
+						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
+						for (int i = 0; i < listCategories.size(); i++) {
+							Category category = listCategories.get(i);
+							%>
+							<option><%=category.getCategoryName() %></option>
+							<%
+						}
+						%>
 					</select>
 				</div>
 			</div>
@@ -59,20 +69,19 @@
 				<tbody>
 				<%
 				ArrayList<DiscSeries> listDiscSeries = (ArrayList<DiscSeries>) request.getAttribute("listDiscSeries");
-				if (listDiscSeries != null) {
-					for (int i = 0; i < listDiscSeries.size(); i++) {
-						DiscSeries discSeries = listDiscSeries.get(i);
-						%>
-						<tr>
-							<td><%=i+1 %></td>
-							<td><%=discSeries.getDiscSeriesName() %></td>
-							<td><%=discSeries.getCategory().getCategoryName() %></td>
-							<td><%=discSeries.getRemainingDisc() %>/<%=discSeries.getTotalDisc() %></td>
-							<!-- Trigger the modal with a link inside table -->
-							<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
-						</tr>
-						<%
-					}
+				
+				for (int i = 0; i < listDiscSeries.size(); i++) {
+					DiscSeries discSeries = listDiscSeries.get(i);
+					%>
+					<tr>
+						<td><%=i+1 %></td>
+						<td><%=discSeries.getDiscSeriesName() %></td>
+						<td><%=discSeries.getCategory().getCategoryName() %></td>
+						<td><%=discSeries.getRemainingDisc() %>/<%=discSeries.getTotalDisc() %></td>
+						<!-- Trigger the modal with a link inside table -->
+						<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
+					</tr>
+					<%
 				}
 				%>
 				</tbody>
