@@ -3,6 +3,7 @@
  */
 package model.bean;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -94,7 +95,10 @@ public class Staff {
 	public Timestamp getStaffDOB() {
 		return staffDOB;
 	}
-
+	
+	public String getDateOB(){
+		return new Date(staffDOB.getTime()).toString();
+	}
 	/**
 	 * @param staffDOB the staffDOB to set
 	 */

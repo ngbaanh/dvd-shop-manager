@@ -66,25 +66,25 @@ public class StaffBO implements IStaff {
 	@Override
 	public ArrayList<Staff> getListStaffs() {
 		// TODO Auto-generated method stub
-		return null;
+		return staffDAO.getListStaffs();
 	}
 
 	@Override
 	public boolean addNewStaff(Staff staff) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.addNewStaff(staff);
 	}
 
 	@Override
 	public boolean updateStaff(Staff staff) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.updateStaff(staff);
 	}
 
 	@Override
 	public boolean removeStaff(String staffId) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.removeStaff(staffId);
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,16 +17,16 @@ import model.bean.Staff;
 import model.bo.StaffBO;
 
 /**
- * Servlet implementation class AddNewStaff
+ * Servlet implementation class RemoveStaff
  */
-@WebServlet("/AddNewStaff")
-public class AddNewStaff extends HttpServlet {
+@WebServlet("/RemoveStaff")
+public class RemoveStaff extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private StaffBO staffBO;
+    private StaffBO staffBO;
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddNewStaff() {
+    public RemoveStaff() {
         super();
         staffBO = new StaffBO();
     }
@@ -34,6 +37,7 @@ public class AddNewStaff extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
 		Staff loggedInStaff = (Staff) session.getAttribute("staff");
@@ -49,18 +53,30 @@ public class AddNewStaff extends HttpServlet {
 					.include(request, response);
 			return;
 		} // END
-		
-		// Lấy danh sách toàn bộ thể loại
+
+		// Lấy params từ dưới giao diện lên
+		String staffId;
+		staffId = request.getParameter("staffId");
+		if(staffId != null)
+		{
+		if(staffBO.removeStaff(staffId)){
+				request.setAttribute("message", "Delete staff '" + staffId + "' successfully!");
+			}
+		    else{
+		    	request.setAttribute("error", "Delete staff '" + staffId + "'  failed!");
+		    }
+		}
+		// Trả lại các thông số mà người dùng đã nhập
 		ArrayList<Staff> staffList = staffBO.getListStaffs();
 		request.setAttribute("StaffList", staffList);
-		// Trả lại các thông số mà người dùng đã nhập
-		request.getRequestDispatcher("/WEB-INF/CreateNewStaff.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/ViewStaffList.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
