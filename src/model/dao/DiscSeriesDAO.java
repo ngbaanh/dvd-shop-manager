@@ -14,7 +14,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
- * @author NguyenVanQuang
+ * @see NguyenVanQuang
  *
  */
 public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
@@ -261,6 +261,14 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		}
 	}
 
+	/**
+	 * Tính tổng số trang
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
 	public int getMaxPage(int catId) {
 		String getQuery = "select count(*) from disc_series" + ((catId > 0) ? " where CategoryId=" + catId : "");
 		try {

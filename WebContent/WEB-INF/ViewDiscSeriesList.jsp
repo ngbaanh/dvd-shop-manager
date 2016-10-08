@@ -50,7 +50,14 @@
 			</div>
 			<div class="col-md-2">
 				<select class="form-control">
-					<option>1/2</option>
+					<%
+					int maxPage = (int) request.getAttribute("maxPage");
+					for (int i = 0; i < maxPage; i++) {
+						%>
+						<option><%=i+1 %>/<%=maxPage %></option>
+						<%
+					}
+					%>
 				</select>
 			</div>
 		</div>

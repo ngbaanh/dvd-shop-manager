@@ -12,6 +12,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
+ * @see NguyenVanQuang
  *
  */
 public class DiscSeriesBO implements IDiscSeries {
