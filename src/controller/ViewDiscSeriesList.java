@@ -44,10 +44,19 @@ public class ViewDiscSeriesList extends HttpServlet {
 		
 		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
 		
-		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", 0, 1);
-		int maxPage = discSeriesBO.getMaxPage(0);
+		int destPage = 1;
+		
+		if (request.getParameter("destPage") != null) {
+			destPage = Integer.parseInt(request.getParameter("destPage"));
+		}
+		
+		request.setAttribute("destPage", destPage);
+		
+		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", 0, destPage);
 		
 		request.setAttribute("listDiscSeries", listDiscSeries);
+		
+		int maxPage = discSeriesBO.getMaxPage(0);
 		request.setAttribute("maxPage", maxPage);
 		
 		CategoryBO categoryBO = new CategoryBO();

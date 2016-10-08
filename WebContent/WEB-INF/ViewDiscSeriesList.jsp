@@ -11,6 +11,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Xem danh sách các bộ đĩa</title>
 <jsp:include page="_bootstrap.jsp" />
+
+<style>
+fieldset.list_choice {
+	border: 1px groove #ddd;
+	padding: 0 10px 10px 10px;
+	margin: auto;
+}
+
+legend.list_choice {
+	width: auto;
+	padding: 0 10px;
+	border-bottom: none;
+}
+
+#panel_list_choice {
+	box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0
+		rgba(0, 0, 0, 0.3);
+	padding: 10px;
+	margin: 0 0 20px 0;
+}
+</style>
+
 </head>
 <jsp:include page="_header.jsp" />
 <body>
@@ -34,13 +56,13 @@
 					<select name="PickedType" class="form-control">
 						<option>Chọn thể loại</option>
 						<%
-						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
-						for (int i = 0; i < listCategories.size(); i++) {
-							Category category = listCategories.get(i);
-							%>
-							<option><%=category.getCategoryName() %></option>
-							<%
-						}
+							ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
+							for (int i = 0; i < listCategories.size(); i++) {
+								Category category = listCategories.get(i);
+								%>
+								<option><%=category.getCategoryName()%></option>
+								<%
+							}
 						%>
 					</select>
 				</div>
@@ -49,16 +71,23 @@
 				<label class="pull-right">Trang:</label>
 			</div>
 			<div class="col-md-2">
-				<select class="form-control">
+				<div class="dropdown">
 					<%
+					int currentPage = (int) request.getAttribute("destPage");
 					int maxPage = (int) request.getAttribute("maxPage");
+					%>
+			  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%=currentPage %>/<%=maxPage %>
+			  		<span class="caret"></span></button>
+			  		<ul class="dropdown-menu">
+			  		<%
 					for (int i = 0; i < maxPage; i++) {
 						%>
-						<option><%=i+1 %>/<%=maxPage %></option>
+						<li><a href="/SE23/ViewDiscSeriesList?destPage=<%=i + 1%>"><%=i + 1%>/<%=maxPage%></a></li>
 						<%
 					}
 					%>
-				</select>
+			  		</ul>
+				</div>
 			</div>
 		</div>
 		<br>
@@ -77,14 +106,16 @@
 				<%
 				ArrayList<DiscSeries> listDiscSeries = (ArrayList<DiscSeries>) request.getAttribute("listDiscSeries");
 				
+				int startPosition = Const.ITEMS_PER_PAGE * (currentPage - 1);
+				
 				for (int i = 0; i < listDiscSeries.size(); i++) {
 					DiscSeries discSeries = listDiscSeries.get(i);
 					%>
 					<tr>
-						<td><%=i+1 %></td>
-						<td><%=discSeries.getDiscSeriesName() %></td>
-						<td><%=discSeries.getCategory().getCategoryName() %></td>
-						<td><%=discSeries.getRemainingDisc() %>/<%=discSeries.getTotalDisc() %></td>
+						<td><%=i + 1 + startPosition%></td>
+						<td><%=discSeries.getDiscSeriesName()%></td>
+						<td><%=discSeries.getCategory().getCategoryName()%></td>
+						<td><%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%></td>
 						<!-- Trigger the modal with a link inside table -->
 						<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
 					</tr>
@@ -203,27 +234,6 @@
 				</div>
 			</fieldset>
 		</div>
-		<style>
-fieldset.list_choice {
-	border: 1px groove #ddd;
-	padding: 0 10px 10px 10px;
-	margin: auto;
-}
-
-legend.list_choice {
-	width: auto;
-	padding: 0 10px;
-	border-bottom: none;
-}
-
-#panel_list_choice {
-	box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0
-		rgba(0, 0, 0, 0.3);
-	padding: 10px;
-	margin: 0 0 20px 0;
-}
-</style>
-
 	</div>
 </body>
 </html>
