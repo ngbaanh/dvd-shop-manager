@@ -14,7 +14,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
- * @see NguyenVanQuang
+ * @author NguyenVanQuang
  *
  */
 public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
@@ -70,22 +70,18 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	@Override
 	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int page) {
 		try {
-			String getQuery = "select DiscSeriesId from disc_series ";
-			// Xác định ưu tiên: Khi tìm kiếm thì khóa catId và page
-			if (!"".equals(searchQuery)) { // Khóa
-				getQuery += "where DiscSeriesName like ? order by DiscSeriesId desc";
-				preparedStatement = connection.prepareStatement(getQuery);
-				preparedStatement.setString(1, "%" + searchQuery + "%");
-			} else {
-				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
-				if (catId > 0) {
-					getQuery += "where CategoryId=" + catId;
-				}
-				getQuery += " order by DiscSeriesId desc limit ?,?";
-				preparedStatement = connection.prepareStatement(getQuery);
-				preparedStatement.setInt(1, startPosition);
-				preparedStatement.setInt(2, Const.ITEMS_PER_PAGE);
+			String getQuery = "select DiscSeriesId from disc_series";
+			getQuery += " where DiscSeriesName like ?";
+			if (catId > 0) {
+				getQuery += " and CategoryId=" + catId;
 			}
+			getQuery += " order by DiscSeriesId desc limit ?,?";
+			
+			int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + searchQuery + "%");
+			preparedStatement.setInt(2, startPosition);
+			preparedStatement.setInt(3, Const.ITEMS_PER_PAGE);
 			// FIXME - console
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -273,6 +269,36 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		String getQuery = "select count(*) from disc_series" + ((catId > 0) ? " where CategoryId=" + catId : "");
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return (int) Math.ceil((double) resultSet.getInt(1) / Const.ITEMS_PER_PAGE);
+			} else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 1;
+		}
+	}
+	
+	/**
+	 * Tính tổng số trang
+	 * Bổ sung số trang theo nội dung tìm kiếm
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @param searchQuery
+	 *            nội dung tìm kiếm
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
+	public int getMaxPage(int catId, String searchQuery) {
+		String getQuery = "select count(*) from disc_series ";
+		getQuery += "where DiscSeriesName like ? ";
+		getQuery += ((catId > 0) ? "and CategoryId=" + catId : "");
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + searchQuery + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				return (int) Math.ceil((double) resultSet.getInt(1) / Const.ITEMS_PER_PAGE);

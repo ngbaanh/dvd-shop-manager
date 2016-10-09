@@ -42,35 +42,35 @@ public class ViewDiscSeriesList extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
-		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
-		
 		int destPage = 1;
-		
 		if (request.getParameter("destPage") != null) {
 			destPage = Integer.parseInt(request.getParameter("destPage"));
 		}
-		
-		int cateId = 0;
-		
 		request.setAttribute("destPage", destPage);
 		
+		int cateId = 0;
 		if (request.getParameter("cateId") != null) {
 			cateId = Integer.parseInt(request.getParameter("cateId"));
 		}
-		
 		request.setAttribute("cateId", cateId);
 		
-		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", cateId, destPage);
+		String searchQuery = "";
+		if (request.getParameter("searchQuery") != null) {
+			searchQuery = request.getParameter("searchQuery");
+		}
+		request.setAttribute("searchQuery", searchQuery);
 		
+		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
+		
+		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, cateId, destPage);
 		request.setAttribute("listDiscSeries", listDiscSeries);
 		
-		int maxPage = discSeriesBO.getMaxPage(cateId);
+		int maxPage = discSeriesBO.getMaxPage(cateId, searchQuery);
 		request.setAttribute("maxPage", maxPage);
 		
 		CategoryBO categoryBO = new CategoryBO();
 		
 		ArrayList<Category> listCategories = categoryBO.getListCategories();
-		
 		request.setAttribute("listCategories", listCategories);
 		
 		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);

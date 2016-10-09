@@ -53,10 +53,15 @@ function filter_by_type(picked_type) {
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<div class="input-group">
-					<span class="input-group-addon glyphicon glyphicon-search"></span>
-					<input type="text" class="form-control" placeholder="tìm kiếm">
-				</div>
+				<form action="/SE23/ViewDiscSeriesList" method="post">
+					<div class="input-group">
+						<%
+						String searchQuery = (String) request.getAttribute("searchQuery");
+						%>
+						<span class="input-group-addon glyphicon glyphicon-search"></span>
+						<input type="text" name="searchQuery" value="<%=searchQuery %>" class="form-control" placeholder="tìm kiếm">
+					</div>
+				</form>
 			</div>
 			<div class="col-md-3 col-md-offset-1">
 				<div class="input-group">
@@ -108,6 +113,7 @@ function filter_by_type(picked_type) {
 						%>
 						<li>
 							<form action="/SE23/ViewDiscSeriesList" method="post">
+								<input name="searchQuery" value="<%=searchQuery%>" class="hidden">
 								<input name="cateId" value="<%=cateId%>" class="hidden">
 								<input name="destPage" value="<%=i + 1%>" class="hidden">
 								<input type="submit" class="btn btn-link" value="<%=i + 1%>/<%=maxPage%>">
