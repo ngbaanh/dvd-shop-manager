@@ -50,9 +50,17 @@ public class ViewDiscSeriesList extends HttpServlet {
 			destPage = Integer.parseInt(request.getParameter("destPage"));
 		}
 		
+		int cateId = 0;
+		
 		request.setAttribute("destPage", destPage);
 		
-		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", 0, destPage);
+		if (request.getParameter("cateId") != null) {
+			cateId = Integer.parseInt(request.getParameter("cateId"));
+		}
+		
+		request.setAttribute("cateId", cateId);
+		
+		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList("", cateId, destPage);
 		
 		request.setAttribute("listDiscSeries", listDiscSeries);
 		

@@ -33,6 +33,13 @@ legend.list_choice {
 }
 </style>
 
+<script type="text/javascript">
+function filter_by_type(picked_type) {
+	document.getElementById("input_picked_type").value = picked_type.value;
+	document.getElementById("form_picked_type").submit();
+}
+</script>
+
 </head>
 <jsp:include page="_header.jsp" />
 <body>
@@ -53,16 +60,31 @@ legend.list_choice {
 			</div>
 			<div class="col-md-3 col-md-offset-1">
 				<div class="input-group">
-					<select name="PickedType" class="form-control">
-						<option>Chọn thể loại</option>
+					<form id="form_picked_type" action="/SE23/ViewDiscSeriesList" method="post">
+						<input id="input_picked_type" name="cateId" type="text" class="hidden">
+					</form>
+					<select name="PickedType" onChange="filter_by_type(this)" class="form-control">
+						<option value="0">Chọn thể loại</option>
 						<%
-							ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
-							for (int i = 0; i < listCategories.size(); i++) {
-								Category category = listCategories.get(i);
+						int cateId = (int) request.getAttribute("cateId");
+						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
+						for (int i = 0; i < listCategories.size(); i++) {
+							Category category = listCategories.get(i);
+							if (cateId == category.getCategoryId()) {
 								%>
-								<option><%=category.getCategoryName()%></option>
+								<option value="<%=category.getCategoryId()%>" selected>
+									<%=category.getCategoryName()%>
+								</option>
+								<%
+							} else {
+								%>
+								<option value="<%=category.getCategoryId()%>">
+									<%=category.getCategoryName()%>
+								</option>
 								<%
 							}
+							
+						}
 						%>
 					</select>
 				</div>
@@ -76,8 +98,10 @@ legend.list_choice {
 					int currentPage = (int) request.getAttribute("destPage");
 					int maxPage = (int) request.getAttribute("maxPage");
 					%>
-			  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><%=currentPage %>/<%=maxPage %>
-			  		<span class="caret"></span></button>
+			  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+			  			<%=currentPage %>/<%=maxPage %>
+			  			<span class="caret"></span>
+			  		</button>
 			  		<ul class="dropdown-menu">
 			  		<%
 					for (int i = 0; i < maxPage; i++) {
@@ -132,7 +156,7 @@ legend.list_choice {
 
 			<!-- Modal: List all disks of the target disk series -->
 			<div id="detail_target_disc_series" class="modal fade" role="dialog">
-				<div class="modal-dialog">
+				<div class="modal-dialog modal-lg">
 
 					<!-- Modal content-->
 					<div class="modal-content">
