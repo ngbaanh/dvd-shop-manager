@@ -82,7 +82,12 @@ legend.list_choice {
 			  		<%
 					for (int i = 0; i < maxPage; i++) {
 						%>
-						<li><a href="/SE23/ViewDiscSeriesList?destPage=<%=i + 1%>"><%=i + 1%>/<%=maxPage%></a></li>
+						<li>
+							<form action="/SE23/ViewDiscSeriesList" method="post">
+								<input name="destPage" value="<%=i + 1%>" class="hidden">
+								<input type="submit" class="btn btn-link" value="<%=i + 1%>/<%=maxPage%>">
+							</form>
+						</li>
 						<%
 					}
 					%>
@@ -117,7 +122,7 @@ legend.list_choice {
 						<td><%=discSeries.getCategory().getCategoryName()%></td>
 						<td><%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%></td>
 						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#bo_dia_02">Xem</a></td>
+						<td><a href="#" data-toggle="modal" data-target="#detail_target_disc_series">Xem</a></td>
 					</tr>
 					<%
 				}
@@ -125,54 +130,15 @@ legend.list_choice {
 				</tbody>
 			</table>
 
-			<!-- Modal: List all disks of the diskset -->
-			<div id="bo_dia_02" class="modal fade" role="dialog">
+			<!-- Modal: List all disks of the target disk series -->
+			<div id="detail_target_disc_series" class="modal fade" role="dialog">
 				<div class="modal-dialog">
 
 					<!-- Modal content-->
 					<div class="modal-content">
-						<div class="modal-body">
-							<div class="row">
-								<div class="col-md-10">
-									<h4 class="modal-title">Xem chi tiết bộ đĩa: Avatar 1</h4>
-									<h5 class="modal-title">Số lượng đĩa có thể thuê: 2</h5>
-								</div>
-								<div class="col-md-2">
-									<button type="button" class="btn btn-default pull-right"
-										data-dismiss="modal">Close</button>
-								</div>
-							</div>
-							<br>
-							<table class="table table-bordered table-striped">
-								<thead>
-									<tr>
-										<th>STT</th>
-										<th>Mã đĩa</th>
-										<th>Chất lượng</th>
-										<th>Tình trạng</th>
-										<th>Giá/DVD/tuần</th>
-										<th>Thêm vào danh sách chọn?</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>124</td>
-										<td>3*</td>
-										<td>Sẵn sàng</td>
-										<td>30000</td>
-										<td><a href="#">Chọn</a></td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>126</td>
-										<td>1*</td>
-										<td>Sẵn sàng</td>
-										<td>20000</td>
-										<td><a href="#">Chọn</a></td>
-									</tr>
-								</tbody>
-							</table>
+						<div class="modal-body" style="height: 500px;">
+							<iframe src="/SE23/ViewDiscSeriesDetail" style="width: 100%; height: 100%; border: none;">
+							</iframe>
 						</div>
 					</div>
 
