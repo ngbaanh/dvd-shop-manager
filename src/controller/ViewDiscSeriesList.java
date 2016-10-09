@@ -64,7 +64,7 @@ public class ViewDiscSeriesList extends HttpServlet {
 		
 		request.setAttribute("listDiscSeries", listDiscSeries);
 		
-		int maxPage = discSeriesBO.getMaxPage(0);
+		int maxPage = discSeriesBO.getMaxPage(cateId);
 		request.setAttribute("maxPage", maxPage);
 		
 		CategoryBO categoryBO = new CategoryBO();

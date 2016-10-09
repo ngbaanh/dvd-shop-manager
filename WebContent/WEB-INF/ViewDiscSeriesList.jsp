@@ -108,6 +108,7 @@ function filter_by_type(picked_type) {
 						%>
 						<li>
 							<form action="/SE23/ViewDiscSeriesList" method="post">
+								<input name="cateId" value="<%=cateId%>" class="hidden">
 								<input name="destPage" value="<%=i + 1%>" class="hidden">
 								<input type="submit" class="btn btn-link" value="<%=i + 1%>/<%=maxPage%>">
 							</form>
