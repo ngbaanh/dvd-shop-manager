@@ -1,3 +1,4 @@
+<%@page import="business.session.PendingDisc"%>
 <%@page import="model.bean.Disc"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -43,6 +44,13 @@
 			</thead>
 			<tbody>
 			<%
+			if (session.getAttribute("listPendingDisc") == null) {
+				ArrayList<PendingDisc> listPendingDiscs = new ArrayList<PendingDisc>();
+				session.setAttribute("listPendingDiscs", listPendingDiscs);
+			}
+			ArrayList<PendingDisc> listPendingDiscs
+				= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
+			
 			for (int i = 0; i < listDiscs.size(); i++) {
 				Disc disc = listDiscs.get(i);
 				%>
@@ -56,13 +64,28 @@
 					<td>Đã cho thuê</td>
 					<%} %>
 					<td><%=disc.getPrice() %></td>
-					<td>
-						<form target="_parent" action="/SE23/ChooseDisc" method="post">
-							<input type="text" name="discSeriesName" value="<%=discSeriesName %>" class="hidden">
-							<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
-							<input type="submit" value="Chọn" class="btn btn-link">
-						</form>
-					</td>
+					<%
+					boolean isPicked = false;
+					for (int indexPendingDisc = 0; indexPendingDisc < listPendingDiscs.size(); indexPendingDisc++) {
+						if (disc.getDiscId() == listPendingDiscs.get(indexPendingDisc).getDiscId()) {
+							isPicked = true;
+							break;
+						}
+					}
+					if (isPicked) {
+						%><td>Đã chọn</td><%
+					} else {
+						%>
+						<td>
+							<form target="_parent" action="/SE23/ChooseDisc" method="post">
+								<input type="text" name="discSeriesName" value="<%=discSeriesName %>" class="hidden">
+								<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
+								<input type="submit" value="Chọn" class="btn btn-link">
+							</form>
+						</td>
+						<%
+					}
+					%>
 				</tr>
 				<%
 			}
