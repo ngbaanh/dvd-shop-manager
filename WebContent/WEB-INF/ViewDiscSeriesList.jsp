@@ -46,6 +46,12 @@ function changeSourceOfIframe(discSeriesId) {
 	document.getElementById("iframe_modal")
 	.setAttribute("src", "/SE23/ViewDiscSeriesDetail?discSeriesId=" + discSeriesId);
 }
+
+function changeRentingWeeks(discId, pickedRentingWeeks) {
+	document.getElementById("input_discId_of_change_renting_weeks").value = discId;
+	document.getElementById("input_value_of_change_renting_weeks").value = pickedRentingWeeks.value;
+	document.getElementById("form_change_renting_weeks").submit();
+}
 </script>
 
 </head>
@@ -190,7 +196,12 @@ function changeSourceOfIframe(discSeriesId) {
 		<div class="row" id="panel_list_choice">
 			<fieldset class="list_choice">
 				<legend class="list_choice">Danh sách chọn</legend>
-
+				
+				<form id="form_change_renting_weeks" action="/SE23/ChangeRentingWeeks" method="post" class="hidden">
+					<input id="input_discId_of_change_renting_weeks" type="text" name="discId" value="">
+					<input id="input_value_of_change_renting_weeks" type="text" name="rentingWeeks" value="">
+				</form>
+				
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -225,7 +236,7 @@ function changeSourceOfIframe(discSeriesId) {
 									<td><%=pendingDisc.getDiscSeriesName() %></td>
 									<td><%=disc.getPrice() %></td>
 									<td>
-										<select>
+										<select onChange="changeRentingWeeks(<%=disc.getDiscId() %>, this)">
 										<%
 										for (int indexRentingWeeks = 1; indexRentingWeeks <= Const.MAX_RENTING_WEEKS; indexRentingWeeks++) {
 											if (indexRentingWeeks == pendingDisc.getRentingWeeks()) {

@@ -73,9 +73,6 @@ public class ViewDiscSeriesList extends HttpServlet {
 		ArrayList<Category> listCategories = categoryBO.getListCategories();
 		request.setAttribute("listCategories", listCategories);
 		
-		
-		
-		
 		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);
 	}
 
