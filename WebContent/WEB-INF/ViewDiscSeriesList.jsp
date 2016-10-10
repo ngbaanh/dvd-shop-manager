@@ -38,6 +38,11 @@ function filter_by_type(picked_type) {
 	document.getElementById("input_picked_type").value = picked_type.value;
 	document.getElementById("form_picked_type").submit();
 }
+
+function changeSourceOfIframe(discSeriesId) {
+	document.getElementById("iframe_modal")
+	.setAttribute("src", "/SE23/ViewDiscSeriesDetail?discSeriesId=" + discSeriesId);
+}
 </script>
 
 </head>
@@ -153,7 +158,7 @@ function filter_by_type(picked_type) {
 						<td><%=discSeries.getCategory().getCategoryName()%></td>
 						<td><%=discSeries.getRemainingDisc()%>/<%=discSeries.getTotalDisc()%></td>
 						<!-- Trigger the modal with a link inside table -->
-						<td><a href="#" data-toggle="modal" data-target="#detail_target_disc_series">Xem</a></td>
+						<td><a onClick="changeSourceOfIframe(<%=discSeries.getDiscSeriesId()%>)" href="#" data-toggle="modal" data-target="#detail_target_disc_series">Xem</a></td>
 					</tr>
 					<%
 				}
@@ -168,7 +173,8 @@ function filter_by_type(picked_type) {
 					<!-- Modal content-->
 					<div class="modal-content">
 						<div class="modal-body" style="height: 500px;">
-							<iframe src="/SE23/ViewDiscSeriesDetail" style="width: 100%; height: 100%; border: none;">
+							<iframe id="iframe_modal" src="/SE23/ViewDiscSeriesDetail" 
+							style="width: 100%; height: 100%; border: none;">
 							</iframe>
 						</div>
 					</div>

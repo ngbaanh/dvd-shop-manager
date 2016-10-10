@@ -1,3 +1,5 @@
+<%@page import="model.bean.Disc"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -12,14 +14,19 @@
 <jsp:include page="_header.jsp" />
 <body>
 	<jsp:include page="_top.jsp" />
-	<div class="container">
+	<div class="container-fluid">
+		<%
+		String discSeriesName = (String) request.getAttribute("discSeriesName");
+		int remainingDisc = (int) request.getAttribute("remainingDisc");
+		ArrayList<Disc> listDiscs = (ArrayList<Disc>) request.getAttribute("listDiscs");
+		%>
 		<div class="row">
 			<div class="col-md-10">
-				<h4 class="modal-title">Xem chi tiết bộ đĩa: Avatar 1</h4>
-				<h5 class="modal-title">Số lượng đĩa có thể thuê: 2</h5>
+				<h4 class="modal-title">Xem chi tiết bộ đĩa: <%=discSeriesName %></h4>
+				<h5 class="modal-title">Số lượng đĩa có thể thuê: <%=remainingDisc %></h5>
 			</div>
 			<div class="col-md-2">
-				<button type="button" class="btn btn-default pull-right">Close</button>
+				<a target="_parent" href="/SE23/ViewDiscSeriesList" class="btn btn-default pull-right">Close</a>
 			</div>
 		</div>
 		<br>
@@ -35,22 +42,25 @@
 				</tr>
 			</thead>
 			<tbody>
+			<%
+			for (int i = 0; i < listDiscs.size(); i++) {
+				Disc disc = listDiscs.get(i);
+				%>
 				<tr>
-					<td>1</td>
-					<td>124</td>
-					<td>3*</td>
+					<td><%=i+1 %></td>
+					<td><%=disc.getDiscId() %></td>
+					<td><%=disc.getQualityId() %>*</td>
+					<% if (disc.isAvailable()) { %>
 					<td>Sẵn sàng</td>
-					<td>30000</td>
+					<%} else { %>
+					<td>Đã cho thuê</td>
+					<%} %>
+					<td><%=disc.getPrice() %></td>
 					<td><a href="#">Chọn</a></td>
 				</tr>
-				<tr>
-					<td>2</td>
-					<td>126</td>
-					<td>1*</td>
-					<td>Sẵn sàng</td>
-					<td>20000</td>
-					<td><a href="#">Chọn</a></td>
-				</tr>
+				<%
+			}
+			%>
 			</tbody>
 		</table>
 	</div>
