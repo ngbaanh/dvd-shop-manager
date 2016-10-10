@@ -56,7 +56,12 @@
 					<td>Đã cho thuê</td>
 					<%} %>
 					<td><%=disc.getPrice() %></td>
-					<td><a href="#">Chọn</a></td>
+					<td>
+						<form target="_parent" action="/SE23/ChooseDisc" method="post">
+							<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
+							<input type="submit" value="Chọn" class="btn btn-link">
+						</form>
+					</td>
 				</tr>
 				<%
 			}

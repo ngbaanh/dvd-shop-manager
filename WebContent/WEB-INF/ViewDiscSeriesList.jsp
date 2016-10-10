@@ -1,3 +1,4 @@
+<%@page import="business.session.PendingDisc"%>
 <%@page import="model.bean.Category"%>
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="java.util.ArrayList"%>
@@ -201,6 +202,12 @@ function changeSourceOfIframe(discSeriesId) {
 						</tr>
 					</thead>
 					<tbody>
+					<%
+					if (session.getAttribute("listPendingDisc") == null) {
+						ArrayList<PendingDisc> listPendingDiscs = new ArrayList<PendingDisc>();
+						session.setAttribute("listPendingDiscs", listPendingDiscs);
+					} else {
+					%>
 						<tr>
 							<td>1</td>
 							<td>123</td>
@@ -228,6 +235,7 @@ function changeSourceOfIframe(discSeriesId) {
 							<td>85000</td>
 							<td></td>
 						</tr>
+					<%} %>
 					</tbody>
 				</table>
 
