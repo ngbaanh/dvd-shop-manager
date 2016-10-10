@@ -1,31 +1,41 @@
 package business.session;
 
 public class PendingDisc {
+	private String discSeriesName;
 	private int discId;
-	private int numOfWeeks;
+	private int rentingWeeks;
 	
 	public PendingDisc() {
 		
 	}
 	
-	public PendingDisc(int discId, int numOfWeeks) {
+	public PendingDisc(String discSeriesName, int discId, int rentingWeeks) {
+		this.discSeriesName = discSeriesName;
 		this.discId = discId;
-		this.numOfWeeks = numOfWeeks;
+		this.rentingWeeks = rentingWeeks;
 	}
 
-	public void setDiscId(int discId) {
-		this.discId = discId;
+	public String getDiscSeriesName() {
+		return discSeriesName;
 	}
 
-	public void setNumOfWeeks(int numOfWeeks) {
-		this.numOfWeeks = numOfWeeks;
+	public void setDiscSeriesName(String discSeriesName) {
+		this.discSeriesName = discSeriesName;
 	}
 
 	public int getDiscId() {
 		return discId;
 	}
 
-	public int getNumOfWeeks() {
-		return numOfWeeks;
+	public void setDiscId(int discId) {
+		this.discId = discId;
+	}
+
+	public int getRentingWeeks() {
+		return rentingWeeks;
+	}
+
+	public void setRentingWeeks(int rentingWeeks) {
+		this.rentingWeeks = rentingWeeks;
 	}
 }

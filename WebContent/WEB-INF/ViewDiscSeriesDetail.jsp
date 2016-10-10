@@ -58,6 +58,7 @@
 					<td><%=disc.getPrice() %></td>
 					<td>
 						<form target="_parent" action="/SE23/ChooseDisc" method="post">
+							<input type="text" name="discSeriesName" value="<%=discSeriesName %>" class="hidden">
 							<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
 							<input type="submit" value="Chọn" class="btn btn-link">
 						</form>

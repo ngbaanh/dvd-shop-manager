@@ -47,9 +47,10 @@ public class ChooseDisc extends HttpServlet {
 			listPendingDisc = new ArrayList<PendingDisc>();
 		}
 		
+		String discSeriesName = request.getParameter("discSeriesName");
 		int discId = Integer.parseInt(request.getParameter("discId"));
-		int numOfWeeks = 1;
-		PendingDisc pendingDisc = new PendingDisc(discId, numOfWeeks);
+		int rentingWeeks = 1;
+		PendingDisc pendingDisc = new PendingDisc(discSeriesName, discId, rentingWeeks);
 		listPendingDisc.add(pendingDisc);
 		
 		session.setAttribute("listPendingDisc", listPendingDisc);

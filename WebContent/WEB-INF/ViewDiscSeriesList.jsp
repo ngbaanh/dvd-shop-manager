@@ -1,3 +1,5 @@
+<%@page import="model.bo.DiscBO"%>
+<%@page import="model.bean.Disc"%>
 <%@page import="business.session.PendingDisc"%>
 <%@page import="model.bean.Category"%>
 <%@page import="model.bean.DiscSeries"%>
@@ -207,25 +209,41 @@ function changeSourceOfIframe(discSeriesId) {
 						ArrayList<PendingDisc> listPendingDiscs = new ArrayList<PendingDisc>();
 						session.setAttribute("listPendingDiscs", listPendingDiscs);
 					} else {
+						ArrayList<PendingDisc> listPendingDiscs
+							= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
+						DiscBO discBO = new DiscBO();
+						for (int i = 0; i < listPendingDiscs.size(); i++) {
+							PendingDisc pendingDisc = listPendingDiscs.get(i);
+							Disc disc = discBO.getDisc(pendingDisc.getDiscId());
+							%>
+							<tr>
+								<td><%=i+1 %></td>
+								<td><%=disc.getDiscId() %></td>
+								<td><%=pendingDisc.getDiscSeriesName() %></td>
+								<td><%=disc.getPrice() %></td>
+								<td>
+									<select>
+									<%
+									for (int indexRentingWeeks = 1; indexRentingWeeks <= Const.MAX_RENTING_WEEKS; indexRentingWeeks++) {
+										if (indexRentingWeeks == pendingDisc.getRentingWeeks()) {
+											%>
+											<option selected><%=indexRentingWeeks %></option>
+											<%
+										} else {
+											%>
+											<option><%=indexRentingWeeks %></option>
+											<%
+										}
+									}
+									%>
+									</select>
+								</td>
+								<td><%=disc.getPrice() * pendingDisc.getRentingWeeks() %></td>
+								<td><a href="#">Xóa</a></td>
+							</tr>
+							<%
+						}
 					%>
-						<tr>
-							<td>1</td>
-							<td>123</td>
-							<td>Avatar 1</td>
-							<td>30000</td>
-							<td><select><option>2</option></select></td>
-							<td>60000</td>
-							<td><a href="#">Xóa</a></td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>115</td>
-							<td>Mario 3</td>
-							<td>25000</td>
-							<td><select><option>1</option></select></td>
-							<td>25000</td>
-							<td><a href="#">Xóa</a></td>
-						</tr>
 						<tr>
 							<td></td>
 							<td></td>
@@ -240,8 +258,9 @@ function changeSourceOfIframe(discSeriesId) {
 				</table>
 
 				<div class="row-fluid text-center">
-					<button type="button" class="btn btn-default text-center">Đặt
-						thuê</button>
+					<button type="button" class="btn btn-default text-center">
+						Đặt thuê
+					</button>
 				</div>
 			</fieldset>
 		</div>
