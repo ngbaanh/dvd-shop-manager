@@ -212,36 +212,62 @@ function changeSourceOfIframe(discSeriesId) {
 						ArrayList<PendingDisc> listPendingDiscs
 							= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
 						DiscBO discBO = new DiscBO();
+						int totalPrices = 0;
 						for (int i = 0; i < listPendingDiscs.size(); i++) {
 							PendingDisc pendingDisc = listPendingDiscs.get(i);
 							Disc disc = discBO.getDisc(pendingDisc.getDiscId());
-							%>
-							<tr>
-								<td><%=i+1 %></td>
-								<td><%=disc.getDiscId() %></td>
-								<td><%=pendingDisc.getDiscSeriesName() %></td>
-								<td><%=disc.getPrice() %></td>
-								<td>
-									<select>
-									<%
-									for (int indexRentingWeeks = 1; indexRentingWeeks <= Const.MAX_RENTING_WEEKS; indexRentingWeeks++) {
-										if (indexRentingWeeks == pendingDisc.getRentingWeeks()) {
-											%>
-											<option selected><%=indexRentingWeeks %></option>
-											<%
-										} else {
-											%>
-											<option><%=indexRentingWeeks %></option>
-											<%
+							if (disc != null) {
+								totalPrices += disc.getPrice() * pendingDisc.getRentingWeeks();
+								%>
+								<tr>
+									<td><%=i+1 %></td>
+									<td><%=disc.getDiscId() %></td>
+									<td><%=pendingDisc.getDiscSeriesName() %></td>
+									<td><%=disc.getPrice() %></td>
+									<td>
+										<select>
+										<%
+										for (int indexRentingWeeks = 1; indexRentingWeeks <= Const.MAX_RENTING_WEEKS; indexRentingWeeks++) {
+											if (indexRentingWeeks == pendingDisc.getRentingWeeks()) {
+												%>
+												<option selected><%=indexRentingWeeks %></option>
+												<%
+											} else {
+												%>
+												<option><%=indexRentingWeeks %></option>
+												<%
+											}
 										}
-									}
-									%>
-									</select>
-								</td>
-								<td><%=disc.getPrice() * pendingDisc.getRentingWeeks() %></td>
-								<td><a href="#">Xóa</a></td>
-							</tr>
-							<%
+										%>
+										</select>
+									</td>
+									<td><%=disc.getPrice() * pendingDisc.getRentingWeeks() %></td>
+									<td>
+										<form target="_parent" action="/SE23/DiscardDisc" method="post">
+											<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
+											<input type="submit" value="Xóa" class="btn btn-link">
+										</form>
+									</td>
+								</tr>
+								<%
+							} else {
+								%>
+								<tr>
+									<td><%=i+1 %></td>
+									<td><%=pendingDisc.getDiscId() %></td>
+									<td>Vừa bị xóa</td>
+									<td>Vừa bị xóa</td>
+									<td>Vừa bị xóa</td>
+									<td>Vừa bị xóa</td>
+									<td>
+										<form target="_parent" action="/SE23/DiscardDisc" method="post">
+											<input type="text" name="discId" value="<%=disc.getDiscId() %>" class="hidden">
+											<input type="submit" value="Xóa" class="btn btn-link">
+										</form>
+									</td>
+								</tr>
+								<%
+							}
 						}
 					%>
 						<tr>
@@ -250,7 +276,7 @@ function changeSourceOfIframe(discSeriesId) {
 							<td></td>
 							<td></td>
 							<td>Tổng</td>
-							<td>85000</td>
+							<td><%=totalPrices %></td>
 							<td></td>
 						</tr>
 					<%} %>

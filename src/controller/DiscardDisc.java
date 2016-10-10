@@ -13,16 +13,16 @@ import javax.servlet.http.HttpSession;
 import business.session.PendingDisc;
 
 /**
- * Servlet implementation class ChooseDisc
+ * Servlet implementation class DiscardDisc
  */
-@WebServlet("/ChooseDisc")
-public class ChooseDisc extends HttpServlet {
+@WebServlet("/DiscardDisc")
+public class DiscardDisc extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ChooseDisc() {
+    public DiscardDisc() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +38,6 @@ public class ChooseDisc extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		ArrayList<PendingDisc> listPendingDisc = null;
 		
@@ -47,11 +46,15 @@ public class ChooseDisc extends HttpServlet {
 		} else {
 			listPendingDisc = new ArrayList<PendingDisc>();
 		}
-		String discSeriesName = request.getParameter("discSeriesName");
+		
 		int discId = Integer.parseInt(request.getParameter("discId"));
-		int rentingWeeks = 1;
-		PendingDisc pendingDisc = new PendingDisc(discSeriesName, discId, rentingWeeks);
-		listPendingDisc.add(pendingDisc);
+		
+		for (int i = 0; i < listPendingDisc.size(); i++) {
+			if (discId == listPendingDisc.get(i).getDiscId()) {
+				listPendingDisc.remove(i);
+				break;
+			}
+		}
 		
 		session.setAttribute("listPendingDisc", listPendingDisc);
 		
