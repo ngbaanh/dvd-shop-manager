@@ -295,9 +295,9 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 				</table>
 
 				<div class="row-fluid text-center">
-					<button type="button" class="btn btn-default text-center">
+					<a href="/SE23/BuildTicket" class="btn btn-default text-center">
 						Đặt thuê
-					</button>
+					</a>
 				</div>
 			</fieldset>
 		</div>
