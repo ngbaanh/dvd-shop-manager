@@ -17,15 +17,17 @@
 
 <style>
 fieldset.list_choice {
-	border: 1px groove #ddd;
+	border: 1px groove #eee;
 	padding: 0 10px 10px 10px;
 	margin: auto;
+	
 }
 
 legend.list_choice {
 	width: auto;
 	padding: 0 10px;
 	border-bottom: none;
+	border-radius: 5px;
 }
 
 #panel_list_choice {
@@ -33,6 +35,7 @@ legend.list_choice {
 		rgba(0, 0, 0, 0.3);
 	padding: 10px;
 	margin: 0 0 20px 0;
+	border-radius: 5px;
 }
 </style>
 
@@ -70,22 +73,23 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 				<form action="/SE23/ViewDiscSeriesList" method="post">
 					<div class="input-group">
 						<%
-						String searchQuery = (String) request.getAttribute("searchQuery");
+						String searchQuery = request.getAttribute("searchQuery").toString();
 						%>
-						<span class="input-group-addon glyphicon glyphicon-search"></span>
+						<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
 						<input type="text" name="searchQuery" value="<%=searchQuery %>" class="form-control" placeholder="tìm kiếm">
 					</div>
 				</form>
 			</div>
 			<div class="col-md-3 col-md-offset-1">
-				<div class="input-group">
+				<div class="form-group">
 					<form id="form_picked_type" action="/SE23/ViewDiscSeriesList" method="post">
 						<input id="input_picked_type" name="cateId" type="text" class="hidden">
 					</form>
 					<select name="PickedType" onChange="filter_by_type(this)" class="form-control">
 						<option value="0">Chọn thể loại</option>
 						<%
-						int cateId = (int) request.getAttribute("cateId");
+						//int cateId = (int) request.getAttribute("cateId");
+						int cateId = Integer.parseInt(request.getAttribute("cateId").toString());
 						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
 						for (int i = 0; i < listCategories.size(); i++) {
 							Category category = listCategories.get(i);
@@ -108,37 +112,39 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 					</select>
 				</div>
 			</div>
-			<div class="col-md-2">
-				<label class="pull-right">Trang:</label>
-			</div>
-			<div class="col-md-2">
-				<div class="dropdown">
-					<%
-					int currentPage = (int) request.getAttribute("destPage");
-					int maxPage = (int) request.getAttribute("maxPage");
-					%>
-			  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-			  			<%=currentPage %>/<%=maxPage %>
-			  			<span class="caret"></span>
-			  		</button>
-			  		<ul class="dropdown-menu">
-			  		<%
-					for (int i = 0; i < maxPage; i++) {
-						%>
-						<li>
-							<form action="/SE23/ViewDiscSeriesList" method="post">
-								<input name="searchQuery" value="<%=searchQuery%>" class="hidden">
-								<input name="cateId" value="<%=cateId%>" class="hidden">
-								<input name="destPage" value="<%=i + 1%>" class="hidden">
-								<input type="submit" class="btn btn-link" value="<%=i + 1%>/<%=maxPage%>">
-							</form>
-						</li>
-						<%
-					}
-					%>
-			  		</ul>
+			<div class="form-group">
+				<div class="col-md-2">
+					<label class="control-label pull-right" for="pageDropdown">Trang:</label>
 				</div>
-			</div>
+				<div class="col-md-2">
+					<div class="dropdown" id="pageDropdown">
+						<%
+						int currentPage = Integer.parseInt(request.getAttribute("destPage").toString());
+						int maxPage = Integer.parseInt(request.getAttribute("maxPage").toString());
+						%>
+				  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+				  			<%=currentPage %>/<%=maxPage %>
+				  			<span class="caret"></span>
+				  		</button>
+				  		<ul class="dropdown-menu">
+				  		<%
+						for (int i = 0; i < maxPage; i++) {
+							%>
+							<li>
+								<form action="/SE23/ViewDiscSeriesList" method="post">
+									<input name="searchQuery" value="<%=searchQuery%>" class="hidden">
+									<input name="cateId" value="<%=cateId%>" class="hidden">
+									<input name="destPage" value="<%=i + 1%>" class="hidden">
+									<input type="submit" class="btn btn-link" value="<%=i + 1%>/<%=maxPage%>">
+								</form>
+							</li>
+							<%
+						}
+						%>
+				  		</ul>
+					</div>
+				</div>
+			</div> <!-- /.form-group -->
 		</div>
 		<br>
 		<div class="row">
@@ -236,7 +242,7 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 									<td><%=pendingDisc.getDiscSeriesName() %></td>
 									<td><%=disc.getPrice() %></td>
 									<td>
-										<select onChange="changeRentingWeeks(<%=disc.getDiscId() %>, this)">
+										<select class="form-control" onChange="changeRentingWeeks(<%=disc.getDiscId() %>, this)">
 										<%
 										for (int indexRentingWeeks = 1; indexRentingWeeks <= Const.MAX_RENTING_WEEKS; indexRentingWeeks++) {
 											if (indexRentingWeeks == pendingDisc.getRentingWeeks()) {
@@ -295,7 +301,7 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 				</table>
 
 				<div class="row-fluid text-center">
-					<a href="/SE23/BuildTicket" class="btn btn-default text-center">
+					<a href="/SE23/BuildTicket" class="btn btn-success">
 						Đặt thuê
 					</a>
 				</div>

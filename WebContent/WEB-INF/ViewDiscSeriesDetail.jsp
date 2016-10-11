@@ -18,8 +18,9 @@
 	<div class="container-fluid">
 		<%
 		String discSeriesName = (String) request.getAttribute("discSeriesName");
-		int remainingDisc = (int) request.getAttribute("remainingDisc");
-		ArrayList<Disc> listDiscs = (ArrayList<Disc>) request.getAttribute("listDiscs");
+		int remainingDisc = Integer.parseInt(request.getAttribute("remainingDisc").toString());
+		
+		@SuppressWarnings("unchecked") ArrayList<Disc> listDiscs = (ArrayList<Disc>) request.getAttribute("listDiscs");
 		%>
 		<div class="row">
 			<div class="col-md-10">
@@ -48,7 +49,7 @@
 				ArrayList<PendingDisc> listPendingDiscs = new ArrayList<PendingDisc>();
 				session.setAttribute("listPendingDiscs", listPendingDiscs);
 			}
-			ArrayList<PendingDisc> listPendingDiscs
+			@SuppressWarnings("unchecked") ArrayList<PendingDisc> listPendingDiscs
 				= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
 			
 			for (int i = 0; i < listDiscs.size(); i++) {
@@ -66,10 +67,12 @@
 					<td><%=disc.getPrice() %></td>
 					<%
 					boolean isPicked = false;
-					for (int indexPendingDisc = 0; indexPendingDisc < listPendingDiscs.size(); indexPendingDisc++) {
-						if (disc.getDiscId() == listPendingDiscs.get(indexPendingDisc).getDiscId()) {
-							isPicked = true;
-							break;
+					if (listPendingDiscs != null) { // quên lọc Null là nó lỗi ngay
+						for (int indexPendingDisc = 0; indexPendingDisc < listPendingDiscs.size(); indexPendingDisc++) {
+							if (disc.getDiscId() == listPendingDiscs.get(indexPendingDisc).getDiscId()) {
+								isPicked = true;
+								break;
+							}
 						}
 					}
 					if (isPicked) {
