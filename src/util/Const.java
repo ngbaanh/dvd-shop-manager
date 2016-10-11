@@ -22,4 +22,6 @@ public final class Const {
 	public static final String NOT_FOUND_ON_SEARCH = "Không tìm thấy";
 	public static final String NOT_FOUND_ON_FILTER = "Không có kết quả";
 	public static final String INPUT_POSITIVE_NUMBER = "Số lượng phải là số dương";
+	
+	public static int MAX_RENTING_WEEKS = 12; // số đĩa mỗi bộ
 }

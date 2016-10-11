@@ -56,7 +56,7 @@ public class DatabaseFactory {
 			statement.close();
 		}
 		if (preparedStatement != null) {
-			statement.close();
+			preparedStatement.close();
 		}
 		if (connection != null) {
 			connection.close();

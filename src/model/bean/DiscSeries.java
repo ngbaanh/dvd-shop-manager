@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 /**
  * @author NguyenBaAnh
+ * @author NguyenVanQuang
  *
  */
 public class DiscSeries {

@@ -13,6 +13,7 @@ import util.ICategory;
 
 /**
  * @author NguyenBaAnh
+ * @see NguyenVanQuang
  *
  */
 public class CategoryBO implements ICategory {

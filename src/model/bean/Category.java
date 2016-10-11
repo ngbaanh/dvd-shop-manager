@@ -5,6 +5,7 @@ package model.bean;
 
 /**
  * @author NguyenBaAnh
+ * @see NguyenVanQuang
  *
  */
 public class Category {

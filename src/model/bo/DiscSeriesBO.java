@@ -12,6 +12,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
+ * @author NguyenVanQuang
  *
  */
 public class DiscSeriesBO implements IDiscSeries {
@@ -198,6 +199,21 @@ public class DiscSeriesBO implements IDiscSeries {
 	 */
 	public int getMaxPage(int catId) {
 		return discSeriesDAO.getMaxPage(catId); //ok
+	}
+	
+	/**
+	 * Tính tổng số trang
+	 * Bổ sung số trang theo nội dung tìm kiếm
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @param searchQuery
+	 *            nội dung tìm kiếm
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
+	public int getMaxPage(int catId, String searchQuery) {
+		return discSeriesDAO.getMaxPage(catId, searchQuery);
 	}
 
 	/**
