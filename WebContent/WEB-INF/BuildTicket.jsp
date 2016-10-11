@@ -1,5 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<%@page import="model.bo.DiscBO"%>
+<%@page import="model.bean.Disc"%>
+<%@page import="business.session.PendingDisc"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="util.Const"%>
+
+<%
+@SuppressWarnings("unchecked") ArrayList<PendingDisc> listPendingDiscs
+	= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
+	if (listPendingDiscs==null || listPendingDiscs.isEmpty()) { // Chưa chọn đĩa nào thì ko thực hiện đặt phiếu
+		response.sendRedirect("ViewDiscSeriesList");
+	}
+%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,21 +22,6 @@
 <title>Đặt phiếu thuê</title>
 <jsp:include page="_bootstrap.jsp" />
 <jsp:include page="_header.jsp" />
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#RentingWeeks').change(function(){
-			//alert($(this).parent().parent().html());
-			var $tableRow = $(this).parent().parent();
-			var $tableData = $tableRow.find("td");
-			var $price = parseInt($tableData.eq(3).text());
-			//alert($price);
-			var $numberOfWeeks = parseInt($tableData.eq(4).("option:selected").val());
-			alert($numberOfWeeks);
-			//alert($price * $numberOfWeeks);
-			$tableData.eq(5).html = "" + $price * $numberOfWeeks;
-		});
-	});
-</script>
 </head>
 <body>
 	<jsp:include page="_top.jsp" />
@@ -74,7 +74,7 @@
 							<h4>Danh sách đĩa thuê</h4>
 						</div>
 						<div class="panel-body">
-							<table class="table">
+							<table class="table" id="DiscListTable">
 								<thead>
 									<tr>
 										<th>STT</th>
@@ -85,18 +85,31 @@
 										<th>Thành tiền</th>
 									</tr>
 								</thead>
+								
+								<%
+								DiscBO discBO = new DiscBO();
+								%>
+								
 								<tbody>
-									<% for(int j=1; j<=3; j++) { %>
+									<% 
+										if (listPendingDiscs != null && !listPendingDiscs.isEmpty()) for(int j = 0; j < listPendingDiscs.size(); j++) { 
+											PendingDisc disc = listPendingDiscs.get(j);
+									%>
 									<tr id="DiscItem">
-										<td><%=j %></td>
-										<td>123</td>
-										<td>123</td>
-										<td id="price">30000</td>
+										<td><%=j+1 %></td>
+										<td><%=disc.getDiscId() %></td>
+										<td><%=disc.getDiscSeriesName() %></td>
+										<td id="price"><%=discBO.getDisc(disc.getDiscId()).getPrice() %></td>
 										<td>
-											<select name="RentingWeeks" id="RentingWeeks" class="form-control">
-												<% for (int i=1;  i<=10; i++) {
-													out.print("<option value=\""+i+"\">"+i+"</option>");
-												}%>
+											<select name="RentingWeeks" id="RentingWeeks" class="form-control" readonly>
+												<%
+												for (int i = 1;  i <= Const.MAX_RENTING_WEEKS; i++) {
+													boolean selected = false;
+													if (i == disc.getRentingWeeks()) {
+														selected = true;
+													}
+													out.print("<option " + (selected ? "selected" : "") + " value=\""+i+"\">"+i+"</option>");
+												}%> 
 											</select>
 										</td>
 										<td id="amount"></td>
@@ -106,7 +119,7 @@
 										<td colspan="5">
 											<p class="text text-right"><strong>Tổng</strong></p>
 										</td>
-										<td>..</td>
+										<td><span id="totalAmount"></span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -128,5 +141,22 @@
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var total = 0;
+			$("#DiscListTable tbody tr").each(function() { // dò từng dòng
+				if ($(this).is($('#DiscListTable tbody').find('tr:last'))) { // gặp dòng cuối
+					$('#totalAmount').html(total);
+					return;
+				} // ko gặp thì tính toán số liệu
+				price = $(this).find('#price').html();
+				rentingWeeks = $(this).find(':selected').text();
+				var cash = parseInt(price * rentingWeeks);
+				$(this).find('#amount').html(cash);
+				total += cash;
+			});
+		});
+		
+	</script>
 </body>
 </html>

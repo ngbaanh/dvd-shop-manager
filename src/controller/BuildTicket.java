@@ -1,12 +1,15 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import business.session.PendingDisc;
 /**
  * Servlet implementation class BuildTicket
  */
@@ -27,8 +30,12 @@ public class BuildTicket extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		
-		request.getRequestDispatcher("/WEB-INF/BuildTicket.jsp").include(request, response);
+		ArrayList<PendingDisc> list = (ArrayList<PendingDisc>) request.getSession().getAttribute("listPendingDisc");
+		if (list == null || list.isEmpty()) {
+			response.sendRedirect("ViewDiscSeriesList");
+		} else {
+			request.getRequestDispatcher("/WEB-INF/BuildTicket.jsp").include(request, response);
+		}
 	}
 
 	/**
