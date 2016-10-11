@@ -110,56 +110,55 @@
 					<h4 class="modal-title">Thông tin chi tiết nhân viên</h4>
 				</div>
 				<div class="modal-body">
-					<form action="UpdateStaff" method = "post">
-					<div class="row" style="margin-left: 20px">
+					<form action="UpdateStaff" method="post" class="form form-horizontal">
+					<div class="form-group">
 						<div class="col-md-3">
-							Tài khoản <span style="color: red">*</span>
+							<label class="control-label">Tài khoản <span style="color: red">*</span></label>
 						</div>
 						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffId" id = "staffId" disabled value="abc"></input>
+							<input type="text" class="form-control" name = "staffId" id="staffId" disabled value="abc"></input>
 						</div>
 					</div>
 					<br>
-					<div class="row" style="margin-left: 20px">
+					<div class="form-group">
 						<div class="col-md-3">
-							Tên nhân viên <span style="color: red">*</span>
+							<label class="control-label">Tên nhân viên <span style="color: red">*</span></label>
 						</div>
 						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffName" id = "staffName" required></input>
+							<input type="text" class="form-control" name = "staffName" id = "staffName" required></input>
 						</div>
 					</div>
 					<br>
-					<div class="row" style="margin-left: 20px">
+					<div class="form-group">
 						<div class="col-md-3">
-							Ngày sinh <span style="color: red">*</span>
+							<label class="control-label">Ngày sinh <span style="color: red">*</span></label>
 						</div>
 						<div class="col-md-4">
-							<input type="date" style="width: 100%" name = "staffDOB" id = "staffDOB" ></input>
+							<div class="input-group">
+								<input type="date" class="form-control" name="staffDOB" id="staffDOB" ></input>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+							</div>
 						</div>
-						<div class="col-md-1">
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-						<div class="col-md-1">
-							SDT<span style="color: red">*</span>
+						<div class="col-md-1 col-md-offset-1">
+							<label class="control-label">SĐT<span style="color: red">*</span></label>
 						</div>
 						<div class="col-md-3">
-							<input type="number" style="width: 100%" name = "staffPhone" id = "staffPhone" ></input>
+							<input type="text" class="form-control" name = "staffPhone" id = "staffPhone" ></input>
 						</div>
 					</div>
 					<br>
-					<div class="row" style="margin-left: 20px">
+					<div class="form-group">
 						<div class="col-md-3">
-							Địa chỉ<span style="color: red">*</span>
+							<label class="control-label">Địa chỉ<span style="color: red">*</span></label>
 						</div>
 						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffAddress" id = "staffAddress" ></input>
+							<input type="text" class="form-control" name = "staffAddress" id = "staffAddress" ></input>
 						</div>
 					</div>
 					<br>
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
-							<input type="submit" value="Lưu" />
+					<div class="form-group">
+						<div class="col-md-3 col-md-offset-4">
+							<input type="submit" value="Lưu" class="btn btn-success btn-block">
 						</div>
 					</div>
 					</form>
