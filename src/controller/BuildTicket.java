@@ -34,7 +34,12 @@ public class BuildTicket extends HttpServlet {
 		if (list == null || list.isEmpty()) {
 			response.sendRedirect("ViewDiscSeriesList");
 		} else {
-			request.getRequestDispatcher("/WEB-INF/BuildTicket.jsp").include(request, response);
+			if (request.getParameter("do") != null) {
+				// TODO - xu li dat phieu 
+				response.getWriter().append("OK DANG XU LI.///");
+			} else {
+				request.getRequestDispatcher("/WEB-INF/BuildTicket.jsp").include(request, response);
+			}
 		}
 	}
 

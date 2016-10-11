@@ -34,7 +34,7 @@
 		</ol>
 		<i>Thao tác sau sẽ thực hiện việc đặt phiếu đến hệ thống, phiếu chỉ có hiệu lực sau khi gửi yêu cầu thành công</i>
 		
-		<form name="BuildTicketForm" id="BuildTicketForm" class="form form-horizontal" action="BuildTicket" method="post">
+		<form name="BuildTicketForm" id="BuildTicketForm" class="form form-horizontal" action="BuildTicket" method="post" onsubmit="validate()">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>Thông tin khách hàng</h4>
@@ -133,6 +133,7 @@
 							<h4>Thao tác</h4>
 						</div>
 						<div class="panel-body">
+							<input type="hidden" name="do" >
 							<input class="btn btn-success btn-block" type="submit" value="Đặt phiếu">
 							<a href="InvalidateTicket" class="btn btn-danger btn-block">Hủy phiếu</a>
 						</div>
@@ -156,6 +157,26 @@
 				total += cash;
 			});
 		});
+		
+		function validate() {
+			var x1 = document.forms["BuildTicketForm"]["CustomerName"].value;
+			var x2 = document.forms["BuildTicketForm"]["CustomerPhone"].value;
+			var x3 = document.forms["BuildTicketForm"]["CustomerAddress"].value;
+			var validated = true;
+			if (x1 == null || x1.trim() == "" || x2 == null || x2.trim() == "" || x3 == null || x3.trim() == "") {
+				validated = false;
+			} else if (x1.length > <%=Const.MAXLENGTH_NAME%> 
+				|| x2.length > <%=Const.MAXLENGTH_STAFFID%>
+				|| x3.length > <%=Const.MAXLENGTH_NAME%> ) {
+				validated = false;
+			} 
+			if (validated) {
+				return true;
+			} else {
+				alert("<%=Const.INVALID_FORM%>");
+				return false;
+			}
+		}
 		
 	</script>
 </body>
