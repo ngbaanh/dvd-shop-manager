@@ -1,17 +1,20 @@
 package model.bean;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class Ticket {
 	private int ticketId;
 	private Timestamp startTime;
 	private byte statusId;
+	private String statusName; // Sang thiếu cái này 
 	private String customerName;
 	private String customerPhone;
 	private String customerAddress;
 	private String staffName;
 	private String deposit;
 	private float ticketPrice;
+	ArrayList<RentalDisc> listDisc;
 	
 	public Ticket(int ticketId, Timestamp startTime, byte
 			statusId, String customerName, String customerPhone,
@@ -33,8 +36,27 @@ public class Ticket {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
 	public int getTicketId() {
 		return ticketId;
+	}
+
+	
+	
+	public ArrayList<RentalDisc> getListDisc() {
+		return listDisc;
+	}
+
+	public void setListDisc(ArrayList<RentalDisc> listDisc) {
+		this.listDisc = listDisc;
 	}
 
 	public void setTicketId(int ticketId) {

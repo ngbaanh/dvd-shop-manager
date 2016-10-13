@@ -74,7 +74,7 @@ public class BuildTicket extends HttpServlet {
 				ticket.setListDisc(rentalDiscList);
 				
 				TicketBO ticketBO = new TicketBO();
-				if (ticketBO.createTicket(ticket)) {
+				if (ticketBO.createTicket(ticket) > 0) {
 					String message = "Thông báo; OK ;#; "; // FIXME sua lai thong bao cho khop SRS
 					request.setAttribute("message", message);
 					request.getRequestDispatcher("WEB-INF/Message.jsp").forward(request, response);
