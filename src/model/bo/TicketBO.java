@@ -7,7 +7,11 @@ import model.dao.TicketDAO;
 import util.ITicket;
 
 public class TicketBO implements ITicket{
-	private TicketDAO ticketDAO = new TicketDAO();
+	private TicketDAO ticketDAO;
+	
+	public TicketBO() {
+		 ticketDAO = new TicketDAO();
+	}
 	@Override
 	public Ticket getTicket(int ticketId) {
 		// TODO Auto-generated method stub
@@ -35,7 +39,7 @@ public class TicketBO implements ITicket{
 	@Override
 	public int createTicket(Ticket ticket) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ticketDAO.createTicket(ticket);
 	}
 
 	@Override

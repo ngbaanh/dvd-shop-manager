@@ -13,12 +13,12 @@ public class Ticket {
 	private String customerAddress;
 	private String staffName;
 	private String deposit;
-	private float ticketPrice;
+	private int ticketPrice; // int, ko phai Float
 	ArrayList<RentalDisc> listDisc;
 	
 	public Ticket(int ticketId, Timestamp startTime, byte
 			statusId, String customerName, String customerPhone,
-			String customerAddress, String staffName, String deposit, float ticketPrice) {
+			String customerAddress, String staffName, String deposit, int ticketPrice) {
 		super();
 		this.ticketId = ticketId;
 		this.startTime = startTime;
@@ -119,11 +119,11 @@ public class Ticket {
 		this.deposit = deposit;
 	}
 
-	public float getTicketPrice() {
+	public int getTicketPrice() {
 		return ticketPrice;
 	}
 
-	public void setTicketPrice(float ticketPrice) {
+	public void setTicketPrice(int ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
 }
