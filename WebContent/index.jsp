@@ -93,7 +93,7 @@
 						<div class="panel-heading">
 							<h4 class="panel-title">
 								<span class="glyphicon glyphicon-list-alt"></span> <a
-									href="ViewTicketList" target="_main">Quản lí phiếu thuê</a>
+									href="ViewTicketList?Command= " target="_main">Quản lí phiếu thuê</a>
 							</h4>
 						</div>
 					</div>

@@ -49,4 +49,8 @@ public class TicketBO implements ITicket{
 		return ticketDAO.getTicketList(searchQuery, statusId, page);
 	}
 
+	public int getMaxPage(int statusId) {
+		return ticketDAO.getMaxPage(statusId);
+	}
+
 }
