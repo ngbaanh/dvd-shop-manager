@@ -8,7 +8,7 @@ package util;
  * Chú ý thay đổi các hằng số dưới đây sẽ trực tiếp ảnh hưởng lên toàn bộ hê thống
  */
 public final class Const {
-	public static int ITEMS_PER_PAGE = 5;
+	public static int ITEMS_PER_PAGE = 3;
 	public static int MAXLENGTH_STAFFID = 30;
 	public static int MAXLENGTH_PASSWORD = 30;
 	public static int MAXLENGTH_NAME = 100;
