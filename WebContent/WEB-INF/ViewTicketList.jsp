@@ -99,8 +99,9 @@
 				<td><%=ticket.getTicketId()%></td>
 				<td><%=ticket.getCustomerName()%></td>
 				<td><%=ticketStatusBO.getStatusName(ticket.getStatusId())%></td>
-				<td><a href="#">Xem chi tiết</a>
-			</tr>
+				<td><a
+					href="ViewTicketDetail">Xem
+						chi tiết</a></tr>
 			<%
 				}
 			%>
