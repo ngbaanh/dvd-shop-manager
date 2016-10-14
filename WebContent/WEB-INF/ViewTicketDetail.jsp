@@ -1,3 +1,6 @@
+<%@page import="model.bean.TicketStatus"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="model.bean.Ticket"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -15,17 +18,22 @@
 </head>
 <body>
 
-	<jsp:include page="WEB-INF/_header.jsp" />
+	<jsp:include page="_header.jsp" />
 <body>
-	<jsp:include page="WEB-INF/_top.jsp" />
+	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
 		<div style="margin-top: 15px">
 			<ol class="breadcrumb">
-				<li><a href="/ViewTicketList">Quản lí phiếu thuê</a></li>
-				<li><a href="/ViewTicketList">Xem danh sách phiếu</a></li>
+				<li><a href="ViewTicketList">Quản lí phiếu thuê</a></li>
+				<li><a href="ViewTicketList">Xem danh sách phiếu</a></li>
 				<li class="active">Xem chi tiết phiếu</li>
 			</ol>
 		</div>
+		<%
+			Ticket ticket = (Ticket) request.getAttribute("ticket");
+			ArrayList<TicketStatus> listTicketStatus = (ArrayList<TicketStatus>) request
+					.getAttribute("listTicketStatus");
+		%>
 		<p>Thông tin phiếu.</p>
 		<div
 			style="border-style: solid; border-width: medium; padding: 20px 0px 20px 0px">
@@ -35,14 +43,15 @@
 				</div>
 				<div class="col-md-2">
 					<input type="text" id="disabledTextInput" class="form-control"
-						value="123" readonly>
+						value="<%=ticket.getTicketId()%>" readonly>
 				</div>
 				<div class="col-md-2 col-md-offset-2">
 					Ngày lập phiếu<span style="color: red">*</span>
 				</div>
 				<div class="col-md-2">
 					<input type="text" id="disabledTextInput" class="form-control"
-						value="25/01/2016" readonly>
+						value="<%=ticket.getStartTime().getDate()%>/<%=ticket.getStartTime().getMonth() + 1%>/<%=ticket.getStartTime().getYear() + 1900%>"
+						readonly>
 				</div>
 			</div>
 			<br>
@@ -51,7 +60,8 @@
 					Tên khách hàng<span style="color: red">*</span>
 				</div>
 				<div class="col-md-8">
-					<input type="text" class="form-control" value="Nguyễn Anh">
+					<input type="text" class="form-control"
+						value="<%=ticket.getCustomerName()%>">
 				</div>
 			</div>
 			<br>
@@ -60,7 +70,8 @@
 					Số điện thoại<span style="color: red">*</span>
 				</div>
 				<div class="col-md-8">
-					<input type="text" class="form-control" value="0123456789">
+					<input type="text" class="form-control"
+						value="<%=ticket.getCustomerPhone()%>">
 				</div>
 			</div>
 			<br>
@@ -70,34 +81,36 @@
 				</div>
 				<div class="col-md-8">
 					<input type="text" class="form-control"
-						value="Hòa Khánh, Liên Chiểu, Đà Nẵng">
+						value="<%=ticket.getCustomerAddress()%>">
 				</div>
 			</div>
 			<br>
 			<div class="row">
 				<div class="col-md-2 col-md-offset-1">Tình trạng phiếu</div>
+				<%
+					for (TicketStatus tiketStatus : listTicketStatus) {
+						if (ticket.getStatusId() == tiketStatus.getStatusId()) {
+				%>
 				<div class="col-md-2 col-md-offset-0">
 					<label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="inlineRadio1" value="option1"
-						checked="checked" disabled="disabled"> Đã đặt 
+						name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
+						value="option<%=tiketStatus.getStatusId()%>" checked="checked"
+						disabled="disabled"> <%=tiketStatus.getStatusName()%>
 				</div>
+				<%
+					} else {
+				%>
 				<div class="col-md-2 col-md-offset-0">
-					</label> <label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="inlineRadio2" value="option2"
-						disabled="disabled"> Đang thuê 
+					<label class="radio-inline"> <input type="radio"
+						name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
+						value="option<%=tiketStatus.getStatusId()%>" disabled="disabled">
+						<%=tiketStatus.getStatusName()%>
 				</div>
-				<div class="col-md-2 col-md-offset-0">
-					</label> <label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="inlineRadio3" value="option3"
-						disabled="disabled"> Đã trả hết
-					</label>
-				</div>
-				<div class="col-md-2 col-md-offset-0">
-					</label> <label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="inlineRadio3" value="option3"
-						disabled="disabled"> Quá hạn
-					</label>
-				</div>
+				<%
+					}
+					}
+				%>
+
 			</div>
 			<br>
 			<div class="row">
@@ -106,7 +119,7 @@
 				</div>
 				<div class="col-md-8">
 					<input type="text" class="form-control"
-						value="1 CMND 'Nguyễn Anh', mã số 123456789">
+						value="<%=ticket.getDeposit()%>">
 				</div>
 			</div>
 
@@ -171,13 +184,42 @@
 				<p>Thao tác</p>
 				<div
 					style="border-style: solid; border-width: medium; padding: 20px 20px 20px 20px">
+					<%
+						if (ticket.getStatusId() == 0) {
+					%>
 					<button type="button" class="btn btn-primary btn-md btn-block">Cấp
 						phiếu</button>
+					<%
+						} else {
+					%>
+					<button type="button" class="btn btn-default btn-md btn-block"
+						disabled="disabled">Cấp phiếu</button>
+					<%
+						}
+						if (ticket.getStatusId() == 1 || ticket.getStatusId() == 3) {
+					%>
+					<button type="button" class="btn btn-primary btn-md btn-block">Gia
+						hạn</button>
+					<%
+						} else {
+					%>
 					<button type="button" class="btn btn-default btn-md btn-block"
 						disabled="disabled">Gia hạn</button>
+					<%
+						}
+						if (ticket.getStatusId() == 1) {
+					%>
+					<button type="button" class="btn btn-primary btn-md btn-block">Trả
+						đĩa</button>
+					<%
+						} else {
+					%>
 					<button type="button" class="btn btn-default btn-md btn-block"
 						disabled="disabled">Trả đĩa</button>
-					<button type="button" class="btn btn-default btn-md btn-block"">Hủy
+					<%
+						}
+					%>
+					<button type="button" class="btn btn-primary btn-md btn-block"">Hủy
 						phiếu</button>
 				</div>
 			</div>

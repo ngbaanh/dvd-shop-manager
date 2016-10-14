@@ -13,7 +13,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 
 	@Override
 	public Ticket getTicket(int ticketId) {
-		String getQuery = "select * from tiket where TicketId=?";
+		String getQuery = "select * from ticket where TicketId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, ticketId);

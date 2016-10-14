@@ -31,9 +31,8 @@
 	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
 	int maxPage = (int) request.getAttribute("MaxPage");
 %>
-<body>
 
-	<jsp:include page="_header.jsp" />
+<jsp:include page="_header.jsp" />
 <body>
 	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
@@ -68,7 +67,8 @@
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
 							</span> <input type="text" class="form-control" placeholder="Tìm kiếm"
-								id="SearchQuery" name="SearchQuery" value="">
+								id="SearchQuery" name="SearchQuery"
+								value="<%=currentSearchQuery%>">
 						</div>
 
 					</div>
@@ -99,15 +99,16 @@
 				<td><%=ticket.getTicketId()%></td>
 				<td><%=ticket.getCustomerName()%></td>
 				<td><%=ticketStatusBO.getStatusName(ticket.getStatusId())%></td>
-				<td><a
-					href="ViewTicketDetail">Xem
-						chi tiết</a></tr>
+				<td><a href="ViewTicketDetail?ticketId=<%=ticket.getTicketId()%>">Xem chi tiết</a>
+			</tr>
 			<%
 				}
 			%>
 
 		</table>
-
+		<%
+			if ("".equals(currentSearchQuery)) {
+		%>
 		<div class="row">
 			<div class="col-md-1 col-md-offset-0">
 				<strong class="text text-muted">Trang </strong>
@@ -125,9 +126,9 @@
 						style="padding: 5px; width: 600px !important;">
 						<%
 							String pageLink;
-							for (int i = 1; i <= maxPage; i++) {
-								pageLink = "ViewTicketList?page=" + i
-										+ (currentStatus.equals("") ? "&StatusName=" + currentStatus : "");
+								for (int i = 1; i <= maxPage; i++) {
+									pageLink = "ViewTicketList?page=" + i
+											+ (currentStatus.equals("") ? "&StatusName=" + currentStatus : "");
 						%>
 						<a
 							class="btn <%=(i == currentPage) ? "btn-link disabled" : "btn-default"%> btn-xs"
@@ -139,7 +140,11 @@
 					</div>
 				</div>
 			</div>
+			<%
+				}
 
+				if ("".equals(currentSearchQuery)) {
+			%>
 
 			<div class="col-md-2 col-md-offset-3">
 				<strong class="text text-muted">Lọc trạng thái </strong>
@@ -153,23 +158,25 @@
 					<ul class="dropdown-menu dropdown-menu-right">
 						<%
 							ArrayList<TicketStatus> listTicketStatus = (ArrayList<TicketStatus>) request
-									.getAttribute("listTicketStatus");
-							if (!listTicketStatus.isEmpty()) {
-								for (TicketStatus ticketStatus : listTicketStatus) {
+										.getAttribute("listTicketStatus");
+								if (!listTicketStatus.isEmpty()) {
+									for (TicketStatus ticketStatus : listTicketStatus) {
 						%>
 						<li><a
 							href="ViewTicketList?StatusId=<%=ticketStatus.getStatusId()%>&page=<%=currentPage%>"><%=ticketStatus.getStatusName()%></a></li>
 						<%
 							}
-							}
+								}
 						%>
 
 					</ul>
 				</div>
 			</div>
+			<%
+				}
+			%>
 		</div>
 
 	</div>
-</body>
 </body>
 </html>

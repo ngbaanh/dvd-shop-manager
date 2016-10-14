@@ -10,8 +10,7 @@ public class TicketBO implements ITicket{
 	private TicketDAO ticketDAO = new TicketDAO();
 	@Override
 	public Ticket getTicket(int ticketId) {
-		// TODO Auto-generated method stub
-		return null;
+		return ticketDAO.getTicket(ticketId);
 	}
 
 	@Override
