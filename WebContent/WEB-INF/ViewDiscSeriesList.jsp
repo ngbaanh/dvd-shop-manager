@@ -91,7 +91,6 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 						//int cateId = (int) request.getAttribute("cateId");
 						int cateId = Integer.parseInt(request.getAttribute("cateId").toString());
 						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
-						boolean isEnabled = true;
 						for (int i = 0; i < listCategories.size(); i++) {
 							Category category = listCategories.get(i);
 							if (cateId == category.getCategoryId()) {
@@ -223,16 +222,14 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 					</thead>
 					<tbody>
 					<%
+					int totalPrices = 0;
 					if (session.getAttribute("listPendingDisc") == null) {
 						ArrayList<PendingDisc> listPendingDiscs = new ArrayList<PendingDisc>();
 						session.setAttribute("listPendingDiscs", listPendingDiscs);
-						isEnabled = false;
 					} else {
 						ArrayList<PendingDisc> listPendingDiscs
 							= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
 						DiscBO discBO = new DiscBO();
-						isEnabled = true;
-						int totalPrices = 0;
 						for (int i = 0; i < listPendingDiscs.size(); i++) {
 							PendingDisc pendingDisc = listPendingDiscs.get(i);
 							Disc disc = discBO.getDisc(pendingDisc.getDiscId());
@@ -289,6 +286,7 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 								<%
 							}
 						}
+					}
 					%>
 						<tr>
 							<td></td>
@@ -299,12 +297,11 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 							<td><%=totalPrices %></td>
 							<td></td>
 						</tr>
-					<%} %>
 					</tbody>
 				</table>
 
 				<div class="row-fluid text-center">
-					<a href="/SE23/BuildTicket" class="btn btn-success <%=isEnabled ? "" : "disabled" %>">
+					<a href="/SE23/BuildTicket" class="btn btn-success <%=totalPrices > 0 ? "" : "disabled" %>">
 						Đặt thuê
 					</a>
 				</div>
