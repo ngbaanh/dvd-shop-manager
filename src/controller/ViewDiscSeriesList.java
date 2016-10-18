@@ -10,9 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.bean.Category;
-import model.bean.DiscSeries;
 import model.bo.CategoryBO;
-import model.bo.DiscSeriesBO;
 
 /**
  * Servlet implementation class ViewDiscSeriesList
@@ -42,34 +40,7 @@ public class ViewDiscSeriesList extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
-		int destPage = 1;
-		if (request.getParameter("destPage") != null) {
-			destPage = Integer.parseInt(request.getParameter("destPage"));
-		}
-		request.setAttribute("destPage", destPage);
-		
-		int cateId = 0;
-		if (request.getParameter("cateId") != null) {
-			cateId = Integer.parseInt(request.getParameter("cateId"));
-		}
-		request.setAttribute("cateId", cateId);
-		
-		String searchQuery = "";
-		if (request.getParameter("searchQuery") != null) {
-			searchQuery = request.getParameter("searchQuery");
-		}
-		request.setAttribute("searchQuery", searchQuery);
-		
-		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
-		
-		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, cateId, destPage);
-		request.setAttribute("listDiscSeries", listDiscSeries);
-		
-		int maxPage = discSeriesBO.getMaxPage(cateId, searchQuery);
-		request.setAttribute("maxPage", maxPage);
-		
 		CategoryBO categoryBO = new CategoryBO();
-		
 		ArrayList<Category> listCategories = categoryBO.getListCategories();
 		request.setAttribute("listCategories", listCategories);
 		

@@ -43,7 +43,9 @@ public class DiscSeriesBO implements IDiscSeries {
 	@Override
 	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int page) {
 		// Xử lí sự hợp lệ của searchQuery, catId, page
-		// ... TODO ...
+		if (searchQuery == null || catId < 0 || page < 1) {
+			return null;
+		}
 		// sau khi thỏa mãn, đẩy cho DAO
 		return discSeriesDAO.getDiscSeriesList(searchQuery, catId, page);
 	}

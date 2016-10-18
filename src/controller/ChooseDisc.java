@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import util.Const;
 import business.session.PendingDisc;
 
 /**
@@ -37,8 +38,7 @@ public class ChooseDisc extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		HttpSession session = request.getSession();
 		ArrayList<PendingDisc> listPendingDisc = null;
 		
@@ -49,13 +49,13 @@ public class ChooseDisc extends HttpServlet {
 		}
 		String discSeriesName = request.getParameter("discSeriesName");
 		int discId = Integer.parseInt(request.getParameter("discId"));
-		int rentingWeeks = 1;
+		int rentingWeeks = Const.DEFAULT_RENTING_WEEKS;
 		PendingDisc pendingDisc = new PendingDisc(discSeriesName, discId, rentingWeeks);
 		listPendingDisc.add(pendingDisc);
 		
 		session.setAttribute("listPendingDisc", listPendingDisc);
 		
-		response.sendRedirect("/SE23/ViewDiscSeriesList");
+		response.sendRedirect("/SE23/GetPendingDiscAjax");
 	}
 
 }
