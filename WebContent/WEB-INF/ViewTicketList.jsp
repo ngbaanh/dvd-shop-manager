@@ -19,12 +19,9 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <%
-	//ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
-	//ArrayList<DiscSeries> listDiscSeries = (ArrayList<DiscSeries>) request.getAttribute("ListDiscSeries");
-
-	String currentTicketStatus = (String) request.getAttribute("CurrentTicketStatus");
 	int currentPage = 1;
-	String currentStatus = (currentTicketStatus == null) ? "Trạng thái" : currentTicketStatus;
+	TicketStatus currentTicketStatus = (TicketStatus) request.getAttribute("ticketStatus");
+	String currentStatus = (currentTicketStatus.getStatusId() == -1) ? "Trạng thái" : currentTicketStatus.getStatusName();
 	String currentSearchQuery = "";
 	currentPage = (int) request.getAttribute("CurrentPage");
 	currentSearchQuery = (String) request.getAttribute("CurrentSearchQuery");
@@ -128,7 +125,7 @@
 							String pageLink;
 								for (int i = 1; i <= maxPage; i++) {
 									pageLink = "ViewTicketList?page=" + i
-											+ (currentStatus.equals("") ? "&StatusName=" + currentStatus : "");
+											+ "&StatusId=" + currentTicketStatus.getStatusId();
 						%>
 						<a
 							class="btn <%=(i == currentPage) ? "btn-link disabled" : "btn-default"%> btn-xs"
@@ -153,7 +150,7 @@
 				<div class="dropdown">
 					<button class="btn btn-default btn-block dropdown-toggle"
 						type="button" data-toggle="dropdown">
-						Trạng thái <span class="caret"></span>
+						<%=currentStatus %> <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<%

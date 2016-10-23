@@ -52,23 +52,24 @@ public class ViewTicketList extends HttpServlet {
 			statusId = Byte.parseByte(request.getParameter("StatusId"));
 		} catch (NumberFormatException e) {
 		}
+		System.out.println(statusId);
 		try {
 			page = Integer.parseInt(request.getParameter("page"));
 		} catch (NumberFormatException e) {
 		}
 		int maxPage = ticketBO.getMaxPage(statusId);
-		System.out.println("ViewTicketList: SearchQuery = '" + searchQuery + "'; categoryId = " + statusId
-				+ "; page = " + page);
+		
 		TicketStatusBO ticketStatusBO = new TicketStatusBO();
 		ArrayList<TicketStatus> listTicketStatus = ticketStatusBO.getTicketStatusList();
 		String currentTicketStatus = ticketStatusBO.getStatusName(statusId);
+		TicketStatus ticketStatus = new TicketStatus(statusId, currentTicketStatus);
 		listTickets = ticketBO.getTicketList(searchQuery, statusId, page);
 		
 		// Trả lại các thông số mà người dùng đã nhập
 		request.setAttribute("listTickets", listTickets);
 		request.setAttribute("listTicketStatus", listTicketStatus);
 		request.setAttribute("ticketStatusBO", ticketStatusBO);
-		request.setAttribute("CurrentTicketStatus", currentTicketStatus);
+		request.setAttribute("ticketStatus", ticketStatus);
 		request.setAttribute("CurrentSearchQuery", searchQuery);
 		request.setAttribute("CurrentPage", (listTickets == null || listTickets.isEmpty()) ? 1 : page);
 		request.setAttribute("MaxPage", maxPage);

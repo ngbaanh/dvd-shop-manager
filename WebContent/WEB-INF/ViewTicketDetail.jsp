@@ -1,3 +1,6 @@
+<%@page import="model.bean.Disc"%>
+<%@page import="model.bean.DiscSeries"%>
+<%@page import="model.bean.RentalDisc"%>
 <%@page import="model.bean.TicketStatus"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.bean.Ticket"%>
@@ -16,9 +19,7 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
-
-	<jsp:include page="_header.jsp" />
+<jsp:include page="_header.jsp" />
 <body>
 	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
@@ -30,9 +31,9 @@
 			</ol>
 		</div>
 		<%
-			Ticket ticket = (Ticket) request.getAttribute("ticket");
-			ArrayList<TicketStatus> listTicketStatus = (ArrayList<TicketStatus>) request
-					.getAttribute("listTicketStatus");
+		Ticket ticket = (Ticket) request.getAttribute("ticket");
+		ArrayList<TicketStatus> listTicketStatus = (ArrayList<TicketStatus>) request
+				.getAttribute("listTicketStatus");
 		%>
 		<p>Thông tin phiếu.</p>
 		<div
@@ -88,27 +89,27 @@
 			<div class="row">
 				<div class="col-md-2 col-md-offset-1">Tình trạng phiếu</div>
 				<%
-					for (TicketStatus tiketStatus : listTicketStatus) {
-						if (ticket.getStatusId() == tiketStatus.getStatusId()) {
-				%>
-				<div class="col-md-2 col-md-offset-0">
-					<label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
-						value="option<%=tiketStatus.getStatusId()%>" checked="checked"
-						disabled="disabled"> <%=tiketStatus.getStatusName()%>
-				</div>
-				<%
+				for (TicketStatus tiketStatus : listTicketStatus) {
+					if (ticket.getStatusId() == tiketStatus.getStatusId()) {
+						%>
+						<div class="col-md-2 col-md-offset-0">
+							<label class="radio-inline"> <input type="radio"
+								name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
+								value="option<%=tiketStatus.getStatusId()%>" checked="checked"
+								disabled="disabled"> <%=tiketStatus.getStatusName()%>
+						</div>
+						<%
 					} else {
-				%>
-				<div class="col-md-2 col-md-offset-0">
-					<label class="radio-inline"> <input type="radio"
-						name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
-						value="option<%=tiketStatus.getStatusId()%>" disabled="disabled">
-						<%=tiketStatus.getStatusName()%>
-				</div>
-				<%
+						%>
+						<div class="col-md-2 col-md-offset-0">
+							<label class="radio-inline"> <input type="radio"
+								name="inlineRadioOptions" id="<%=tiketStatus.getStatusId()%>"
+								value="option<%=tiketStatus.getStatusId()%>" disabled="disabled">
+								<%=tiketStatus.getStatusName()%>
+						</div>
+						<%
 					}
-					}
+				}
 				%>
 
 			</div>
@@ -139,92 +140,112 @@
 							<th class="info">Số tuần thuê</th>
 							<th class="info">Thành tiền(VNĐ)</th>
 						</tr>
-						<tr>
-							<td>1</td>
-							<td>123</td>
-							<td>Avatar 1</td>
-							<td>30.000</td>
-							<td><div class="btn-group" style="float: right">
-									<select>
-										<option value="1">1</option>
-										<option value="2" selected="selected">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-									</select>
-								</div></td>
-							<td>60.000</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>115.</td>
-							<td>Mario 3</td>
-							<td>25.000</td>
-							<td><div class="btn-group" style="float: right">
-									<select>
-										<option value="1" selected="selected">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-									</select>
-								</div></td>
-							<td>25.000</td>
-						</tr>
+
+						<script>
+						function loadPrice(elementSelectWeeks, pricePerDisc) {
+							var elementPriceOfDiscs = elementSelectWeeks.parentElement.parentElement.nextElementSibling;
+							var elementPriceOfTicket = document.getElementById("priceOfTicket");
+							var oldPriceOfDiscs = parseInt(elementPriceOfDiscs.innerHTML);
+							var oldPriceOfTicket = parseInt(elementPriceOfTicket.innerHTML);
+							var selectWeeks = parseInt(elementSelectWeeks.value);
+							var newPriceOfDiscs = selectWeeks * pricePerDisc;
+							var newPriceOfTicket = oldPriceOfTicket - oldPriceOfDiscs + newPriceOfDiscs;
+							elementPriceOfDiscs.innerHTML = newPriceOfDiscs;
+							elementPriceOfTicket.innerHTML = newPriceOfTicket;
+						}
+						function capPhieu() {
+							
+						}
+						</script>
+						
+						<%
+						ArrayList<RentalDisc> listRentalDisc = (ArrayList<RentalDisc>) request.getAttribute("listDiscOfTicket");
+						ArrayList<DiscSeries> listDiscSeries = (ArrayList<DiscSeries>) request
+								.getAttribute("listDiscSeriesOfTicket");
+						ArrayList<Disc> listDisc = (ArrayList<Disc>) request.getAttribute("listDisc");
+						int priceOfTicket = 0;
+						int firstPriceOfTicket = (int) ticket.getTicketPrice();
+						for (int i = 0; i < listRentalDisc.size(); i++) {
+							%>
+							<tr>
+								<td><%=i + 1%></td>
+								<td><%=listRentalDisc.get(i).getDiscId()%></td>
+								<td><%=listDiscSeries.get(i).getDiscSeriesName()%></td>
+								<td><%=listDisc.get(i).getPrice()%></td>
+								<td>
+									<div class="btn-group" style="float: right">	
+										<%
+										int price = listDisc.get(i).getPrice() * listRentalDisc.get(i).getRentingWeeks();
+										priceOfTicket += price;
+										%>
+										<select onchange="loadPrice(this, <%=listDisc.get(i).getPrice()%>)" <%if (ticket.getStatusId() != 0) {%>disabled = "disabled"<%}%>>
+										<%
+										for (int j = 1; j <= 4; j++) {
+											%>
+											<option
+												value="<%=j%>"
+												<%
+												if (listRentalDisc.get(i).getRentingWeeks() == j) {
+													%>
+													selected="selected"
+													<%
+												}
+												%>
+											>
+												<%=j%>
+											</option>
+											<%
+										}
+										%>
+										</select>
+									</div>
+								</td>
+								<td><%=price%></td>
+							</tr>
+							<%
+						}
+						%>
+
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td>Tổng</td>
-							<td>85.000</td>
+							<td id="priceOfTicket"><%=priceOfTicket%></td>
 						</tr>
 					</table>
 				</div>
 			</div>
 			<div class="col-md-3 col-md-offset-0">
+
 				<p>Thao tác</p>
 				<div
 					style="border-style: solid; border-width: medium; padding: 20px 20px 20px 20px">
-					<%
-						if (ticket.getStatusId() == 0) {
-					%>
-					<button type="button" class="btn btn-primary btn-md btn-block">Cấp
-						phiếu</button>
-					<%
-						} else {
-					%>
-					<button type="button" class="btn btn-default btn-md btn-block"
-						disabled="disabled">Cấp phiếu</button>
-					<%
-						}
-						if (ticket.getStatusId() == 1 || ticket.getStatusId() == 3) {
-					%>
-					<button type="button" class="btn btn-primary btn-md btn-block">Gia
-						hạn</button>
-					<%
-						} else {
-					%>
-					<button type="button" class="btn btn-default btn-md btn-block"
-						disabled="disabled">Gia hạn</button>
-					<%
-						}
-						if (ticket.getStatusId() == 1) {
-					%>
-					<button type="button" class="btn btn-primary btn-md btn-block">Trả
-						đĩa</button>
-					<%
-						} else {
-					%>
-					<button type="button" class="btn btn-default btn-md btn-block"
-						disabled="disabled">Trả đĩa</button>
-					<%
-						}
-					%>
-					<button type="button" class="btn btn-primary btn-md btn-block"">Hủy
-						phiếu</button>
+						<form action="/SE23/HandleTicket?ticketId=<%=ticket.getTicketId()%>" method="post">
+							<button type="submit" onclick="capPhieu()" name="CapPhieu"
+								<%if(ticket.getStatusId() == 0){ %>class="btn btn-primary btn-md btn-block"<%} 
+								else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Cấp phiếu
+							</button>
+						</form>
+
+
+							<button type="submit" name="GiaHan"
+								<%if(ticket.getStatusId() == 1 || ticket.getStatusId() == 3){ %>class="btn btn-primary btn-md btn-block"<%} 
+								else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Gia hạn
+							</button>
+							
+							<button type="submit" name="TraDia"
+								<%if(ticket.getStatusId() == 1){ %>class="btn btn-primary btn-md btn-block"<%} 
+								else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Trả đĩa
+							</button>
+							
+							<button type="submit" name="HuyPhieu"
+								class="btn btn-primary btn-md btn-block"">Hủy phiếu
+							</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</body>
 </body>
 </html>
