@@ -14,8 +14,7 @@ public class TicketBO implements ITicket{
 	}
 	@Override
 	public Ticket getTicket(int ticketId) {
-		// TODO Auto-generated method stub
-		return null;
+		return ticketDAO.getTicket(ticketId);
 	}
 
 	@Override
@@ -51,6 +50,10 @@ public class TicketBO implements ITicket{
 	@Override
 	public ArrayList<Ticket> getTicketList(String searchQuery, int statusId, int page) {
 		return ticketDAO.getTicketList(searchQuery, statusId, page);
+	}
+
+	public int getMaxPage(int statusId) {
+		return ticketDAO.getMaxPage(statusId);
 	}
 
 }

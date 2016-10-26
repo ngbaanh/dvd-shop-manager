@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 import model.bean.RentalDisc;
 import model.bean.Ticket;
+import util.Const;
 import util.ITicket;
 
 public class TicketDAO extends DatabaseFactory implements ITicket{
 
 	@Override
 	public Ticket getTicket(int ticketId) {
-		String getQuery = "select * from tiket where TicketId=?";
+		String getQuery = "select * from ticket where TicketId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setInt(1, ticketId);
@@ -45,11 +46,26 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 
 	@Override
 	public ArrayList<Ticket> getTicketList(String searchQuery, int statusId, int page) {
-		String getQuery = "select * from ticket";
 		try {
-			preparedStatement = connection.prepareStatement(getQuery);
+			String getQuery = "select * from ticket";
+			// Xác định ưu tiên: Khi tìm kiếm thì khóa catId và page
+			if (!"".equals(searchQuery)) { // Khóa
+				getQuery += " where TicketId like ? or CustomerName like ? order by TicketId desc";
+				preparedStatement = connection.prepareStatement(getQuery);
+				preparedStatement.setString(1, "%" + searchQuery + "%");
+				preparedStatement.setString(2, "%" + searchQuery + "%");
+			} else {
+				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
+				if (statusId >= 0) {
+					getQuery += " where StatusId=" + statusId;
+				}
+				getQuery += " order by TicketId desc limit ?,?";
+				preparedStatement = connection.prepareStatement(getQuery);
+				preparedStatement.setInt(1, startPosition);
+				preparedStatement.setInt(2, Const.ITEMS_PER_PAGE);
+			}
 			// FIXME - console
-			System.out.println("TicketDAO: " + preparedStatement.toString());
+			System.out.println("TicketDAO:" + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<Ticket> alTicket = new ArrayList<Ticket>();
 			while (resultSet.next()) {
@@ -71,6 +87,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 			e.printStackTrace();
 			return null;
 		}
+		
 	}
 
 	@Override
@@ -168,6 +185,21 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		return null;
 	}
 
+	public int getMaxPage(int statusId) {
+		String getQuery = "select count(*) from ticket" + ((statusId >= 0) ? " where StatusId=" + statusId : "");
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return (int) Math.ceil((double) resultSet.getInt(1) / Const.ITEMS_PER_PAGE);
+			} else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 1;
+		}
+	}
 	public ArrayList<Ticket> getTicketList(String searchQuery, byte statusId, int page) {
 		// TODO Auto-generated method stub
 		return null;
