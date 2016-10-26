@@ -268,46 +268,39 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 			</ol>
 		</div>
 		<div class="row">
-			<div class="col-md-4">
-				<form action="/SE23/ViewDiscSeriesList" method="post">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-						<input id="searchQuery" type="text" onKeyUp="filterBySearch()" name="searchQuery" value="" class="form-control" placeholder="tìm kiếm">
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3 col-md-offset-1">
-				<div class="form-group">
-					<select id="pickedType" name="pickedType" onChange="filterByType()" class="form-control">
-						<option value="0">Chọn thể loại</option>
-						<%
-						ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
-						for (int i = 0; i < listCategories.size(); i++) {
-							Category category = listCategories.get(i);
-							%>
-							<option value="<%=category.getCategoryId()%>">
-								<%=category.getCategoryName()%>
-							</option>
-							<%
-						}
-						%>
-					</select>
+			<div class="col-sm-4">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+					<input id="searchQuery" type="text" onKeyUp="filterBySearch()" name="searchQuery" value="" class="form-control" placeholder="tìm kiếm">
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-md-2">
+			<div class="col-sm-3 col-sm-offset-1">
+				<select id="pickedType" name="pickedType" onChange="filterByType()" class="form-control">
+					<option value="0">Chọn thể loại</option>
+					<%
+					ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
+					for (int i = 0; i < listCategories.size(); i++) {
+						Category category = listCategories.get(i);
+						%>
+						<option value="<%=category.getCategoryId()%>">
+							<%=category.getCategoryName()%>
+						</option>
+						<%
+					}
+					%>
+				</select>
+			</div>
+			<div class="form-group col-sm-4">
+				<div class="col-sm-6">
 					<label class="control-label pull-right" for="pageDropdown">Trang:</label>
 				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<select id="pickedPage" name="pickedPage" onChange="filterByPager()" class="form-control">
-							<option value="1"></option>
-					  	</select>
-					</div>
+				<div class="col-sm-6">
+					<select id="pickedPage" name="pickedPage" onChange="filterByPager()" class="form-control pull-right">
+						<option value="1"></option>
+				  	</select>
 				</div>
 			</div> <!-- /.form-group -->
 		</div>
-		<br>
 		<div class="row">
 			<table class="table table-bordered table-striped">
 				<thead>
@@ -363,11 +356,6 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 		<div class="row" id="panel_list_choice">
 			<fieldset class="list_choice">
 				<legend class="list_choice">Danh sách chọn</legend>
-				
-				<form id="form_change_renting_weeks" action="/SE23/ChangeRentingWeeks" method="post" class="hidden">
-					<input id="input_discId_of_change_renting_weeks" type="text" name="discId" value="">
-					<input id="input_value_of_change_renting_weeks" type="text" name="rentingWeeks" value="">
-				</form>
 				
 				<table class="table table-bordered table-striped">
 					<thead>
