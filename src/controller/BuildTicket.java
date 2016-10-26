@@ -36,6 +36,8 @@ public class BuildTicket extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		ArrayList<PendingDisc> list = (ArrayList<PendingDisc>) request.getSession().getAttribute("listPendingDisc");
 		if (list == null || list.isEmpty()) {
 			response.sendRedirect("ViewDiscSeriesList");
@@ -56,6 +58,7 @@ public class BuildTicket extends HttpServlet {
 				DiscBO discBO = new DiscBO();
 				for (PendingDisc pd : listPendingDiscs) {
 					RentalDisc rd = new RentalDisc();
+					rd.setDiscSeriesId(discBO.getDisc(pd.getDiscId()).getDiscSeriesId());
 					rd.setDiscId(pd.getDiscId());
 					rd.setTicketId(-1); // waiting to add later after the ticket built
 					Timestamp finalTime = new Timestamp(startTime.getTime() + pd.getRentingWeeks() * TimeUnit.DAYS.toMillis(7)); // hiện tại + số tuần
@@ -78,9 +81,10 @@ public class BuildTicket extends HttpServlet {
 				ticket.setListDisc(rentalDiscList);
 				
 				TicketBO ticketBO = new TicketBO();
-				//TODO xử lí đặt đĩa trùng lặp : ....
+				//TODO xử lí đặt đĩa trùng lặp : .... chuwa lafm
 				int ticketId = ticketBO.createTicket(ticket);
 				if (ticketId > 0) {
+					request.getSession().removeAttribute("listPendingDisc");
 					String message = "Thông báo; Đặt phiếu thành công!<br> Mã số phiếu: <strong>" + ticketId + "</strong> <br>" 
 							+ " Thời gian đặt phiếu: <strong>" + new java.util.Date(ticket.getStartTime().getTime()) + "</strong> <br> "
 							+" Phiếu này có hiệu lực trong vòng 24 giờ. Vui lòng đến gặp nhân viên của cửa hàng để hoàn thành các thủ tục thuê đĩa. " + 

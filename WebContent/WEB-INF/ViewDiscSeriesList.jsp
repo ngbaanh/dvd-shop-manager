@@ -131,6 +131,9 @@ function viewDiscSeriesDetail(xhttp) {
   	var bodyListDiscs = "";
   	for (index = 0; index < listDiscs.length; index++) {
   		var disc = listDiscs[index];
+  		if (!disc.isAvailable) {
+  			continue;
+  		}
   		var STT = index + 1;
   		bodyListDiscs += "<tr>";
   		bodyListDiscs += "<td>" + STT + "</td>"
@@ -143,7 +146,9 @@ function viewDiscSeriesDetail(xhttp) {
   		}
   		bodyListDiscs += "<td>" + disc.price + "</td>";
   		if (disc.isPicked) {
-  			bodyListDiscs += "<td>Đã chọn</td>";
+  			bodyListDiscs += "<td>Bạn đã chọn</td>";
+  		} else if (!disc.isAvailable) {
+  			bodyListDiscs += "<td>Người khác đã đặt</td>";
   		} else {
   			bodyListDiscs += "<td><a href='#' onClick='chooseDisc(\"" + discSeriesName + "\"," + disc.discId + ")' data-dismiss='modal'>Chọn</a></td>";
   		}
