@@ -10,19 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import util.Const;
+import model.bean.Disc;
+import model.bo.DiscBO;
 import business.session.PendingDisc;
 
 /**
- * Servlet implementation class DiscardDisc
+ * Servlet implementation class GetPendingDiscAjax
  */
-@WebServlet("/DiscardDisc")
-public class DiscardDisc extends HttpServlet {
+@WebServlet("/GetPendingDiscAjax")
+public class GetPendingDiscAjax extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DiscardDisc() {
+    public GetPendingDiscAjax() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,18 +50,32 @@ public class DiscardDisc extends HttpServlet {
 			listPendingDisc = new ArrayList<PendingDisc>();
 		}
 		
-		int discId = Integer.parseInt(request.getParameter("discId"));
-		
-		for (int i = 0; i < listPendingDisc.size(); i++) {
-			if (discId == listPendingDisc.get(i).getDiscId()) {
-				listPendingDisc.remove(i);
-				break;
+		DiscBO discBO = new DiscBO();
+		String strListPendingDisc = "{ 'listPendingDisc': [";
+		for (int index = 0; index < listPendingDisc.size(); index++) {
+			PendingDisc pendingDisc = listPendingDisc.get(index);
+			if (index == 0) {
+				strListPendingDisc += "{";
+			} else {
+				strListPendingDisc += ", {";
 			}
+			Disc disc = discBO.getDisc(pendingDisc.getDiscId());
+			if (disc != null) {
+				strListPendingDisc += "'deleted': false";
+				strListPendingDisc += ",'discId': " + pendingDisc.getDiscId();
+				strListPendingDisc += ",'discSeriesName': '" + pendingDisc.getDiscSeriesName() + "'";
+				strListPendingDisc += ",'price': " + disc.getPrice();
+				strListPendingDisc += ",'rentingWeeks': " + pendingDisc.getRentingWeeks();
+			} else {
+				strListPendingDisc += "'deleted': true";
+				strListPendingDisc += ",'discId': " + pendingDisc.getDiscId();
+			}
+			strListPendingDisc += "}";
 		}
+		strListPendingDisc += "], 'MAX_RENTING_WEEKS': " + Const.MAX_RENTING_WEEKS + "}";
 		
-		session.setAttribute("listPendingDisc", listPendingDisc);
-		
-		response.sendRedirect("/SE23/GetPendingDiscAjax");
+		strListPendingDisc = strListPendingDisc.replace("\'", "\"");
+		response.getWriter().print(strListPendingDisc);
 	}
 
 }
