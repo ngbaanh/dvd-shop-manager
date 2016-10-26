@@ -35,10 +35,9 @@ public class StaffBO implements IStaff {
 		if (staff == null) {
 			return false; // null
 		} else {
-			if ("".equals(staff.getStaffId().trim()) || "".equals(staff.getPassword().trim())) {
-				return false; // để trống hoặc nhập toàn dấu cách
-			}
-			if (staff.getStaffId().length() > Const.MAXLENGTH_STAFFID
+			if ("".equals(staff.getStaffId().trim()) 
+					|| "".equals(staff.getPassword().trim())
+					|| staff.getStaffId().length() > Const.MAXLENGTH_STAFFID
 					|| staff.getPassword().length() > Const.MAXLENGTH_PASSWORD) {
 				return false; // vượt quá maxlength
 			}
@@ -67,25 +66,25 @@ public class StaffBO implements IStaff {
 	@Override
 	public ArrayList<Staff> getListStaffs() {
 		// TODO Auto-generated method stub
-		return null;
+		return staffDAO.getListStaffs();
 	}
 
 	@Override
 	public boolean addNewStaff(Staff staff) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.addNewStaff(staff);
 	}
 
 	@Override
 	public boolean updateStaff(Staff staff) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.updateStaff(staff);
 	}
 
 	@Override
 	public boolean removeStaff(String staffId) {
 		// TODO Auto-generated method stub
-		return false;
+		return staffDAO.removeStaff(staffId);
 	}
 
 	@Override

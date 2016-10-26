@@ -5,17 +5,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Thông tin</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 </head>
+<jsp:include page="_header.jsp" />
 <body>
+<jsp:include page="_top.jsp" />
 	<div class="container">
 		<br>
-		<div class="panel panel-primary">
+		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">
 					<span class="glyphicon glyphicon-copyright-mark"></span> Thông tin
@@ -34,6 +31,40 @@
 						<th>Họ tên</th>
 						<th>Lớp SH</th>
 						<th>Số điện thoại</th>
+					</tr>
+					<tr class="active">
+						<td>1</td>
+						<td>Nguyễn Văn Quang</td>
+						<td>12T4</td>
+						<td>0167 3708 739</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Nguyễn Bá Anh</td>
+						<td>12T2</td>
+						<td>0163 6342 448</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Thái Thị Hồng</td>
+						<td>12T4</td>
+						<td>0167 2960 753</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td>Nguyễn Khắc Tam</td>
+						<td>12T4</td>
+						<td>0163 8021 280</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td>Trần Thanh Sang</td>
+						<td>12T2</td>
+						<td>0162 8956 057</td>
+					</tr>
+					
+					<tr>
+						<td colspan="4">Nhóm SE23 cũ</td>
 					</tr>
 					<tr class="active">
 						<td>1</td>

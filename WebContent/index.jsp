@@ -10,19 +10,45 @@
 		// Nếu chưa login thì chuyển về giao diện chưa đăng nhập
 		response.sendRedirect("default.jsp");
 	} else {
-		boolean isManager = staff.isManager() ? true : false;
+		boolean isManager = staff.isManager();
+		System.out.println("staff --> " + staff.isManager());
+		String feedBack = (String) session.getAttribute("FeedBack");
+		session.removeAttribute("FeedBack");
+		if (feedBack == null) {		
+			feedBack = "HomePage";	
+		}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Hệ thống quản lí cửa hàng cho thuê đĩa DVD</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="WEB-INF/_bootstrap.jsp" />
+<script type="text/javascript">
+	function poll() {
+		var url = "LastAccessTimeFilter"; //ajaxpollng
+		$.ajax({
+			url : url,
+			dataType : 'text',
+			async : true,
+			beforeSend : function(request) {
+				request.setRequestHeader("IS_AJAX_POLL", "Y");
+			},
+			type : 'POST',
+			success : function(data, testStatus, request) {
+				var isSessionTimeout = request
+						.getResponseHeader("IS_SESSION_TIMEOUT");
+				if (isSessionTimeout != null && isSessionTimeout == 'Y') {
+					window.location.replace("Logout"); // Logout
+					location.reload();
+				}
+			}
+		});
+	}
+</script>
+<script type="text/javascript">
+window.onLoad = function() { setInterval(poll(), 5000);}//Polling Server every 30 seconds.};
+</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -31,14 +57,17 @@
 			<div class="col-md-6">
 				<h3>
 					<a href="index.jsp"><span
-						class="glyphicon glyphicon-align-justify"></span></a> Cửa hàng thuê đĩa <strong>SE23</strong>
+						class="glyphicon glyphicon-align-justify"></span></a> Cửa hàng thuê
+					đĩa <strong>SE23</strong>
 				</h3>
 			</div>
-			<div class="col-md-2 col-md-offset-3" style="padding-top: 15px;">
-				Chào <span class="text text-lg text-danger"><b><%=staff.getStaffName()%></b></span>
+			<div class="col-md-3 col-md-offset-2" style="padding-top: 15px;">
+				<p class="text text-right">
+					Chào <b class="text-lg text-danger"><%=staff.getStaffName()%></b>
+				</p>
 			</div>
 			<div class="col-md-1" style="padding-top: 10px;">
-				<a class="btn btn-warning btn-block" href="Logout">Thoát</a>
+				<a class="btn btn-danger btn-block" href="Logout">Thoát</a>
 			</div>
 		</div>
 		<!-- /TOP -->
@@ -146,6 +175,17 @@
 							</h4>
 						</div>
 					</div>
+					
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<span class="glyphicon glyphicon-copyright-mark"></span> <i>SE23</i>
+							</h4>
+						</div>
+						<div class="panel-body">
+							Đồ án PTTK HTTT
+						</div>
+					</div>
 				</div>
 				<!-- /Groups -->
 			</div>
@@ -153,15 +193,18 @@
 			<!-- RIGHT -->
 			<div class="col-md-10">
 				<div class="well">
-						<iframe src="HomePage" name="_main" id="_main"
+					 <iframe src="<%=feedBack %>" name="_main" id="_main"
 						style="border: none; width: 100%; height: 585px;"> </iframe>
+						 
 				</div>
 			</div>
 			<!-- /RIGHT -->
 		</div>
 		<!-- /BOTTOM -->
 	</div>
-	<div style="display:none"><a href="Admin" target="_blank" accesskey="a">Admin</a></div>
+	<div style="display: none">
+		<a href="Admin" target="_blank" accesskey="a">Admin</a>
+	</div>
 </body>
 </html>
 <%

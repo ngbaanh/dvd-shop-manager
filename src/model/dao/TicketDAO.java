@@ -1,10 +1,11 @@
 package model.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import model.bean.DiscSeries;
+import model.bean.RentalDisc;
 import model.bean.Ticket;
 import util.Const;
 import util.ITicket;
@@ -30,7 +31,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 				ticket.setCustomerAddress(resultSet.getString(6));
 				ticket.setStaffName(resultSet.getString(7));
 				ticket.setDeposit(resultSet.getString(8));
-				ticket.setTicketPrice(resultSet.getFloat(9));
+				ticket.setTicketPrice(resultSet.getInt(9));
 				preparedStatement.close();
 				return ticket;
 			} else {
@@ -77,7 +78,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 				ticket.setCustomerAddress(resultSet.getString(6));
 				ticket.setStaffName(resultSet.getString(7));
 				ticket.setDeposit(resultSet.getString(8));
-				ticket.setTicketPrice(resultSet.getFloat(9));
+				ticket.setTicketPrice(resultSet.getInt(9));
 				alTicket.add(ticket);
 			}
 			preparedStatement.close();
@@ -108,9 +109,74 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 	}
 
 	@Override
+	/**
+	 * return TicketId on success, 0 on failure
+	 */
 	public int createTicket(Ticket ticket) {
-		// TODO Auto-generated method stub
-		return 0;
+		String createTicketQuery = "insert into ticket(StartTime, StatusId, CustomerName, CustomerPhone, CustomerAddress, StaffName, Deposit, TicketPrice)"
+				+ " values(?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			preparedStatement = connection.prepareStatement(createTicketQuery);
+			preparedStatement.setTimestamp(1, ticket.getStartTime());
+			preparedStatement.setByte(2, ticket.getStatusId());
+			preparedStatement.setString(3, ticket.getCustomerName());
+			preparedStatement.setString(4, ticket.getCustomerPhone());
+			preparedStatement.setString(5, ticket.getCustomerAddress());
+			preparedStatement.setString(6, ticket.getStaffName());
+			preparedStatement.setString(7, ticket.getStaffName());
+			preparedStatement.setInt(8, ticket.getTicketPrice());
+			// FIXME - console
+			System.out.println("TicketDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			preparedStatement.close();
+			if (actionResult) {
+				preparedStatement.close();
+				String getTicketIdQuery = "select TicketId from ticket where StartTime = ?";
+				PreparedStatement ps2 = connection.prepareStatement(getTicketIdQuery);
+				ps2.setTimestamp(1, ticket.getStartTime());
+				int ticketId = 0;
+				if (ps2.execute()) {
+					ResultSet rs = ps2.getResultSet();
+					if (rs.next()) {
+						ticketId = rs.getInt(1);
+						String createRentalDiscQuery = "insert into rental_disc (TicketId, DiscId, RentingWeeks, FinalTime) "
+								+ " values(?, ?, ?, ?)";
+						String updateDiscStatusQuery = "update disc set Available=? where DiscId=?";
+						// TODO
+						ArrayList<RentalDisc> listDisc = ticket.getListDisc();
+						for (RentalDisc rd : listDisc) {
+							PreparedStatement ps3 = connection.prepareStatement(createRentalDiscQuery);
+							ps3.setInt(1, ticketId);
+							ps3.setInt(2, rd.getDiscId());
+							ps3.setInt(3, rd.getRentingWeeks());
+							ps3.setTimestamp(4, rd.getFinalTime());
+							System.out.println("TicketDAO > Add RentalDisc: " + ps3.toString());
+							ps3.execute();
+							
+							PreparedStatement ps4 = connection.prepareStatement(updateDiscStatusQuery);
+							ps4.setBoolean(1, new Boolean(false));
+							ps4.setInt(2, rd.getDiscId());
+							System.out.println("TicketDAO > Change Disc Availability: " + ps4.toString());
+							ps4.execute();
+							
+							ps3.close();
+							ps4.close();
+						}
+						ps2.close();
+						return ticketId > 0 ? ticketId : 0;
+					}
+					return 0;
+				}
+				return 0;
+			} else {
+				preparedStatement.close();
+				return 0;
+			}			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override
@@ -133,6 +199,15 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 			e.printStackTrace();
 			return 1;
 		}
+	}
+	public ArrayList<Ticket> getTicketList(String searchQuery, byte statusId, int page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<Integer> getSalesByYear(int year) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

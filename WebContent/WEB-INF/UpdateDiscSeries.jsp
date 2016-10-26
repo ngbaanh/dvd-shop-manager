@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Category"%>
-<%@page import="model.bean.Staff"%>
+<%@page import="util.Const"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -18,26 +18,26 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
+<title>Sửa thông tin bộ đĩa</title>
+<jsp:include page="_bootstrap.jsp" />
 <script type="text/javascript" language="JavaScript">
 	window.onload = function() {
 		document.updateForm.DiscSeriesName.focus();
 	};
-	function validate() {
-		var input = document.form.DiscSeriesName.value;
-		var pattern = /^[\da-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{1,100}$/
-		if (pattern.test(input)) {
+	function validateForm() {
+		var x1 = document.forms["updateForm"]["DiscSeriesName"].value;
+		var x2 = document.forms["updateForm"]["Description"].value;
+		var validated = true;
+		if (x1 == null || x1.trim() == "") {
+			validated = false;
+		} else if (x1.length > <%=Const.MAXLENGTH_NAME%> 
+			|| x2.length > <%=Const.MAXLENGTH_DESCRIPTION%>) {
+			validated = false;
+		}
+		if (validated) {
 			return true;
 		} else {
-			alert("Dữ liệu nhập vào không hợp lệ, xin nhập lại!");
+			alert("<%=Const.INVALID_FORM%>");
 			return false;
 		}
 	}
@@ -45,12 +45,13 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<form class="form-horizontal" name="updateForm">
+		<form class="form-horizontal" name="updateForm"
+			onSubmit="return validateForm()">
 			<div class="form-group">
 				<label class="col-xs-2 control-label">Tên bộ đĩa *</label>
 				<div class="col-xs-10">
 					<input type="text" class="form-control" name="DiscSeriesName"
-						value="<%=discSeries.getDiscSeriesName()%>">
+						value="<%=discSeries.getDiscSeriesName()%>" required readonly>
 				</div>
 			</div>
 			<div class="form-group">
@@ -79,10 +80,10 @@
 			</div>
 			<div class="form-group">
 				<div class="col-xs-4 col-xs-offset-4">
-					<input type="hidden" name="doUpdate">
-					<input type="hidden" name="DiscSeriesId" value="<%=discSeries.getDiscSeriesId()%>">
-					<button type="submit" class="btn btn-primary btn-block"
-						onClick="return validate()">Cập nhật</button>
+					<input type="hidden" name="doUpdate"> <input type="hidden"
+						name="DiscSeriesId" value="<%=discSeries.getDiscSeriesId()%>">
+					<button type="submit" class="btn btn-primary btn-block">Cập
+						nhật</button>
 				</div>
 			</div>
 		</form>

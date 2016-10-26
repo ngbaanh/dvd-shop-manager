@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="model.bean.Category"%>
+<%@ page import="util.Const"%>
 <%
 	Category category = (Category) request.getAttribute("category");
 %>
@@ -9,16 +10,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cập nhật thể loại</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
+<script type="text/javascript">
+	function validateForm() {
+		var x1 = document.forms["updateForm"]["CategoryName"].value;
+		var validated = true;
+		if (x1 == null || x1.trim() == "" || x1.length > <%=Const.MAXLENGTH_NAME%>) {
+			alert("<%=Const.INVALID_FORM%>");
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 <body>
 	<div class="container-fluid">
-		<form class="form-horizontal" action="UpdateCategory" method="get">
+		<form class="form-horizontal" name="updateForm" action="UpdateCategory" method="get">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">Mã TL</label>
 				<div class="col-xs-9">

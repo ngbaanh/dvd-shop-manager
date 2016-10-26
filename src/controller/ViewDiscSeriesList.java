@@ -1,11 +1,18 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.bean.Category;
+import model.bean.DiscSeries;
+import model.bo.CategoryBO;
+import model.bo.DiscSeriesBO;
 
 /**
  * Servlet implementation class ViewDiscSeriesList
@@ -25,16 +32,48 @@ public class ViewDiscSeriesList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		response.getWriter().append("Chức năng dành cho Khách hàng <b>Xem danh sách các bộ đĩa</b> chưa thiết kế.");
+		doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		
+		int destPage = 1;
+		if (request.getParameter("destPage") != null) {
+			destPage = Integer.parseInt(request.getParameter("destPage"));
+		}
+		request.setAttribute("destPage", destPage);
+		
+		int cateId = 0;
+		if (request.getParameter("cateId") != null) {
+			cateId = Integer.parseInt(request.getParameter("cateId"));
+		}
+		request.setAttribute("cateId", cateId);
+		
+		String searchQuery = "";
+		if (request.getParameter("searchQuery") != null) {
+			searchQuery = request.getParameter("searchQuery");
+		}
+		request.setAttribute("searchQuery", searchQuery);
+		
+		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
+		
+		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, cateId, destPage);
+		request.setAttribute("listDiscSeries", listDiscSeries);
+		
+		int maxPage = discSeriesBO.getMaxPage(cateId, searchQuery);
+		request.setAttribute("maxPage", maxPage);
+		
+		CategoryBO categoryBO = new CategoryBO();
+		
+		ArrayList<Category> listCategories = categoryBO.getListCategories();
+		request.setAttribute("listCategories", listCategories);
+		
+		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);
 	}
 
 }

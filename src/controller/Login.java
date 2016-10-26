@@ -34,7 +34,11 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.getWriter().append("Xin lỗi, bạn đã đăng nhập với một giao thức không chính xác!");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		//response.getWriter().append("Xin lỗi, bạn đã đăng nhập với một giao thức không chính xác!");
+		request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response);
 	}
 
 	/**
@@ -45,9 +49,9 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-
-		String loginAct = request.getParameter("loginAct"); // determine action
-		if ("yes".equals(loginAct)) { // send form to this servlet
+		request.setCharacterEncoding("UTF-8");
+		
+		if (request.getParameter("doLogin") != null) {
 			// Get params
 			String username = request.getParameter("username");
 			String password = request.getParameter("password");
@@ -60,16 +64,19 @@ public class Login extends HttpServlet {
 			// Send to StaffBO and wait return
 			if (staffBO.validateStaff(staff)) { // validated successful
 				session = request.getSession();
-				staff = staffBO.getStaff(staff.getStaffId());
+				staff = staffBO.getStaff(username);
 				session.setAttribute("staff", staff);
+				String feedBack = (String) request.getParameter("FeedBack");
+				session.setAttribute("FeedBack", feedBack);
+				// Chọn nơi trả về
+				
 				response.sendRedirect("index.jsp"); // redirect to landing page.
 			} else { // validated fail
+				//session.invalidate();
 				String message = "Lỗi;Đăng nhập thất bại;index.jsp;Quay về Trang Chủ"; // Tiêu-đề;Nội-dung;URL;Tên-URL
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("/WEB-INF/Message.jsp").include(request, response); // show
-																									// messages
-				request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response); // load
-																								// JSP
+				request.getRequestDispatcher("/WEB-INF/Message.jsp").include(request, response);
+				request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response);
 			}
 		} else { // request a form view
 			request.getRequestDispatcher("/WEB-INF/Login.jsp").include(request, response);

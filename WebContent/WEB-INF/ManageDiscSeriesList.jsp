@@ -17,10 +17,11 @@
 			? "Chọn thể loại"
 			: currentCategory.getCategoryName();
 	String currentSearchQuery = "";
-	currentPage = (int) request.getAttribute("CurrentPage");
+	currentPage = Integer.parseInt(request.getAttribute("CurrentPage").toString());
 	currentSearchQuery = (String) request.getAttribute("CurrentSearchQuery");
 	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
-	int maxPage = (int) request.getAttribute("MaxPage");
+	int maxPage = Integer.parseInt(request.getAttribute("MaxPage").toString());
+	// TODO cần sửa nhiều ở phần lọc thể loại và quay ngược số trang.
 %>
 <!DOCTYPE html>
 <html>
@@ -28,16 +29,34 @@
 <meta charset="utf-8">
 <meta name="author" content="Tran Thanh Sang, Nguyen Ba Anh">
 <title>Quản lí các bộ đĩa</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 </head>
 <jsp:include page="_header.jsp" />
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#SearchForm').keydown(function(e) {
+			var x = $("#searchQuery").val();
+			var key = e.which;
+			if (key == 13) {
+				if (x == null || x.trim() == "" 
+						|| x.length > <%=Const.MAXLENGTH_NAME%>
+						|| x.trim().length < 3) {
+					//$("#SearchForm").submit(function(e2){
+					//    return false;
+					//});
+					e.preventDefault();
+					// alert("<%=Const.INVALID_FORM%>");
+				} else {
+					$('#SearchForm').submit();
+				}
+			} else if (x == "") {
+				
+			}
+		});
+	});
+</script>
 <body>
-<jsp:include page="_top.jsp" />
+	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
 		<div style="margin-top: 15px">
 			<ol class="breadcrumb">
@@ -45,31 +64,18 @@
 				<li class="active">Quản lí các bộ đĩa</li>
 			</ol>
 		</div>
-		<script type="text/javascript">
-			$("input#SearchQuery").live(
-					"keyup",
-					function(e) {
-						if (e.which == 13) {
-							var searchQuery = document
-									.getElementById("SearchQuery").value;
-							// kiểm tra valid searchQuery ở đây
-							// TODO
-							document.location = "#?SearchQuery=" + searchQuery;
-						}
-					});
-		</script>
 		<div class="row">
 			<div class="col-md-4">
-				<form>
+				<form name="SearchForm" id="SearchForm" method="get" action="#">
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-btn">
 								<button disabled class="btn btn-success" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
-							</span> <input type="text" class="form-control"
-								placeholder="Tìm kiếm tên bộ đĩa" id="SearchQuery"
-								name="SearchQuery" value="<%=currentSearchQuery%>">
+							</span> <input type="text" class="form-control" <%="".equals(currentSearchQuery)?"":"readonly" %>
+								placeholder="Tìm kiếm tên bộ đĩa" id="searchQuery" autocomplete="off"
+								name="SearchQuery" value="<%=currentSearchQuery%>" required>
 						</div>
 					</div>
 				</form>
@@ -175,6 +181,7 @@
 				<a type="button" href="CreateNewDiscSeries"
 					class="btn btn-primary btn-block">Thêm mới bộ đĩa</a>
 			</div>
+			<%if (!listDiscSeries.isEmpty() && "".equals(currentSearchQuery)) { %>
 			<div class="col-md-1 col-md-offset-5">
 				<strong class="text text-muted">Trang </strong>
 			</div>
@@ -205,6 +212,7 @@
 					</div>
 				</div>
 			</div>
+			<%} %>
 		</div>
 		<%
 			}
@@ -216,13 +224,13 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<div class="col-md-11">
+						<div class="col-xs-10">
 							<h4 class="modal-title">
 								<strong>Sửa thông tin bộ đĩa</strong>
 							</h4>
 						</div>
-						<div class="col-md-1">
-							<button type="button" class="btn btn-sm btn-default"
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-sm btn-block btn-default"
 								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
 						</div>
 

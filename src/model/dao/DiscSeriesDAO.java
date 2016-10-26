@@ -14,6 +14,7 @@ import util.IDiscSeries;
 
 /**
  * @author NguyenBaAnh
+ * @author NguyenVanQuang
  *
  */
 public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
@@ -33,7 +34,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public DiscSeries getDiscSeries(int discSeriesId) {
-		String getDiscSeriesQuery = "select * from DISC_SERIES where DiscSeriesId=?";
+		String getDiscSeriesQuery = "select * from disc_series where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(getDiscSeriesQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -69,22 +70,18 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	@Override
 	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int page) {
 		try {
-			String getQuery = "select DiscSeriesId from DISC_SERIES ";
-			// Xác định ưu tiên: Khi tìm kiếm thì khóa catId và page
-			if (!"".equals(searchQuery)) { // Khóa
-				getQuery += "where DiscSeriesName like ? order by DiscSeriesId desc";
-				preparedStatement = connection.prepareStatement(getQuery);
-				preparedStatement.setString(1, "%" + searchQuery + "%");
-			} else {
-				int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
-				if (catId > 0) {
-					getQuery += "where CategoryId=" + catId;
-				}
-				getQuery += " order by DiscSeriesId desc limit ?,?";
-				preparedStatement = connection.prepareStatement(getQuery);
-				preparedStatement.setInt(1, startPosition);
-				preparedStatement.setInt(2, Const.ITEMS_PER_PAGE);
+			String getQuery = "select DiscSeriesId from disc_series";
+			getQuery += " where DiscSeriesName like ?";
+			if (catId > 0) {
+				getQuery += " and CategoryId=" + catId;
 			}
+			getQuery += " order by DiscSeriesId desc limit ?,?";
+			
+			int startPosition = Const.ITEMS_PER_PAGE * (page - 1);
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + searchQuery + "%");
+			preparedStatement.setInt(2, startPosition);
+			preparedStatement.setInt(3, Const.ITEMS_PER_PAGE);
 			// FIXME - console
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -109,7 +106,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean addNewDiscSeries(DiscSeries discSeries) {
-		String addDiscSeriesQuery = "insert into DISC_SERIES(DiscSeriesName, Description, CategoryId, TotalDisc, RemainingDisc) "
+		String addDiscSeriesQuery = "insert into disc_series(DiscSeriesName, Description, CategoryId, TotalDisc, RemainingDisc) "
 				+ "values(?, ?, ?, 0, 0)";
 		try {
 			preparedStatement = connection.prepareStatement(addDiscSeriesQuery);
@@ -143,7 +140,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean updateDiscSeries(DiscSeries discSeries) {
-		String updateQuery = "update DISC_SERIES set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
+		String updateQuery = "update disc_series set DiscSeriesName=?, Description=?, CategoryId=? where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setString(1, discSeries.getDiscSeriesName());
@@ -169,7 +166,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	@Deprecated
 	@Override
 	public boolean validateDiscSeries(String dsName) {
-		String validQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
+		String validQuery = "select DiscSeriesId from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, dsName);
@@ -189,7 +186,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 */
 	@Override
 	public boolean removeDiscSeries(int discSeriesId) {
-		String removeListDiscQuery = "delete from DISC where DiscSeriesId=?";
+		String removeListDiscQuery = "delete from disc where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeListDiscQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -197,7 +194,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {}
-		String removeDiscSeriesListQuery = "delete from DISC_SERIES where DiscSeriesId=?";
+		String removeDiscSeriesListQuery = "delete from disc_series where DiscSeriesId=?";
 		try {
 			preparedStatement = connection.prepareStatement(removeDiscSeriesListQuery);
 			preparedStatement.setInt(1, discSeriesId);
@@ -244,7 +241,7 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 	 * @return
 	 */
 	public int getIdByName(String discSeriesName) {
-		String getQuery = "select DiscSeriesId from DISC_SERIES where DiscSeriesName=?";
+		String getQuery = "select DiscSeriesId from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			preparedStatement.setString(1, discSeriesName);
@@ -260,8 +257,16 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		}
 	}
 
+	/**
+	 * Tính tổng số trang
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
 	public int getMaxPage(int catId) {
-		String getQuery = "select count(*) from DISC_SERIES" + ((catId > 0) ? " where CategoryId=" + catId : "");
+		String getQuery = "select count(*) from disc_series" + ((catId > 0) ? " where CategoryId=" + catId : "");
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -275,9 +280,39 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			return 1;
 		}
 	}
+	
+	/**
+	 * Tính tổng số trang
+	 * Bổ sung số trang theo nội dung tìm kiếm
+	 * 
+	 * @param catId
+	 *            mã thể loại
+	 * @param searchQuery
+	 *            nội dung tìm kiếm
+	 * @return toàn bộ số trang khi catId=0, toàn bộ số trang cho riêng mã thể
+	 *         loại catId khi catId>0
+	 */
+	public int getMaxPage(int catId, String searchQuery) {
+		String getQuery = "select count(*) from disc_series ";
+		getQuery += "where DiscSeriesName like ? ";
+		getQuery += ((catId > 0) ? "and CategoryId=" + catId : "");
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + searchQuery + "%");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return (int) Math.ceil((double) resultSet.getInt(1) / Const.ITEMS_PER_PAGE);
+			} else {
+				return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 1;
+		}
+	}
 
 	public boolean isExist(String discSeriesName) {
-		String validQuery = "select DiscSeriesName from DISC_SERIES where DiscSeriesName=?";
+		String validQuery = "select DiscSeriesName from disc_series where DiscSeriesName=?";
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setString(1, discSeriesName);

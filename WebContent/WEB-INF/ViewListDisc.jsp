@@ -1,6 +1,7 @@
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Disc"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="util.Const"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -16,13 +17,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Xem danh sách đĩa của một bộ đia</title>
-
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 </head>
 <jsp:include page="_header.jsp" />
 <body>
@@ -97,7 +92,7 @@
 		%>
 		<div class="row">
 			<div class="col-md-3 col-md-offset-1">
-				<a class="btn btn-primary btn-block" data-toggle="modal"
+				<a class="btn btn-primary btn-block <%=(Const.MAX_ITEM <= discSeries.getTotalDisc())?"disabled":"" %>" data-toggle="modal"
 					data-target="#DiscModal"
 					onClick="setSource(<%=discSeries.getDiscSeriesId()%>,1)">Thêm
 					đĩa mới vào bộ</a>

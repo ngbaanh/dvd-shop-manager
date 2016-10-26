@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="model.bean.Category"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="util.Const"%>
 <%
 	@SuppressWarnings("unchecked")
 	ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("AllCategories");
@@ -11,12 +12,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Quản lí thể loại đĩa</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
+<script type="text/javascript">
+	function validateForm() {
+		var x1 = document.forms["addForm"]["CategoryName"].value;
+		var validated = true;
+		if (x1 == null || x1.trim() == "" || x1.length > <%=Const.MAXLENGTH_NAME%>) {
+			alert("<%=Const.INVALID_FORM%>");
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 <jsp:include page="_header.jsp" />
 <body>
@@ -77,11 +84,11 @@
 			%>
 			<div class="col-md-6 col-md-offset-3">
 
-				<form role="form" action="AddNewCategory" method="get">
+				<form action="AddNewCategory" method="get" name="addForm" onSubmit="return validateForm()">
 					<div class="row">
 						<div class="input-group input-group-md">
 							<input type="text" class="form-control"
-								placeholder="Nhập tên thể loại mới *" name="CategoryName">
+								placeholder="Nhập tên thể loại mới *" name="CategoryName" required>
 							<div class="input-group-btn">
 								<button type="submit" class="btn btn-primary">Thêm</button>
 							</div>
@@ -95,15 +102,15 @@
 		<!-- -----------UpdateCategory Modal------------ -->
 		<div id="UpdateCategory" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg"
-				style="width: 450px; height: 300px;">
+				style="width: 600px; height: 300px;">
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<div class="col-md-10">
+						<div class="col-xs-10">
 							<h4 class="modal-title">Sửa thể loại</h4>
 						</div>
-						<div class="col-md-1">
-							<button type="button" class="btn btn-sm btn-default"
+						<div class="col-xs-2">
+							<button type="button" class="btn btn-sm btn-block btn-default"
 								data-dismiss="modal" onFocus="location.reload();">Đóng</button>
 						</div>
 
