@@ -23,10 +23,10 @@
 	TicketStatus currentTicketStatus = (TicketStatus) request.getAttribute("ticketStatus");
 	String currentStatus = (currentTicketStatus.getStatusId() == -1) ? "Trạng thái" : currentTicketStatus.getStatusName();
 	String currentSearchQuery = "";
-	currentPage = (int) request.getAttribute("CurrentPage");
-	currentSearchQuery = (String) request.getAttribute("CurrentSearchQuery");
+	currentPage = Integer.parseInt(request.getAttribute("CurrentPage").toString());
+	currentSearchQuery = request.getAttribute("CurrentSearchQuery").toString();
 	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
-	int maxPage = (int) request.getAttribute("MaxPage");
+	int maxPage = Integer.parseInt(request.getAttribute("MaxPage").toString());
 %>
 
 <jsp:include page="_header.jsp" />

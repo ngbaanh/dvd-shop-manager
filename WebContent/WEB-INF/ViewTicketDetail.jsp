@@ -164,7 +164,7 @@
 								.getAttribute("listDiscSeriesOfTicket");
 						ArrayList<Disc> listDisc = (ArrayList<Disc>) request.getAttribute("listDisc");
 						int priceOfTicket = 0;
-						int firstPriceOfTicket = (int) ticket.getTicketPrice();
+						int firstPriceOfTicket = ticket.getTicketPrice();
 						for (int i = 0; i < listRentalDisc.size(); i++) {
 							%>
 							<tr>
@@ -227,7 +227,6 @@
 								<%if(ticket.getStatusId() == 0){ %>class="btn btn-primary btn-md btn-block"<%} 
 								else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Cấp phiếu
 							</button>
-						</form>
 
 
 							<button type="submit" name="GiaHan"
@@ -243,6 +242,7 @@
 							<button type="submit" name="HuyPhieu"
 								class="btn btn-primary btn-md btn-block"">Hủy phiếu
 							</button>
+						</form>
 				</div>
 			</div>
 		</div>
