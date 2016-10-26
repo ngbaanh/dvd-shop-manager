@@ -36,6 +36,8 @@ public class BuildTicket extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
+		
 		ArrayList<PendingDisc> list = (ArrayList<PendingDisc>) request.getSession().getAttribute("listPendingDisc");
 		if (list == null || list.isEmpty()) {
 			response.sendRedirect("ViewDiscSeriesList");

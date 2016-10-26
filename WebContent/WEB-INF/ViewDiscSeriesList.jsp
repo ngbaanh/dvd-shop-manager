@@ -131,6 +131,9 @@ function viewDiscSeriesDetail(xhttp) {
   	var bodyListDiscs = "";
   	for (index = 0; index < listDiscs.length; index++) {
   		var disc = listDiscs[index];
+  		if (!disc.isAvailable) {
+  			continue;
+  		}
   		var STT = index + 1;
   		bodyListDiscs += "<tr>";
   		bodyListDiscs += "<td>" + STT + "</td>"
