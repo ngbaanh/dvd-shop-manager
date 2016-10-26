@@ -34,7 +34,7 @@
 		</ol>
 		<i>Thao tác sau sẽ thực hiện việc đặt phiếu đến hệ thống, phiếu chỉ có hiệu lực sau khi gửi yêu cầu thành công</i>
 		
-		<form name="BuildTicketForm" id="BuildTicketForm" class="form form-horizontal" action="BuildTicket" method="post" onsubmit="validate()">
+		<form name="BuildTicketForm" id="BuildTicketForm" class="form form-horizontal" action="BuildTicket" method="post" onsubmit="return validate()">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h4>Thông tin khách hàng</h4>

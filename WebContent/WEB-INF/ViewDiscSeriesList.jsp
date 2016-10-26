@@ -143,7 +143,9 @@ function viewDiscSeriesDetail(xhttp) {
   		}
   		bodyListDiscs += "<td>" + disc.price + "</td>";
   		if (disc.isPicked) {
-  			bodyListDiscs += "<td>Đã chọn</td>";
+  			bodyListDiscs += "<td>Bạn đã chọn</td>";
+  		} else if (!disc.isAvailable) {
+  			bodyListDiscs += "<td>Người khác đã đặt</td>";
   		} else {
   			bodyListDiscs += "<td><a href='#' onClick='chooseDisc(\"" + discSeriesName + "\"," + disc.discId + ")' data-dismiss='modal'>Chọn</a></td>";
   		}

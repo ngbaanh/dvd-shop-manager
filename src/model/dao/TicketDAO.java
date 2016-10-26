@@ -143,6 +143,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 						String createRentalDiscQuery = "insert into rental_disc (TicketId, DiscId, RentingWeeks, FinalTime) "
 								+ " values(?, ?, ?, ?)";
 						String updateDiscStatusQuery = "update disc set Available=? where DiscId=?";
+						String updateRemainingDiscQuery = "update disc_series set RemainingDisc=(RemainingDisc-1) where DiscSeriesId=?";
 						// TODO
 						ArrayList<RentalDisc> listDisc = ticket.getListDisc();
 						for (RentalDisc rd : listDisc) {
@@ -160,8 +161,14 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 							System.out.println("TicketDAO > Change Disc Availability: " + ps4.toString());
 							ps4.execute();
 							
+							PreparedStatement ps5 = connection.prepareStatement(updateRemainingDiscQuery);
+							ps5.setInt(1, rd.getDiscSeriesId()); 
+							System.out.println("TicketDAO > Change DiscSeries:RemainingDisc: " + ps5.toString());
+							ps5.execute();
+							
 							ps3.close();
 							ps4.close();
+							ps5.close();
 						}
 						ps2.close();
 						return ticketId > 0 ? ticketId : 0;

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Category"%>
+<%@page import="model.bean.Disc"%>
 <%@page import="util.Const"%>
 <%@page import="java.util.ArrayList"%>
 <%
@@ -155,6 +156,12 @@
 			</tr>
 			<%
 				for (DiscSeries ds : listDiscSeries) {
+					int availableCount = ds.getListDisc().size();
+					for (Disc d : ds.getListDisc()) {
+						if (!d.isAvailable()) {
+							availableCount--;
+						}
+					}
 			%>
 			<tr>
 				<td><%=(startIndex++)%></td>
