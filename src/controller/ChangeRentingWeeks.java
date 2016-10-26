@@ -39,23 +39,23 @@ public class ChangeRentingWeeks extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("listPendingDiscs") != null) {
-			ArrayList<PendingDisc> listPendingDiscs
+		if (session.getAttribute("listPendingDisc") != null) {
+			ArrayList<PendingDisc> listPendingDisc
 				= (ArrayList<PendingDisc>) session.getAttribute("listPendingDisc");
 			
 			int discId = Integer.parseInt(request.getParameter("discId"));
 			int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeeks"));
 			
-			for (int i = 0; i < listPendingDiscs.size(); i++) {
-				if (listPendingDiscs.get(i).getDiscId() == discId) {
-					listPendingDiscs.get(i).setRentingWeeks(rentingWeeks);
+			for (int i = 0; i < listPendingDisc.size(); i++) {
+				if (listPendingDisc.get(i).getDiscId() == discId) {
+					listPendingDisc.get(i).setRentingWeeks(rentingWeeks);
 					break;
 				}
 			}
 			
-			session.setAttribute("listPendingDiscs", listPendingDiscs);
+			session.setAttribute("listPendingDisc", listPendingDisc);
 		}
-		response.sendRedirect("/SE23/ViewDiscSeriesList");
+		response.sendRedirect("/SE23/GetPendingDiscAjax");
 	}
 
 }
