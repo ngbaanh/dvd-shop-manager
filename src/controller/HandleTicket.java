@@ -1,13 +1,20 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.bean.RentalDisc;
 import model.bean.Ticket;
+import model.bo.RentalDiscBO;
+import model.bo.TicketBO;
 
 /**
  * Servlet implementation class HandleTicket
@@ -28,22 +35,64 @@ public class HandleTicket extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Ticket ticket = (Ticket) request.getAttribute("ticket");
-		System.out.println(ticket.getTicketId());
-		System.out.println(ticket.getStatusId());
-		if(!request.getParameter("CapPhieu").isEmpty()){
-			ticket.setStatusId((byte)1);
-			System.out.println(ticket.getStatusId());
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		try{
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+			String customerName = new String(request.getParameter("customerName").getBytes("ISO-8859-1"), "UTF-8") ;
+			String customerPhone = new String(request.getParameter("customerPhone").getBytes("ISO-8859-1"), "UTF-8") ;
+			String customerAddress = new String(request.getParameter("customerAddress").getBytes("ISO-8859-1"), "UTF-8") ;
+			String deposit = new String(request.getParameter("deposit").getBytes("ISO-8859-1"), "UTF-8") ;
+			int ticketPrice = Integer.parseInt(request.getParameter("ticketPrice"));
+			
+			TicketBO ticketBO = new TicketBO();
+			Ticket ticket = ticketBO.getTicket(ticketId);
+			
+			RentalDiscBO rentalDiscBO = new RentalDiscBO();
+			ArrayList<RentalDisc> listDiscOfTicket = rentalDiscBO.getListDiscOfTicket(ticketId);
+			int numRentalDisc = listDiscOfTicket.size();
+			
+			if(request.getParameter("CapPhieu")!=null){
+				ticket.setStatusId((byte)1);
+				ticket.setCustomerName(customerName);
+				ticket.setCustomerPhone(customerPhone);
+				ticket.setCustomerAddress(customerAddress);
+				ticket.setDeposit(deposit);
+				ticket.setTicketPrice(ticketPrice);
+				
+				if(ticketBO.updateTicket(ticket)==true){
+					System.out.println("Cấp phiếu thành công");
+				}else {
+					System.out.println("Có lỗi xãy ra");
+				}
+				for(int i=0;i<numRentalDisc;i++){
+					RentalDisc rentalDisc = listDiscOfTicket.get(i);
+					int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeek["+i+"]"));
+					rentalDisc.setRentingWeeks((byte) rentingWeeks);
+					Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
+					rentalDisc.setFinalTime(finalTime);
+					if(rentalDiscBO.updateRentalDisc(rentalDisc)==true){
+						System.out.println("Cập nhật thành công");
+					}else {
+						System.out.println("Có lỗi đâu đó xãy ra");
+					}
+				}
+				request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
+			}
+//			} else if (!request.getParameter("GiaHan").isEmpty()) {
+//				ticket.setStatusId((byte)1);
+//			} else if (!request.getParameter("TraDia").isEmpty()) {
+//				ticket.setStatusId((byte)2);
+//			} else if (!request.getParameter("HuyPhieu").isEmpty()){
+//				
+//			}
+			//request.setAttribute("ticket", ticket);
+			//request.getRequestDispatcher("/WEB-INF/ViewTicketDetail.jsp").forward(request, response);
+		} catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-//		} else if (!request.getParameter("GiaHan").isEmpty()) {
-//			ticket.setStatusId((byte)1);
-//		} else if (!request.getParameter("TraDia").isEmpty()) {
-//			ticket.setStatusId((byte)2);
-//		} else if (!request.getParameter("HuyPhieu").isEmpty()){
-//			
-//		}
-		request.setAttribute("ticket", ticket);
-		request.getRequestDispatcher("/WEB-INF/ViewTicketDetail.jsp").forward(request, response);
+		
 	}
 
 	/**

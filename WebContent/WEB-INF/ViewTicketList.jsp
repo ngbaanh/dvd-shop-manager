@@ -71,7 +71,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">nhập Mã phiếu hoặc tên KH để tìm kiếm</div>
+			<div class="col-md-5">nhập Mã phiếu hoặc tên KH để tìm kiếm</div>
 
 		</div>
 		<!-- /.row -->

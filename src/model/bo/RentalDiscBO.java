@@ -17,4 +17,8 @@ public class RentalDiscBO {
 	public ArrayList<RentalDisc> getListDiscOfTicket(int ticketId) {
 		return rentalDiscDAO.getListDiscOfTicket(ticketId);
 	}
+
+	public boolean updateRentalDisc(RentalDisc rentalDisc) {
+		return rentalDiscDAO.updateRentalDisc(rentalDisc);
+	}
 }
