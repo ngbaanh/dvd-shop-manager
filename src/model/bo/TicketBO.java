@@ -55,5 +55,9 @@ public class TicketBO implements ITicket{
 	public int getMaxPage(int statusId) {
 		return ticketDAO.getMaxPage(statusId);
 	}
+	
+	public boolean updateTicket(Ticket ticket){
+		return ticketDAO.updateTicket (ticket);
+	}
 
 }

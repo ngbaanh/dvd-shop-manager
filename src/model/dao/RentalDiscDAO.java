@@ -32,4 +32,24 @@ public class RentalDiscDAO extends DatabaseFactory {
 			return null;
 		}
 	}
+
+	public boolean updateRentalDisc(RentalDisc rentalDisc) {
+		// TODO Auto-generated method stub
+		String updateQuery = "update rental_disc set RentingWeeks=?, FinalTime=? where TicketId=? and DiscId=?";
+		try {
+			preparedStatement = connection.prepareStatement(updateQuery);
+			preparedStatement.setByte(1, rentalDisc.getRentingWeeks());
+			preparedStatement.setTimestamp(2, rentalDisc.getFinalTime());
+			preparedStatement.setInt(3, rentalDisc.getTicketId());
+			preparedStatement.setInt(4, rentalDisc.getDiscId());
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

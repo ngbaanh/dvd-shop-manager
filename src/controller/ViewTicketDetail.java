@@ -67,8 +67,6 @@ public class ViewTicketDetail extends HttpServlet {
 			listDiscSeriesOfTicket.add(discSeries);
 			listDisc.add(disc);
 		}
-		//HttpSession session = request.getSession() ;
-		//session.setAttribute("ticket", ticket);
 		request.setAttribute("ticket", ticket);
 		request.setAttribute("listTicketStatus", listTicketStatus);
 		request.setAttribute("listDiscOfTicket", listDiscOfTicket);

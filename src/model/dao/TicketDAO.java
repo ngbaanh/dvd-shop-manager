@@ -217,4 +217,29 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		return null;
 	}
 
+	public boolean updateTicket(Ticket ticket) {
+		String updateQuery = "update ticket set StartTime=?, StatusId=?, CustomerName=?,"
+				+ "CustomerPhone=?, CustomerAddress=?, StaffName=?, Deposit=?, TicketPrice=? where TicketId=?";
+		try {
+			preparedStatement = connection.prepareStatement(updateQuery);
+			preparedStatement.setTimestamp(1, ticket.getStartTime());
+			preparedStatement.setByte(2, ticket.getStatusId());
+			preparedStatement.setString(3, ticket.getCustomerName());
+			preparedStatement.setString(4, ticket.getCustomerPhone());
+			preparedStatement.setString(5,ticket.getCustomerAddress());
+			preparedStatement.setString(6, ticket.getStaffName());
+			preparedStatement.setString(7, ticket.getDeposit());
+			preparedStatement.setInt(8, ticket.getTicketPrice());
+			preparedStatement.setInt(9, ticket.getTicketId());
+			// FIXME - console
+			System.out.println("DiscDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
