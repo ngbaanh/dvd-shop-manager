@@ -26,12 +26,20 @@
 <body>
 	<jsp:include page="_top.jsp" />
 
-	<div class="container-fluid">
-		<ol class="breadcrumb">
-			<li><a href="HomePage">Trang chủ</a></li>
-			<li><a href="ViewDiscSeriesList">Xem danh sách</a></li>
-			<li class="active">Lập phiếu thuê đĩa</li>
-		</ol>
+	<div class="container-fluid" style="margin-top:20px;">
+		<div class="row">
+			<div class="col-sm-10">
+			<ol class="breadcrumb">
+				<li><a href="HomePage">Trang chủ</a></li>
+				<li><a href="ViewDiscSeriesList">Xem danh sách</a></li>
+				<li class="active">Lập phiếu thuê đĩa</li>
+			</ol>
+			</div>
+			<div class="col-sm-2">
+				<a href="ViewDiscSeriesList" class="btn btn-default btn-block">Đóng</a>
+			</div>
+		</div>
+		
 		<i>Thao tác sau sẽ thực hiện việc đặt phiếu đến hệ thống, phiếu chỉ có hiệu lực sau khi gửi yêu cầu thành công</i>
 		
 		<form name="BuildTicketForm" id="BuildTicketForm" class="form form-horizontal" action="BuildTicket" method="post" onsubmit="validate()">
@@ -135,7 +143,7 @@
 						<div class="panel-body">
 							<input type="hidden" name="do" >
 							<input class="btn btn-success btn-block" type="submit" value="Đặt phiếu">
-							<a href="InvalidateTicket" class="btn btn-danger btn-block">Hủy phiếu</a>
+							<a href="InvalidateTicket" class="btn btn-danger btn-block" onclick="return confirm('Bạn chắc chắn muốn hủy phiếu tạm thời này và loại bỏ danh sách đĩa mà bạn đã chọn?')">Hủy phiếu</a>
 						</div>
 					</div>
 				</div>
