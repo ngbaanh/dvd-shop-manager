@@ -64,7 +64,8 @@
 					</div>
 					<div class="col-md-8">
 						<input type="text" name="customerName"class="form-control"
-							value="<%=ticket.getCustomerName()%>">
+							value="<%=ticket.getCustomerName()%>" 
+							<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 					</div>
 				</div>
 				<br>
@@ -74,7 +75,8 @@
 					</div>
 					<div class="col-md-8">
 						<input type="text" name="customerPhone" class="form-control"
-							value="<%=ticket.getCustomerPhone()%>">
+							value="<%=ticket.getCustomerPhone()%>"
+							<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 					</div>
 				</div>
 				<br>
@@ -84,7 +86,8 @@
 					</div>
 					<div class="col-md-8">
 						<input type="text" name="customerAddress" class="form-control"
-							value="<%=ticket.getCustomerAddress()%>">
+							value="<%=ticket.getCustomerAddress()%>"
+							<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 					</div>
 				</div>
 				<br>
@@ -122,7 +125,8 @@
 					</div>
 					<div class="col-md-8">
 						<input type="text" name="deposit" class="form-control"
-							value="<%=ticket.getDeposit()%>">
+							value="<%=ticket.getDeposit()%>"
+							<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 					</div>
 				</div>
 	
@@ -231,7 +235,7 @@
 						</button>
 
 
-						<button type="submit" name="GiaHan"
+						<button type="submit" name="GiaHan" data-toggle="modal" data-target="#myModal"
 							<%if(ticket.getStatusId() == 1 || ticket.getStatusId() == 3){ %>class="btn btn-primary btn-md btn-block"<%} 
 							else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Gia hạn
 						</button>
@@ -248,6 +252,7 @@
 				</div>
 			</div>
 		</form>
+		
 	</div>
 </body>
 </html>

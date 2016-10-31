@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.bean.Disc;
+import model.bean.DiscSeries;
 import model.bean.RentalDisc;
 import model.bean.Ticket;
+import model.bo.DiscBO;
+import model.bo.DiscSeriesBO;
 import model.bo.RentalDiscBO;
 import model.bo.TicketBO;
 
@@ -52,47 +56,64 @@ public class HandleTicket extends HttpServlet {
 			ArrayList<RentalDisc> listDiscOfTicket = rentalDiscBO.getListDiscOfTicket(ticketId);
 			int numRentalDisc = listDiscOfTicket.size();
 			
-			if(request.getParameter("CapPhieu")!=null){
-				ticket.setStatusId((byte)1);
-				ticket.setCustomerName(customerName);
-				ticket.setCustomerPhone(customerPhone);
-				ticket.setCustomerAddress(customerAddress);
-				ticket.setDeposit(deposit);
-				ticket.setTicketPrice(ticketPrice);
-				
-				if(ticketBO.updateTicket(ticket)==true){
-					System.out.println("Cấp phiếu thành công");
-				}else {
-					System.out.println("Có lỗi xãy ra");
-				}
-				for(int i=0;i<numRentalDisc;i++){
-					RentalDisc rentalDisc = listDiscOfTicket.get(i);
-					int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeek["+i+"]"));
-					rentalDisc.setRentingWeeks((byte) rentingWeeks);
-					Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
-					rentalDisc.setFinalTime(finalTime);
-					if(rentalDiscBO.updateRentalDisc(rentalDisc)==true){
-						System.out.println("Cập nhật thành công");
-					}else {
-						System.out.println("Có lỗi đâu đó xãy ra");
+			if(numRentalDisc>0){
+				if(request.getParameter("CapPhieu")!=null){
+					ticket.setStatusId((byte)1);
+					ticket.setCustomerName(customerName);
+					ticket.setCustomerPhone(customerPhone);
+					ticket.setCustomerAddress(customerAddress);
+					ticket.setDeposit(deposit);
+					ticket.setTicketPrice(ticketPrice);
+					
+					if(ticketBO.updateTicket(ticket)==true){
+						System.out.println("Cấp phiếu thành công");
+					} else {
+						System.out.println("Có lỗi xãy ra");
 					}
+					for(int i=0;i<numRentalDisc;i++){
+						RentalDisc rentalDisc = listDiscOfTicket.get(i);
+						int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeek["+i+"]"));
+						rentalDisc.setRentingWeeks((byte) rentingWeeks);
+						Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
+						rentalDisc.setFinalTime(finalTime);
+						if(rentalDiscBO.updateRentalDisc(rentalDisc)==true){
+							System.out.println("Cập nhật thành công");
+						}else {
+							System.out.println("Có lỗi đâu đó xãy ra");
+						}
+					}
+					request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
+				} else if (request.getParameter("GiaHan")!=null) {
+					ArrayList<DiscSeries> listDiscSeriesOfTicket = new ArrayList<DiscSeries>();
+					DiscBO discBO = new DiscBO();
+					DiscSeriesBO discSeriesBO = new DiscSeriesBO();
+					ArrayList<Disc> listDisc = new ArrayList<Disc>();
+					for(RentalDisc rentalDisc:listDiscOfTicket){
+						Disc disc = discBO.getDisc(rentalDisc.getDiscId());
+						DiscSeries discSeries = discSeriesBO.getDiscSeries(disc.getDiscSeriesId());
+						listDiscSeriesOfTicket.add(discSeries);
+						listDisc.add(disc);
+					}
+					
+					request.setAttribute("ticket", ticket);
+					request.setAttribute("listDiscOfTicket", listDiscOfTicket);
+					request.setAttribute("listDiscSeriesOfTicket", listDiscSeriesOfTicket);
+					request.setAttribute("listDisc", listDisc);
+					
+					request.getRequestDispatcher("/WEB-INF/RenewTicket.jsp").forward(request, response);
+				} else if (request.getParameter("CapNhatPhieu")!=null){
+					
+				} else if (request.getParameter("TraDia")!=null) {
+
+				} else if (request.getParameter("HuyPhieu")!=null){
+				
 				}
-				request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
+			
 			}
-//			} else if (!request.getParameter("GiaHan").isEmpty()) {
-//				ticket.setStatusId((byte)1);
-//			} else if (!request.getParameter("TraDia").isEmpty()) {
-//				ticket.setStatusId((byte)2);
-//			} else if (!request.getParameter("HuyPhieu").isEmpty()){
-//				
-//			}
-			//request.setAttribute("ticket", ticket);
-			//request.getRequestDispatcher("/WEB-INF/ViewTicketDetail.jsp").forward(request, response);
 		} catch(Exception e){
 			e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 	/**
