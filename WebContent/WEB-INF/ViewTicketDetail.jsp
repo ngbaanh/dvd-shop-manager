@@ -235,7 +235,7 @@
 						</button>
 
 
-						<button type="submit" name="GiaHan" data-toggle="modal" data-target="#myModal"
+						<button type="submit" name="GiaHan" 
 							<%if(ticket.getStatusId() == 1 || ticket.getStatusId() == 3){ %>class="btn btn-primary btn-md btn-block"<%} 
 							else{%> class="btn btn-default btn-md btn-block" disabled="disabled"<%} %>>Gia hạn
 						</button>

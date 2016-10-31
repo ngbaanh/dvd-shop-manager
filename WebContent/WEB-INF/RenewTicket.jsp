@@ -156,5 +156,4 @@
 		</form>
 	</div>
 </body>
-</body>
 </html>

@@ -99,12 +99,26 @@ public class HandleTicket extends HttpServlet {
 					request.setAttribute("listDiscOfTicket", listDiscOfTicket);
 					request.setAttribute("listDiscSeriesOfTicket", listDiscSeriesOfTicket);
 					request.setAttribute("listDisc", listDisc);
-					
 					request.getRequestDispatcher("/WEB-INF/RenewTicket.jsp").forward(request, response);
-				} else if (request.getParameter("CapNhatPhieu")!=null){
-					
+				
 				} else if (request.getParameter("TraDia")!=null) {
-
+					ArrayList<DiscSeries> listDiscSeriesOfTicket = new ArrayList<DiscSeries>();
+					DiscBO discBO = new DiscBO();
+					DiscSeriesBO discSeriesBO = new DiscSeriesBO();
+					ArrayList<Disc> listDisc = new ArrayList<Disc>();
+					for(RentalDisc rentalDisc:listDiscOfTicket){
+						Disc disc = discBO.getDisc(rentalDisc.getDiscId());
+						DiscSeries discSeries = discSeriesBO.getDiscSeries(disc.getDiscSeriesId());
+						listDiscSeriesOfTicket.add(discSeries);
+						listDisc.add(disc);
+					}
+					
+					request.setAttribute("ticket", ticket);
+					request.setAttribute("listDiscOfTicket", listDiscOfTicket);
+					request.setAttribute("listDiscSeriesOfTicket", listDiscSeriesOfTicket);
+					request.setAttribute("listDisc", listDisc);
+					request.getRequestDispatcher("/WEB-INF/ReturnTicket.jsp").forward(request, response);
+					
 				} else if (request.getParameter("HuyPhieu")!=null){
 				
 				}
