@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@page import="model.bean.DiscSeries"%>
 <%@page import="model.bean.Category"%>
+<%@page import="model.bean.Disc"%>
 <%@page import="util.Const"%>
 <%@page import="java.util.ArrayList"%>
 <%
@@ -155,6 +156,12 @@
 			</tr>
 			<%
 				for (DiscSeries ds : listDiscSeries) {
+					int availableCount = ds.getListDisc().size();
+					for (Disc d : ds.getListDisc()) {
+						if (!d.isAvailable()) {
+							availableCount--;
+						}
+					}
 			%>
 			<tr>
 				<td><%=(startIndex++)%></td>
@@ -181,6 +188,8 @@
 				<a type="button" href="CreateNewDiscSeries"
 					class="btn btn-primary btn-block">Thêm mới bộ đĩa</a>
 			</div>
+			
+			<!-- Điều hướng trang -->
 			<%if (!listDiscSeries.isEmpty() && "".equals(currentSearchQuery)) { %>
 			<div class="col-md-1 col-md-offset-5">
 				<strong class="text text-muted">Trang </strong>
@@ -189,34 +198,42 @@
 				<div class="dropdown">
 					<button class="btn btn-default btn-block dropdown-toggle "
 						type="button" data-toggle="dropdown">
-						<%=currentPage%>
-						/
-						<%=maxPage%>
-						&nbsp; <span class="caret"></span>
+						<%=currentPage + "/" + maxPage%>&nbsp; <span class="caret"></span>
 					</button>
-					<div class="dropdown-menu dropdown-menu-right"
-						style="padding: 5px; width: 600px !important;">
-						<%
-							String pageLink;
-								for (int i = 1; i <= maxPage; i++) {
-									pageLink = "ManageDiscSeriesList?page=" + i
-											+ (currentCaterogyId > 0 ? "&CategoryId=" + currentCaterogyId : "");
-						%>
-						<a
-							class="btn <%=(i == currentPage) ? "btn-link disabled" : "btn-default"%> btn-xs"
-							style="float: right; width: 40px; margin: 1px;"
-							href="<%=pageLink%>"><%=i%></a>
-						<%
-							}
-						%>
-					</div>
+					<div class="dropdown-menu dropdown-menu-right" style="width:200px !important;">
+					 	<ul class="pager">
+						  <li id="prevPage">&#8610;</li>
+						  <li class="active">
+						  	<input type="number" id="pageSelection" class="form-control" style="width:70px; display:inline;" 
+						  		value="<%=currentPage%>" min="1" max="<%=maxPage%>" required>
+						  </li>
+						  <li id="nextPage">&#8611;</li>
+						</ul>
+					 </div>
+					 <script type="text/javascript">
+					 	$().ready(function(){
+					 		var currentPage = <%=currentPage%>;
+					 		var maxPage = <%=maxPage%>;
+					 		$('#prevPage').attr("class", (currentPage == 1)?"disabled":"");
+					 		$('#prevPage').html('<a href="' +( (currentPage == 1)?"#":"?page="+(currentPage-1) )+ '">&#8610;</a>');
+					 		$('#nextPage').attr("class", (currentPage == maxPage)?"disabled":"");
+					 		$('#nextPage').html('<a href="' +( (currentPage == maxPage)?"#":"?page="+(currentPage+1) )+ '">&#8611;</a>');
+					 		$('#pageSelection').keypress(function(e) {
+					 			var gotoPage = new Number($('#pageSelection').val());
+					 		    if(e.which == 13 && gotoPage > 0 && gotoPage <= maxPage) {
+					 		       window.location.replace("?page="+ gotoPage);
+					 		    }
+					 		});
+					 	});
+					 </script>
 				</div>
 			</div>
-			<%} %>
+			<%} %><!-- / Điều hướng trang -->
 		</div>
 		<%
 			}
 		%>
+		
 		<!-- -----------UpdateDiscSeries Modal------------ -->
 		<div id="UpdateDiscSeries" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg"

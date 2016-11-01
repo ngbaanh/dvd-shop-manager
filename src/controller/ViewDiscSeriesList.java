@@ -1,11 +1,16 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.bean.Category;
+import model.bo.CategoryBO;
 
 /**
  * Servlet implementation class ViewDiscSeriesList
@@ -25,18 +30,21 @@ public class ViewDiscSeriesList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		String message = "Đang xây dựng...;Chức năng dành cho Khách hàng <b>Xem danh sách các bộ đĩa</b> chưa thiết kế;HomePage;Quay về trang chủ";
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("Message").forward(request, response);
+		doPost(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		
+		CategoryBO categoryBO = new CategoryBO();
+		ArrayList<Category> listCategories = categoryBO.getListCategories();
+		request.setAttribute("listCategories", listCategories);
+		
+		request.getRequestDispatcher("/WEB-INF/ViewDiscSeriesList.jsp").forward(request, response);
 	}
 
 }

@@ -12,6 +12,7 @@ import util.ICategory;
 
 /**
  * @author NguyenBaAnh
+ * @see NguyenVanQuang
  *
  */
 public class CategoryDAO extends DatabaseFactory implements ICategory {

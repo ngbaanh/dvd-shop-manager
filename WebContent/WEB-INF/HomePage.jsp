@@ -27,6 +27,9 @@
 				Chào mừng <strong class="text text-primary"><%=staff.getStaffName()%></strong>. Các chức năng
 				tương ứng quyền hạn của bạn đã được mở ở bên trái
 				<%
+					if (staff.isManager()) {
+						out.print("<br/>---> <a href=\"Admin\" target=\"_parent\">Admin CP</a>");
+					}
 					}
 				%>
 		</div>

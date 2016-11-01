@@ -1,5 +1,10 @@
+<%@page import="model.bean.TicketStatus"%>
+<%@page import="model.bo.TicketStatusBO"%>
+<%@page import="model.bean.Ticket"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="util.Const"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,11 +18,20 @@
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
+<%
+	int currentPage = 1;
+	TicketStatus currentTicketStatus = (TicketStatus) request.getAttribute("ticketStatus");
+	String currentStatus = (currentTicketStatus.getStatusId() == -1) ? "Trạng thái" : currentTicketStatus.getStatusName();
+	String currentSearchQuery = "";
+	currentPage = Integer.parseInt(request.getAttribute("CurrentPage").toString());
+	currentSearchQuery = request.getAttribute("CurrentSearchQuery").toString();
+	int startIndex = (currentPage - 1) * Const.ITEMS_PER_PAGE + 1;
+	int maxPage = Integer.parseInt(request.getAttribute("MaxPage").toString());
+%>
 
-<jsp:include page="WEB-INF/_header.jsp" />
+<jsp:include page="_header.jsp" />
 <body>
-<jsp:include page="WEB-INF/_top.jsp" />
+	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
 		<div style="margin-top: 15px">
 			<ol class="breadcrumb">
@@ -26,7 +40,7 @@
 			</ol>
 			<p>Danh sách các phiếu thuê và các thông tin cơ bản.</p>
 		</div>
-		
+
 		<script type="text/javascript">
 			$("input#SearchQuery").live(
 					"keyup",
@@ -49,24 +63,22 @@
 								<button disabled class="btn btn-success" type="button">
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
-							</span> <input type="text" class="form-control"
-								placeholder="Tìm kiếm" id="SearchQuery"
-								name="SearchQuery" value="">
+							</span> <input type="text" class="form-control" placeholder="Tìm kiếm"
+								id="SearchQuery" name="SearchQuery"
+								value="<%=currentSearchQuery%>">
 						</div>
-						
+
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">
-				nhập Mã phiếu hoặc tên KH để tìm kiếm
-			</div>
-			
+			<div class="col-md-5">nhập Mã phiếu hoặc tên KH để tìm kiếm</div>
+
 		</div>
 		<!-- /.row -->
-		
+
 
 		<table class="table table-bordered">
-			
+
 			<tr class="active">
 				<th>Thời gian</th>
 				<th>Mã phiếu</th>
@@ -74,70 +86,49 @@
 				<th>Trạng thái</th>
 				<th>Thao tác</th>
 			</tr>
-			
+			<%
+				TicketStatusBO ticketStatusBO = (TicketStatusBO) request.getAttribute("ticketStatusBO");
+				ArrayList<Ticket> listTickets = (ArrayList<Ticket>) request.getAttribute("listTickets");
+				for (Ticket ticket : listTickets) {
+			%>
 			<tr>
-				<td>00:12 25/01/2016</td>
-				<td>123</td>
-				<td>Nguyễn Anh</td>
-				<td>Đã đặt</td>
-				<td><a
-					href="">Xem chi tiết</a>
+				<td><%=ticket.getStartTime()%></td>
+				<td><%=ticket.getTicketId()%></td>
+				<td><%=ticket.getCustomerName()%></td>
+				<td><%=ticketStatusBO.getStatusName(ticket.getStatusId())%></td>
+				<td><a href="ViewTicketDetail?ticketId=<%=ticket.getTicketId()%>">Xem chi tiết</a>
 			</tr>
-			<tr>
-				<td>12:20 24/01/2016</td>
-				<td>122</td>
-				<td>Trần Hiệp</td>
-				<td>Đang thuê</td>
-				<td><a
-					href="">Xem chi tiết</a>
-			</tr>
-			<tr>
-				<td>08:08 21/01/2016</td>
-				<td>121</td>
-				<td>Lê Minh</td>
-				<td>Đang thuê</td>
-				<td><a
-					href="">Xem chi tiết</a>
-			</tr>
-			<tr>
-				<td>11:35 19/01/2016</td>
-				<td>120</td>
-				<td>Trần Sang</td>
-				<td>Đang thuê</td>
-				<td><a
-					href="">Xem chi tiết</a>
-			</tr>
-			<tr>
-				<td>09:45 15/01/2016</td>
-				<td>119</td>
-				<td>Nguyễn Long</td>
-				<td>Đã trả</td>
-				<td><a
-					href="/ViewTicketDetail">Xem chi tiết</a>
-			</tr>
-			
+			<%
+				}
+			%>
+
 		</table>
-		
+		<%
+			if ("".equals(currentSearchQuery)) {
+		%>
 		<div class="row">
 			<div class="col-md-1 col-md-offset-0">
 				<strong class="text text-muted">Trang </strong>
 			</div>
-			<div class="col-md-1">
+			<div class="col-md-2">
 				<div class="dropdown">
 					<button class="btn btn-default btn-block dropdown-toggle "
 						type="button" data-toggle="dropdown">
-						1/5
+						<%=currentPage%>
+						/
+						<%=maxPage%>
 						&nbsp; <span class="caret"></span>
 					</button>
 					<div class="dropdown-menu dropdown-menu-right"
 						style="padding: 5px; width: 600px !important;">
 						<%
 							String pageLink;
-								for (int i = 1; i <= 5; i++) {
-									pageLink = "ManageDiscSeriesList";
+								for (int i = 1; i <= maxPage; i++) {
+									pageLink = "ViewTicketList?page=" + i
+											+ "&StatusId=" + currentTicketStatus.getStatusId();
 						%>
 						<a
-							class="btn <%=(i == 1) ? "btn-link disabled" : "btn-default"%> btn-xs"
+							class="btn <%=(i == currentPage) ? "btn-link disabled" : "btn-default"%> btn-xs"
 							style="float: right; width: 40px; margin: 1px;"
 							href="<%=pageLink%>"><%=i%></a>
 						<%
@@ -146,27 +137,43 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="col-md-2 col-md-offset-4">
+			<%
+				}
+
+				if ("".equals(currentSearchQuery)) {
+			%>
+
+			<div class="col-md-2 col-md-offset-3">
 				<strong class="text text-muted">Lọc trạng thái </strong>
 			</div>
 			<div class="col-md-2">
 				<div class="dropdown">
 					<button class="btn btn-default btn-block dropdown-toggle"
-						type="button" data-toggle="dropdown">Trạng thái
-						<span class="caret"></span>
+						type="button" data-toggle="dropdown">
+						<%=currentStatus %> <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-right">
-						
-						<li><a href="">Đã đặt</a></li>
-						<li><a href="">Đang thuê</a></li>
-						<li><a href="">Đã trả</a></li>
+						<%
+							ArrayList<TicketStatus> listTicketStatus = (ArrayList<TicketStatus>) request
+										.getAttribute("listTicketStatus");
+								if (!listTicketStatus.isEmpty()) {
+									for (TicketStatus ticketStatus : listTicketStatus) {
+						%>
+						<li><a
+							href="ViewTicketList?StatusId=<%=ticketStatus.getStatusId()%>&page=<%=currentPage%>"><%=ticketStatus.getStatusName()%></a></li>
+						<%
+							}
+								}
+						%>
+
 					</ul>
 				</div>
 			</div>
+			<%
+				}
+			%>
 		</div>
-		
+
 	</div>
-</body>
 </body>
 </html>

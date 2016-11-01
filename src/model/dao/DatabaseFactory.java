@@ -25,7 +25,7 @@ public class DatabaseFactory {
 			Class.forName("com.mysql.jdbc.Driver");
 			String address = "jdbc:mysql://localhost:3306/se23?useUnicode=true&characterEncoding=utf-8";
 			//String address = "jdbc:mysql://127.6.73.2:3306/se23?useUnicode=true&characterEncoding=utf-8";
-			connection = DriverManager.getConnection(address,"root","");
+			connection = DriverManager.getConnection(address,"root","root");
 			//connection = DriverManager.getConnection(address,"adminMwGeTFy","3smXm8ppTMM5");
 			//String url = "jdbc:mysql://127.6.73.2:3306/se23?useUnicode=true&characterEncoding=utf-8";
 			//connection = DriverManager.getConnection(url,"adminMwGeTFy","3smXm8ppTMM5");
@@ -56,7 +56,7 @@ public class DatabaseFactory {
 			statement.close();
 		}
 		if (preparedStatement != null) {
-			statement.close();
+			preparedStatement.close();
 		}
 		if (connection != null) {
 			connection.close();
