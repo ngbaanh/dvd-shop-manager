@@ -181,8 +181,27 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 	@Override
 	public boolean changePassword(String newPass) {
 		// TODO Auto-generated method stub
-		// Không nằm trong phạm vi cần triển khai
 		return false;
+	}
+
+	public boolean changePassword(Staff staff) {
+		String query = "UPDATE staff SET Password = ? WHERE StaffId = ?";
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setString(1, staff.getPassword());
+			preparedStatement.setString(2, staff.getStaffId());
+			System.out.println(preparedStatement);
+			if (preparedStatement.executeUpdate()>0) {
+				preparedStatement.close();
+				return true;
+			} else{
+				preparedStatement.close();
+				return false;	
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }

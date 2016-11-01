@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.rmi.server.SocketSecurityException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +43,7 @@ public class SubmitChangePassword extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		StaffBO staffBO = new StaffBO();
-		String error = "";
+		String error = null;
 		// get parameters
 		String password = request.getParameter("password");
 		String new_password = request.getParameter("new_password");
@@ -54,11 +53,8 @@ public class SubmitChangePassword extends HttpServlet {
 		 *  check validation
 		 */
 		// check blank
-	
 		if("".equals(password)){
-			error = null;
-			//error = "Password can not blank!";
-			request.setAttribute("error", error);
+			error = "Password can not blank!";
 			System.out.println(error);
 		}
 		if("".equals(new_password)){
@@ -84,9 +80,8 @@ public class SubmitChangePassword extends HttpServlet {
 			error= "Confirmed password must match with new password!";
 			
 		}
-		request.setAttribute("error", error);
 		
-		if(error==null){
+		if (error==null){
 			HttpSession session = request.getSession();
 			Staff staff = (Staff)session.getAttribute("staff");
 			
@@ -94,14 +89,15 @@ public class SubmitChangePassword extends HttpServlet {
 				staff.setPassword(new_password); // set new password for staff
 				if (staffBO.changePassword(staff)) {
 					session.setAttribute("staff", staff);
-				//	System.out.println("Thành chập");
-					//response.sendRedirect(request.getContextPath()+"ChangePassword?msg=1");
 				} else {
 					error = "Error in processing change password";
 				}
 			} else {
 				error = "Wrong password";
 			}
+		}
+		if (error!=null) {
+			request.setAttribute("error", error);
 		}
 		request.getRequestDispatcher("/WEB-INF/ChangePassword.jsp").forward(request, response);
 		

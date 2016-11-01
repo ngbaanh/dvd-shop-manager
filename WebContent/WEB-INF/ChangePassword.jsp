@@ -18,16 +18,13 @@
 			</ol>
 		</div>
 		<div>
-		  <%
-	  if("1".equals(request.getParameter("msg"))){
-	  %>
-	  	<p style="color: red">Password can not blank!</p></br>
-	  <%} %>
-	    <%
-	  if("0".equals(request.getParameter("msg"))){
-	  %>
-	  	<p style="color: red">Thực hiện thất bại!</p></br>
-	  <%} %>
+		  	<%
+		  	if(request.getAttribute("error") != null) {
+		  		%>
+		  		<p style="color: red"><%=request.getAttribute("error") %></p>
+				<%
+			}
+			%>
 			<form class="form form-horizontal" action="/SE23/SubmitChangePassword" method="post">
 				<div class="form-group">
 					<div class="col-sm-3">
