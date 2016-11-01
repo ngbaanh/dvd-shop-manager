@@ -27,9 +27,7 @@ public class ViewStatistics extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
-		String message = "Đang xây dựng...;Chức năng dành cho Quản lí <b>Xem thống kê</b> chưa thiết kế;HomePage;Quay về trang chủ";
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("Message").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/ViewStatistics.jsp").include(request, response);
 	}
 
 	/**
