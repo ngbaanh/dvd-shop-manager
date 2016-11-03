@@ -42,10 +42,7 @@ public class BuildTicket extends HttpServlet {
 		if (list == null || list.isEmpty()) {
 			response.sendRedirect("ViewDiscSeriesList");
 		} else {
-			if (request.getParameter("do") != null) {
-				// TODO - xu li dat phieu 
-				response.getWriter().append("OK DANG XU LI.///");
-				
+			if (request.getParameter("do") != null) {				
 				String customerName = request.getParameter("CustomerName");
 				String customerPhone = request.getParameter("CustomerPhone");
 				String customerAddress = request.getParameter("CustomerAddress");
@@ -82,6 +79,7 @@ public class BuildTicket extends HttpServlet {
 				
 				TicketBO ticketBO = new TicketBO();
 				//TODO xử lí đặt đĩa trùng lặp : .... chuwa lafm
+				
 				int ticketId = ticketBO.createTicket(ticket);
 				if (ticketId > 0) {
 					request.getSession().removeAttribute("listPendingDisc");
