@@ -23,15 +23,15 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				Ticket ticket = new Ticket();
-				ticket.setTicketId(resultSet.getInt(1));
-				ticket.setStartTime(resultSet.getTimestamp(2));
-				ticket.setStatusId(resultSet.getByte(3));
-				ticket.setCustomerName(resultSet.getString(4));
-				ticket.setCustomerPhone(resultSet.getString(5));
-				ticket.setCustomerAddress(resultSet.getString(6));
-				ticket.setStaffName(resultSet.getString(7));
-				ticket.setDeposit(resultSet.getString(8));
-				ticket.setTicketPrice(resultSet.getInt(9));
+				ticket.setTicketId(resultSet.getInt("TicketId"));
+				ticket.setStartTime(resultSet.getTimestamp("StartTime"));
+				ticket.setStatusId(resultSet.getByte("StatusId"));
+				ticket.setCustomerName(resultSet.getString("CustomerName"));
+				ticket.setCustomerPhone(resultSet.getString("CustomerPhone"));
+				ticket.setCustomerAddress(resultSet.getString("CustomerAddress"));
+				ticket.setStaffName(resultSet.getString("StaffName"));
+				ticket.setDeposit(resultSet.getString("Deposit"));
+				ticket.setTicketPrice(resultSet.getInt("TicketPrice"));
 				preparedStatement.close();
 				return ticket;
 			} else {

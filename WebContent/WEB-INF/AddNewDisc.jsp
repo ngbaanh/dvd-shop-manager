@@ -5,8 +5,8 @@
 	String discSeriesName = (String) request.getAttribute("DiscSeriesName");
 
 	if (discSeriesName != null && !"".equals(discSeriesName)) {
-		int discSeriesId = (int) request.getAttribute("DiscSeriesId");
-		int discNumber = (int) request.getAttribute("DiscNumber");
+		int discSeriesId = Integer.parseInt(request.getAttribute("DiscSeriesId").toString());
+		int discNumber = Integer.parseInt(request.getAttribute("DiscNumber").toString());
 		String place = (String) request.getAttribute("Place");
 		if (place == null) {
 			place = "";

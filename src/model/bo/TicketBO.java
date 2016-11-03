@@ -2,6 +2,7 @@ package model.bo;
 
 import java.util.ArrayList;
 
+import model.bean.RentalDisc;
 import model.bean.Ticket;
 import model.dao.TicketDAO;
 import util.ITicket;

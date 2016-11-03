@@ -68,7 +68,7 @@ public class ViewTicketList extends HttpServlet {
 		// Trả lại các thông số mà người dùng đã nhập
 		request.setAttribute("listTickets", listTickets);
 		request.setAttribute("listTicketStatus", listTicketStatus);
-		request.setAttribute("ticketStatusBO", ticketStatusBO);
+		request.setAttribute("ticketStatusBO", ticketStatusBO); //? FIXME
 		request.setAttribute("ticketStatus", ticketStatus);
 		request.setAttribute("CurrentSearchQuery", searchQuery);
 		request.setAttribute("CurrentPage", (listTickets == null || listTickets.isEmpty()) ? 1 : page);

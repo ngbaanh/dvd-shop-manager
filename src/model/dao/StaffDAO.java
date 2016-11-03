@@ -81,7 +81,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 			// FIXME - console
 			System.out.println("StaffDAO: " + preparedStatement.toString());
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Staff> staffList = new ArrayList<>();
+			ArrayList<Staff> staffList = new ArrayList<Staff>();
 			while (resultSet.next()) {
 				Staff staff = new Staff();
 				staff.setStaffId(resultSet.getString("StaffId"));

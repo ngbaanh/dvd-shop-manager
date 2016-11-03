@@ -12,9 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import business.session.PendingDisc;
+import model.bean.Disc;
 import model.bean.RentalDisc;
 import model.bean.Ticket;
 import model.bo.DiscBO;
+import model.bo.RentalDiscBO;
 import model.bo.TicketBO;
 /**
  * Servlet implementation class BuildTicket
@@ -47,7 +49,7 @@ public class BuildTicket extends HttpServlet {
 				String customerPhone = request.getParameter("CustomerPhone");
 				String customerAddress = request.getParameter("CustomerAddress");
 				Timestamp startTime = new Timestamp(System.currentTimeMillis());
-				ArrayList<RentalDisc> rentalDiscList = new ArrayList<>();
+				ArrayList<RentalDisc> rentalDiscList = new ArrayList<RentalDisc>();
 				@SuppressWarnings("unchecked") ArrayList<PendingDisc> listPendingDiscs
 				= (ArrayList<PendingDisc>) request.getSession().getAttribute("listPendingDisc");
 				// Adapt from Quang's product to Anh's product
@@ -79,6 +81,16 @@ public class BuildTicket extends HttpServlet {
 				
 				TicketBO ticketBO = new TicketBO();
 				//TODO xử lí đặt đĩa trùng lặp : .... chuwa lafm
+				
+				RentalDiscBO rdBO = new RentalDiscBO();
+				ArrayList<RentalDisc> conflictDiscList = rdBO.getConflictDiscList(rentalDiscList);
+				if (!conflictDiscList.isEmpty()) {
+					response.getWriter().append("Xung dot!");
+					for (RentalDisc rd : conflictDiscList) {
+						response.getWriter().append("<hr>" + rd.getDiscId() + ": " + rd.getPlace());
+					}
+					return;//
+				}
 				
 				int ticketId = ticketBO.createTicket(ticket);
 				if (ticketId > 0) {

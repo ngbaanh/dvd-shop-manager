@@ -21,4 +21,8 @@ public class RentalDiscBO {
 	public boolean updateRentalDisc(RentalDisc rentalDisc) {
 		return rentalDiscDAO.updateRentalDisc(rentalDisc);
 	}
+
+	public ArrayList<RentalDisc> getConflictDiscList(ArrayList<RentalDisc> rentalDiscList) {
+		return rentalDiscDAO.getConflictDiscList(rentalDiscList);
+	}
 }

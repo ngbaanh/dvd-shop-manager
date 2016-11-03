@@ -38,8 +38,8 @@ public class TicketStatusDAO extends DatabaseFactory {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				TicketStatus ticketStatus = new TicketStatus();
-				ticketStatus.setStatusId(resultSet.getInt(1));
-				ticketStatus.setStatusName(resultSet.getString(2));
+				ticketStatus.setStatusId(resultSet.getInt("StatusId"));
+				ticketStatus.setStatusName(resultSet.getString("StatusName"));
 				listTicketStatus.add(ticketStatus);
 			}
 			preparedStatement.close();

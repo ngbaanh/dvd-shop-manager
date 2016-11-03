@@ -23,6 +23,7 @@ public class RentalDiscDAO extends DatabaseFactory {
 				rentalDisc.setDiscId(resultSet.getInt("DiscId"));
 				rentalDisc.setRentingWeeks(resultSet.getByte("RentingWeeks"));
 				rentalDisc.setFinalTime(resultSet.getTimestamp("FinalTime"));
+				rentalDisc.setReturned(resultSet.getBoolean("Returned"));
 				listRentalDisc.add(rentalDisc);
 			}
 			preparedStatement.close();
@@ -47,6 +48,37 @@ public class RentalDiscDAO extends DatabaseFactory {
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
 			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public ArrayList<RentalDisc> getConflictDiscList(ArrayList<RentalDisc> rentalDiscList) {
+		ArrayList<RentalDisc> conflictList = new ArrayList<RentalDisc>();
+		for (RentalDisc rd : rentalDiscList) {
+			if (this.isConflict(rd.getDiscId())) {
+				conflictList.add(rd);
+			}
+		}
+		return conflictList;
+	}
+	
+	private boolean isConflict(int discId) {
+		String updateQuery = "select DiscId from rental_disc where Returned = ? and DiscId = ?";
+		try {
+			preparedStatement = connection.prepareStatement(updateQuery);
+			preparedStatement.setBoolean(1, new Boolean(false));
+			preparedStatement.setInt(2, discId);
+			// FIXME - console
+			System.out.println("RentalDiscDAO: " + preparedStatement.toString());
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				preparedStatement.close();
+				return true;
+			}
+			preparedStatement.close();
+			return false;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

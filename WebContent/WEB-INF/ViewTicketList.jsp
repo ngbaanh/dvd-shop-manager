@@ -11,12 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="author" content="Tran Thanh Sang">
 <title>ViewTicketList</title>
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<jsp:include page="_bootstrap.jsp" />
 </head>
 <%
 	int currentPage = 1;
@@ -55,8 +50,8 @@
 					});
 		</script>
 		<div class="row">
-			<div class="col-md-3">
-				<form>
+			<div class="col-md-4">
+				<form name="SearchForm" id="SearchForm" method="get" action="#">
 					<div class="form-group">
 						<div class="input-group">
 							<span class="input-group-btn">
@@ -64,21 +59,18 @@
 									<span class="glyphicon glyphicon-search"></span>
 								</button>
 							</span> <input type="text" class="form-control" placeholder="Tìm kiếm"
-								id="SearchQuery" name="SearchQuery"
+								id="SearchQuery" name="SearchQuery" autocomplete="off"
 								value="<%=currentSearchQuery%>">
 						</div>
-
 					</div>
 				</form>
 			</div>
-			<div class="col-md-5">nhập Mã phiếu hoặc tên KH để tìm kiếm</div>
+			<div class="col-md-5"><i>Nhập Mã phiếu hoặc tên KH để tìm kiếm</i></div>
+		</div>	<!-- /.row -->
 
-		</div>
-		<!-- /.row -->
-
-
+		<br>
+		
 		<table class="table table-bordered">
-
 			<tr class="active">
 				<th>Thời gian</th>
 				<th>Mã phiếu</th>
