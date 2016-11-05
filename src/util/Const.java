@@ -26,4 +26,9 @@ public final class Const {
 	
 	public static int MAX_RENTING_WEEKS = 12; // số tuần tối đa có thể thuê
 	public static int DEFAULT_RENTING_WEEKS = 1; // số tuần mặc định lúc chọn đĩa
+	
+	/* Special character */
+	public static final String CURRENCY_VND = "₫";
+	public static final String CURRENCY_USD = "$";
+	public static final String CURRENCY_POUND = "£";
 }
