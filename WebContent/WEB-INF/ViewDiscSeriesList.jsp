@@ -44,23 +44,23 @@ legend.list_choice {
 
 <script type="text/javascript">
 function loadDiscSeriesDetail(discSeriesId) {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		viewDiscSeriesDetail(this);
+  	$.ajax({
+		url: "GetDiscSeriesDetailJSON",
+		type: "POST",
+		data: {
+			'discSeriesId': discSeriesId
+		},
+		success: function(strScreenDiscSeriesDetail){
+			viewDiscSeriesDetail(strScreenDiscSeriesDetail);
     	}
-  	};
-  	xhttp.open("POST", '/SE23/GetDiscSeriesDetailAjax', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	xhttp.send("discSeriesId=" + discSeriesId);
+	});
 }
-function viewDiscSeriesDetail(xhttp) {
-  	var screenDiscSeriesDetail = JSON.parse(xhttp.responseText);
+function viewDiscSeriesDetail(strScreenDiscSeriesDetail) {
+  	var screenDiscSeriesDetail = JSON.parse(strScreenDiscSeriesDetail);
   	var discSeriesName = screenDiscSeriesDetail.discSeriesName;
   	var remainingDisc = screenDiscSeriesDetail.remainingDisc;
-  	document.getElementById("displayDiscSeriesName").innerHTML = "Xem chi tiết bộ đĩa: " + discSeriesName;
-  	document.getElementById("displayRemainingDisc").innerHTML = "Số lượng đĩa có thể thuê: " + remainingDisc;
+  	$("#displayDiscSeriesName").html("Xem chi tiết bộ đĩa: " + discSeriesName);
+  	$("#displayRemainingDisc").html("Số lượng đĩa có thể thuê: " + remainingDisc);
   	
   	var listDiscs = screenDiscSeriesDetail.listDiscs;
   	var bodyListDiscs = "";
@@ -80,59 +80,57 @@ function viewDiscSeriesDetail(xhttp) {
   			bodyListDiscs += "<td>Đã cho thuê</td>";
   		}
   		bodyListDiscs += "<td>" + disc.price + "</td>";
-  		if (disc.isPicked) {
+  		if (!disc.isAvailable) {
+  			bodyListDiscs += "<td>Đã cho thuê</td>";
+  		} else if (disc.isPicked) {
   			bodyListDiscs += "<td>Bạn đã chọn</td>";
-  		} else if (!disc.isAvailable) {
-  			bodyListDiscs += "<td>Người khác đã đặt</td>";
   		} else {
   			bodyListDiscs += "<td><a href='#' onClick='chooseDisc(\"" + discSeriesName + "\"," + disc.discId + ")' data-dismiss='modal'>Chọn</a></td>";
   		}
   		bodyListDiscs += "</tr>";
   	}
-  	document.getElementById("tableBodyDiscSeriesDetail").innerHTML = bodyListDiscs;
+  	$("#tableBodyDiscSeriesDetail").html(bodyListDiscs);
 }
 
 function chooseDisc(discSeriesName, discId) {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		viewListPendingDisc(this);
+  	$.ajax({
+		url: "ChooseDisc",
+		type: "POST",
+		data: {
+			'discSeriesName': discSeriesName,
+			'discId': discId
+		},
+		success: function(){
+			loadPendingDisc();
     	}
-  	};
-  	xhttp.open("POST", '/SE23/ChooseDisc', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	xhttp.send("discSeriesName=" + discSeriesName + "&discId=" + discId);
+	});
 }
 
 function discardDisc(discId) {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		viewListPendingDisc(this);
+  	$.ajax({
+		url: "DiscardDisc",
+		type: "POST",
+		data: {
+			'discId': discId
+		},
+		success: function(){
+			loadPendingDisc();
     	}
-  	};
-  	xhttp.open("POST", '/SE23/DiscardDisc', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	xhttp.send("discId=" + discId);
+	});
 }
 
 function loadPendingDisc() {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		viewListPendingDisc(this);
+  	$.ajax({
+		url: "GetPendingDiscJSON",
+		type: "POST",
+		success: function(strScreenListPendingDisc){
+			viewListPendingDisc(strScreenListPendingDisc);
     	}
-  	};
-  	xhttp.open("POST", '/SE23/GetPendingDiscAjax', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	xhttp.send();
+	});
 }
 
-function viewListPendingDisc(xhttp) {
-	var screenListPendingDisc = JSON.parse(xhttp.responseText);
+function viewListPendingDisc(strScreenListPendingDisc) {
+	var screenListPendingDisc = JSON.parse(strScreenListPendingDisc);
 	var listPendingDisc = screenListPendingDisc.listPendingDisc;
 	var maxRentingWeeks = screenListPendingDisc.MAX_RENTING_WEEKS;
 	var totalPrices = 0;
@@ -169,32 +167,31 @@ function viewListPendingDisc(xhttp) {
   		bodyListPendingDisc += "</tr>";
   	}
   	bodyListPendingDisc += "<tr><td></td><td></td><td></td><td></td><td>Tổng</td><td>" + totalPrices + "</td><td></td></tr>";
-  	document.getElementById("tableBodyListPendingDisc").innerHTML = bodyListPendingDisc;
+  	$("#tableBodyListPendingDisc").html(bodyListPendingDisc);
   	if (totalPrices == 0) {
-  		document.getElementById("buttonBuildTicket").setAttribute("disabled", "");
+  		$("#buttonBuildTicket").attr("disabled", "");
   	} else {
-  		document.getElementById("buttonBuildTicket").removeAttribute("disabled");
+  		$("#buttonBuildTicket").removeAttr("disabled");
   	}
 }
 
-function loadDocuments() {
-	loadPendingDisc();
-}
-
 function changeRentingWeeks(discId, pickedRentingWeeks) {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		loadPendingDisc();
+  	$.ajax({
+		url: "ChangeRentingWeeks",
+		type: "POST",
+		data: {
+			'discId': discId,
+			'rentingWeeks': pickedRentingWeeks.value
+		},
+		success: function(){
+			loadPendingDisc();
     	}
-  	};
-  	xhttp.open("POST", '/SE23/ChangeRentingWeeks', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	xhttp.send("discId=" + discId + "&rentingWeeks=" + pickedRentingWeeks.value);
+	});
 }
 
 $(function() {
+	loadPendingDisc();
+	
     var tableListDiscSeries = $('#tableListDiscSeries').DataTable({
     	"pageLength": 5,
         "stateSave": false,
@@ -219,7 +216,7 @@ $(function() {
         "processing": true,
         "serverSide": true,
         "ajax": {
-        	url: "/SE23/GetDiscSeriesListAjax",
+        	url: "GetDiscSeriesListJSON",
         	type: 'POST',
         	data: function (d) {
         		d.categoryId = $("#pickedType").val();
@@ -264,7 +261,7 @@ $(function() {
 
 </head>
 <jsp:include page="_header.jsp" />
-<body onload="loadDocuments()">
+<body>
 	<jsp:include page="_top.jsp" />
 	<div class="container" style="margin-top: 20px">
 		<div class="row">
@@ -362,7 +359,7 @@ $(function() {
 				</table>
 
 				<div class="row-fluid text-center">
-					<form action="/SE23/BuildTicket" method="post">
+					<form action="BuildTicket" method="post">
 						<input type="submit" id="buttonBuildTicket" value="Đặt thuê" class="btn btn-success">
 					</form>
 				</div>

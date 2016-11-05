@@ -19,14 +19,14 @@ import model.bo.DiscSeriesBO;
 /**
  * Servlet implementation class GetDiscSeriesDetailAjax
  */
-@WebServlet("/GetDiscSeriesDetailAjax")
-public class GetDiscSeriesDetailAjax extends HttpServlet {
+@WebServlet("/GetDiscSeriesDetailJSON")
+public class GetDiscSeriesDetailJSON extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetDiscSeriesDetailAjax() {
+    public GetDiscSeriesDetailJSON() {
         super();
         // TODO Auto-generated constructor stub
     }

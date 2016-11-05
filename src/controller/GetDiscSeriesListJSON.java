@@ -16,14 +16,14 @@ import util.Const;
 /**
  * Servlet implementation class GetDiscSeriesListAjax
  */
-@WebServlet("/GetDiscSeriesListAjax")
-public class GetDiscSeriesListAjax extends HttpServlet {
+@WebServlet("/GetDiscSeriesListJSON")
+public class GetDiscSeriesListJSON extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetDiscSeriesListAjax() {
+    public GetDiscSeriesListJSON() {
         super();
         // TODO Auto-generated constructor stub
     }

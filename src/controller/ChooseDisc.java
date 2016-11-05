@@ -58,8 +58,6 @@ public class ChooseDisc extends HttpServlet {
 		listPendingDisc.add(pendingDisc);
 		
 		session.setAttribute("listPendingDisc", listPendingDisc);
-		
-		response.sendRedirect("/SE23/GetPendingDiscAjax");
 	}
 
 }
