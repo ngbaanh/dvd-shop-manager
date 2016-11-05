@@ -18,14 +18,14 @@ import business.session.PendingDisc;
 /**
  * Servlet implementation class GetPendingDiscAjax
  */
-@WebServlet("/GetPendingDiscAjax")
-public class GetPendingDiscAjax extends HttpServlet {
+@WebServlet("/GetPendingDiscJSON")
+public class GetPendingDiscJSON extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetPendingDiscAjax() {
+    public GetPendingDiscJSON() {
         super();
         // TODO Auto-generated constructor stub
     }

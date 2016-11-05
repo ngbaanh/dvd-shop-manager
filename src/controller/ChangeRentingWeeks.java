@@ -55,7 +55,6 @@ public class ChangeRentingWeeks extends HttpServlet {
 			
 			session.setAttribute("listPendingDisc", listPendingDisc);
 		}
-		response.sendRedirect("/SE23/GetPendingDiscAjax");
 	}
 
 }

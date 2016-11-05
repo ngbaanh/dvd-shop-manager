@@ -57,8 +57,6 @@ public class DiscardDisc extends HttpServlet {
 		}
 		
 		session.setAttribute("listPendingDisc", listPendingDisc);
-		
-		response.sendRedirect("/SE23/GetPendingDiscAjax");
 	}
 
 }
