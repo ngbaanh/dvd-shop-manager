@@ -382,4 +382,19 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 		}
 	}
 
+	public int numDiscSeries() {
+		String validQuery = "select COUNT(*) from disc_series";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 }

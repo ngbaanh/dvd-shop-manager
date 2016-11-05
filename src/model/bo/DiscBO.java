@@ -118,5 +118,17 @@ public class DiscBO implements IDisc {
 		}
 	}
 
+	public int numDiscs() {
+		return discDAO.numDiscs();
+	}
+
+	public int numDiscAvailable() {
+		return discDAO.numDiscAvailable();
+	}
+
+	public int numDiscNonAvailable() {
+		return discDAO.numDiscNonAvailable();
+	}
+
 
 }
