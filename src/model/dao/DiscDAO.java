@@ -168,5 +168,50 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 		}
 	}
 
+	public int numDiscs() {
+		String validQuery = "select COUNT(*) from disc";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	public int numDiscAvailable() {
+		String validQuery = "select COUNT(*) from disc WHERE Available = 1";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	public int numDiscNonAvailable() {
+		String validQuery = "select COUNT(*) from disc WHERE Available = 0";
+		try {
+			preparedStatement = connection.prepareStatement(validQuery);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
 
 }

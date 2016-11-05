@@ -3,7 +3,9 @@ package model.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import model.bean.RentalDisc;
 import model.bean.Ticket;
@@ -186,12 +188,6 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		}
 	}
 
-	@Override
-	public ArrayList<Integer> getScaleByYear(int year) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public int getMaxPage(int statusId) {
 		String getQuery = "select count(*) from ticket" + ((statusId >= 0) ? " where StatusId=" + statusId : "");
 		try {
@@ -212,9 +208,22 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		return null;
 	}
 
-	public ArrayList<Integer> getSalesByYear(int year) {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public int getSaleByYear(int year) {
+		String getQuery = "SELECT SUM(TicketPrice) from ticket WHERE StartTime LIKE ? AND StatusId > 0";
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + year + "%");
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	public boolean updateTicket(Ticket ticket) {
@@ -242,4 +251,67 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		}
 	}
 
+	public int getFirstYear() {
+		String getQuery = "SELECT StartTime FROM ticket WHERE StatusId > 0 ORDER BY StartTime ASC";
+		int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			Calendar cal = Calendar.getInstance();
+			if (resultSet.next()){
+				cal.setTime(resultSet.getDate("StartTime"));
+				return cal.get(Calendar.YEAR);
+			}
+			return currentYear;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return currentYear;
+		}
+	}
+
+	public int getFirstMonth() {
+		String getQuery = "SELECT StartTime FROM ticket WHERE StatusId > 0 ORDER BY StartTime ASC";
+		int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			Calendar cal = Calendar.getInstance();
+			if (resultSet.next()){
+				cal.setTime(resultSet.getDate("StartTime"));
+				return cal.get(Calendar.MONTH);
+			}
+			return currentMonth;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return currentMonth;
+		}
+
 }
+
+	public int getSaleByMonth(int year, int month) {
+		String getQuery = "SELECT SUM(TicketPrice) from ticket WHERE StartTime >= ? AND StartTime < ? AND StatusId > 0";
+		Calendar cal = Calendar.getInstance();
+		month--; // months in Calendar between 0 and 11
+		cal.set(year, month, 1, 0, 0, 0);
+		Timestamp beginOfMonth = new Timestamp(cal.getTimeInMillis());
+		if (month < 11) {
+			cal.set(year, month + 1, 1, 0, 0, 0);
+		} else {
+			cal.set(year + 1, 0, 1, 0, 0, 0);
+		}
+		Timestamp beginOfNextMonth = new Timestamp(cal.getTimeInMillis());
+		try {
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setTimestamp(1, beginOfMonth);
+			preparedStatement.setTimestamp(2, beginOfNextMonth);
+			System.out.println(preparedStatement);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+			return 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}}
+	}

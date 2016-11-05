@@ -11,5 +11,5 @@ public interface ITicket {
 	public boolean returnTicket(Ticket ticket);
 	public boolean destroyTicket(int ticketId);
 	public int createTicket(Ticket ticket);
-	public ArrayList<Integer> getScaleByYear(int year);
+	public int getSaleByYear(int year);
 }

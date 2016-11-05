@@ -42,9 +42,8 @@ public class TicketBO implements ITicket{
 	}
 
 	@Override
-	public ArrayList<Integer> getScaleByYear(int year) {
-		// TODO Auto-generated method stub
-		return null;
+	public int getSaleByYear(int year) {
+		return ticketDAO.getSaleByYear(year);
 	}
 
 	@Override
@@ -58,6 +57,16 @@ public class TicketBO implements ITicket{
 	
 	public boolean updateTicket(Ticket ticket){
 		return ticketDAO.updateTicket (ticket);
+	}
+	
+	public int getFirstYear() {
+		return ticketDAO.getFirstYear();
+	}
+	public int getFirstMonth() {
+		return ticketDAO.getFirstMonth();
+	}
+	public int getSaleByMonth(int year, int month) {
+		return ticketDAO.getSaleByMonth(year, month);
 	}
 
 }

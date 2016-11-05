@@ -253,4 +253,8 @@ public class DiscSeriesBO implements IDiscSeries {
 		}
 	}
 
+	public int numDiscSeries() {
+		return discSeriesDAO.numDiscSeries();
+	}
+
 }
