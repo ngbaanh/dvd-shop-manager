@@ -338,10 +338,10 @@ $(function() {
 			<!-- End Modal -->
 		</div>
 
-		<div class="row" id="panel_list_choice">
-			<fieldset class="list_choice">
-				<legend class="list_choice">Danh sách chọn</legend>
-				
+		<br>
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading">Danh sách chọn</div>
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
@@ -357,13 +357,12 @@ $(function() {
 					<tbody id="tableBodyListPendingDisc">
 					</tbody>
 				</table>
-
-				<div class="row-fluid text-center">
-					<form action="BuildTicket" method="post">
-						<input type="submit" id="buttonBuildTicket" value="Đặt thuê" class="btn btn-success">
-					</form>
-				</div>
-			</fieldset>
+			</div>
+			<div class="row text-center">
+				<form action="BuildTicket" method="post">
+					<input type="submit" id="buttonBuildTicket" value="Đặt thuê" class="btn btn-success">
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

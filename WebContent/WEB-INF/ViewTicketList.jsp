@@ -52,20 +52,23 @@
 		<div class="row">
 			<div class="col-md-4">
 				<form name="SearchForm" id="SearchForm" method="get" action="#">
-					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-btn">
-								<button disabled class="btn btn-success" type="button">
-									<span class="glyphicon glyphicon-search"></span>
-								</button>
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-search"></i>
 							</span> <input type="text" class="form-control" placeholder="Tìm kiếm"
 								id="SearchQuery" name="SearchQuery" autocomplete="off"
 								value="<%=currentSearchQuery%>">
 						</div>
-					</div>
 				</form>
 			</div>
-			<div class="col-md-5"><i>Nhập Mã phiếu hoặc tên KH để tìm kiếm</i></div>
+			<div class="col-md-6">
+				<p class="text text-muted">Nhập Mã phiếu hoặc tên KH để tìm kiếm</p>
+			</div>
+			<% if (!"".equals(currentSearchQuery)) { %>
+				<div class="col-md-2">
+					<a href="#" class="btn btn-default btn-block" onClick="javascript:window.history.back();">Đóng</a>
+				</div>
+			<%} %>
 		</div>	<!-- /.row -->
 
 		<br>
