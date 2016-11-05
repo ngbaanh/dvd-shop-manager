@@ -98,6 +98,63 @@ public class DiscSeriesDAO extends DatabaseFactory implements IDiscSeries {
 			return null;
 		}
 	}
+	
+	/**
+	 * @author quang
+	 * @param searchQuery
+	 * @param catId
+	 * @param start
+	 * @param length
+	 * @param orderDirection 
+	 * @param orderColumn 
+	 * @return
+	 */
+	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int start, int length, int orderColumn, String orderDirection) {
+		try {
+			String getQuery = "select DiscSeriesId from disc_series, category";
+			getQuery += " where disc_series.CategoryId = category.CategoryId";
+			getQuery += " and DiscSeriesName like ?";
+			if (catId > 0) {
+				getQuery += " and category.CategoryId=" + catId;
+			}
+			String orderColumnName = null;
+			switch (orderColumn) {
+			case 1:
+				orderColumnName = "DiscSeriesName";
+				break;
+			case 2:
+				orderColumnName = "CategoryName";
+				break;
+			case 3:
+				orderColumnName = "RemainingDisc";
+				break;
+			}
+			getQuery += " order by " + orderColumnName + " " + orderDirection;
+			if (start >= 0) {
+				getQuery += " limit ?,?";
+			}
+			
+			preparedStatement = connection.prepareStatement(getQuery);
+			preparedStatement.setString(1, "%" + searchQuery + "%");
+			if (start >= 0) {
+				preparedStatement.setInt(2, start);
+				preparedStatement.setInt(3, length);
+			}
+			System.out.println("DiscSeriesDAO: " + preparedStatement.toString());
+			ResultSet resultSet = preparedStatement.executeQuery();
+			ArrayList<DiscSeries> listDiscSeries = new ArrayList<DiscSeries>();
+			while (resultSet.next()) {
+				int discSeriesId = resultSet.getInt("DiscSeriesId");
+				DiscSeries discSeries = this.getDiscSeries(discSeriesId);
+				listDiscSeries.add(discSeries);
+			}
+			preparedStatement.close();
+			return listDiscSeries;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	/*
 	 * (non-Javadoc)

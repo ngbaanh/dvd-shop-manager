@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import util.Const;
 import model.bean.DiscSeries;
 import model.bo.DiscSeriesBO;
+import util.Const;
 
 /**
  * Servlet implementation class GetDiscSeriesListAjax
@@ -44,40 +44,49 @@ public class GetDiscSeriesListAjax extends HttpServlet {
 		
 		String searchQuery = "";
 		int categoryId = 0;
-		int destPage = 1;
+		int start = 0;
+		int length = Const.ITEMS_PER_PAGE;
+		int orderColumn = 1;
+		String orderDirection = "asc";
 		
-		if (request.getParameter("searchQuery") != null) {
-			searchQuery = request.getParameter("searchQuery");
+		if (request.getParameter("search[value]") != null) {
+			searchQuery = request.getParameter("search[value]");
 		}
 		if (request.getParameter("categoryId") != null) {
 			categoryId = Integer.parseInt(request.getParameter("categoryId"));
+			System.out.println(categoryId);
 		}
-		if (request.getParameter("destPage") != null) {
-			destPage = Integer.parseInt(request.getParameter("destPage"));
+		if (request.getParameter("start") != null) {
+			start = Integer.parseInt(request.getParameter("start"));
+		}
+		if (request.getParameter("length") != null) {
+			length = Integer.parseInt(request.getParameter("length"));
+		}
+		if (request.getParameter("order[0][dir]") != null) {
+			orderColumn = Integer.parseInt(request.getParameter("order[0][column]"));
+			orderDirection = request.getParameter("order[0][dir]");
 		}
 
-		int startPosition = Const.ITEMS_PER_PAGE * (destPage - 1);
-		
 		DiscSeriesBO discSeriesBO = new DiscSeriesBO();
-		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, categoryId, destPage);
-		int maxPage = discSeriesBO.getMaxPage(categoryId, searchQuery);
+		ArrayList<DiscSeries> listDiscSeries = discSeriesBO.getDiscSeriesList(searchQuery, categoryId, -1, length, orderColumn, orderDirection);
+		ArrayList<DiscSeries> listDiscSeriesPaged = discSeriesBO.getDiscSeriesList(searchQuery, categoryId, start, length, orderColumn, orderDirection);
 		
-		String strListDiscSeries = "{ 'destPage': " + destPage;
-		strListDiscSeries += ", 'maxPage': " + maxPage;
-		strListDiscSeries += ", 'startPosition': " + startPosition;
-		strListDiscSeries += ", 'listDiscSeries': [";
-		for (int index = 0; index < listDiscSeries.size(); index++) {
-			DiscSeries discSeries = listDiscSeries.get(index);
+		String strListDiscSeries = "{ 'recordsTotal': " + listDiscSeries.size();
+		strListDiscSeries += ", 'recordsFiltered': " + listDiscSeries.size();
+		strListDiscSeries += ", 'data': [";
+		for (int index = 0; index < listDiscSeriesPaged.size(); index++) {
+			DiscSeries discSeries = listDiscSeriesPaged.get(index);
 			if (index == 0) {
 				strListDiscSeries += "{";
 			} else {
 				strListDiscSeries += ", {";
 			}
-			strListDiscSeries += "'discSeriesId': " + discSeries.getDiscSeriesId();
+			strListDiscSeries += "'STT': " + (index + start + 1);
+			strListDiscSeries += ",'discSeriesId': " + discSeries.getDiscSeriesId();
 			strListDiscSeries += ",'discSeriesName': '" + discSeries.getDiscSeriesName() + "'";
 			strListDiscSeries += ",'categoryName': '" + discSeries.getCategory().getCategoryName() + "'";
-			strListDiscSeries += ",'remainingDisc': " + discSeries.getRemainingDisc();
-			strListDiscSeries += ",'totalDisc': " + discSeries.getTotalDisc();
+			strListDiscSeries += ",'numberDiscs': {'remainingDisc': " + discSeries.getRemainingDisc();
+			strListDiscSeries += ",'totalDisc': " + discSeries.getTotalDisc() + "}";
 			strListDiscSeries += "}";
 		}
 		strListDiscSeries += "] }";

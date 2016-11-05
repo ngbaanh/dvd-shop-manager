@@ -16,6 +16,7 @@ public final class Const {
 	public static int MAX_ITEM = 100; // số đĩa mỗi bộ
 	public static boolean USE_BOOTSTRAP_ONLINE = false; // CDN bootstrap
 	public static boolean ENABLE_LOADING_SCREEN = true; // loading screen
+	public static boolean USE_DATATABLES_ONLINE = true; // CDN DATATABLES
 	
 	// String
 	public static final String INVALID_FORM = "Dữ liệu nhập vào không hợp lệ, xin nhập lại!";

@@ -49,6 +49,25 @@ public class DiscSeriesBO implements IDiscSeries {
 		// sau khi thỏa mãn, đẩy cho DAO
 		return discSeriesDAO.getDiscSeriesList(searchQuery, catId, page);
 	}
+	
+	/**
+	 * @author quang
+	 * @param searchQuery
+	 * @param catId
+	 * @param start
+	 * @param length
+	 * @param orderDirection 
+	 * @param orderColumn 
+	 * @return
+	 */
+	public ArrayList<DiscSeries> getDiscSeriesList(String searchQuery, int catId, int start, int length, int orderColumn, String orderDirection) {
+		// Xử lí sự hợp lệ của searchQuery, catId, page
+		if (searchQuery == null || catId < 0 || length < 1) {
+			return null;
+		}
+		// sau khi thỏa mãn, đẩy cho DAO
+		return discSeriesDAO.getDiscSeriesList(searchQuery, catId, start, length, orderColumn, orderDirection);
+	}
 
 	/*
 	 * (non-Javadoc)

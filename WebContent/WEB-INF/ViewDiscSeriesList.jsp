@@ -15,6 +15,9 @@
 <title>Xem danh sách các bộ đĩa</title>
 <jsp:include page="_bootstrap.jsp" />
 
+<!-- import datatable library -->
+<jsp:include page="_dataTables.jsp"></jsp:include>
+
 <style>
 fieldset.list_choice {
 	border: 1px groove #eee;
@@ -34,80 +37,12 @@ legend.list_choice {
 	box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0
 		rgba(0, 0, 0, 0.3);
 	padding: 10px;
-	margin: 0 0 20px 0;
+	margin: 20px -15px;
 	border-radius: 5px;
 }
 </style>
 
 <script type="text/javascript">
-function filterBySearch() {
-  	document.getElementById("pickedType").value = 0;
-  	document.getElementById("pickedPage").value = 1;
-  	loadDiscSeriesList();
-}
-function filterByType() {
-  	document.getElementById("searchQuery").value = "";
-  	document.getElementById("pickedPage").value = 1;
-  	loadDiscSeriesList();
-}
-function filterByPager() {
-  	var searchQuery = document.getElementById("searchQuery").value;
-  	var categoryId = document.getElementById("pickedType").value;
-  	var destPage = document.getElementById("pickedPage").value;
-  	loadDiscSeriesList();
-}
-function loadDiscSeriesList() {
-	var xhttp;
-  	xhttp = new XMLHttpRequest();
-  	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
-    		viewDiscSeriesList(this);
-    	}
-  	};
-  	xhttp.open("POST", '/SE23/GetDiscSeriesListAjax', true);
-  	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  	var searchQuery = document.getElementById("searchQuery").value;
-  	var categoryId = document.getElementById("pickedType").value;
-  	var destPage = document.getElementById("pickedPage").value;
-  	var params = "searchQuery=" + searchQuery + "&categoryId=" + categoryId + "&destPage=" + destPage;
-  	xhttp.send(params);
-}
-function viewDiscSeriesList(xhttp) {
-  	var screenDiscSeries = JSON.parse(xhttp.responseText);
-  	var startPosition = screenDiscSeries.startPosition;
-  	var listDiscSeries = screenDiscSeries.listDiscSeries;
-  	var bodyListDiscSeries = "";
-  	for (index = 0; index < listDiscSeries.length; index++) {
-  		var discSeries = listDiscSeries[index];
-  		var STT = startPosition + index + 1;
-  		bodyListDiscSeries += "<tr>";
-  		bodyListDiscSeries += "<td>" + STT + "</td>"
-  		bodyListDiscSeries += "<td>" + discSeries.discSeriesName + "</td>";
-  		bodyListDiscSeries += "<td>" + discSeries.categoryName + "</td>";
-  		bodyListDiscSeries += "<td>" + discSeries.remainingDisc + "/" + discSeries.totalDisc + "</td>";
-  		bodyListDiscSeries += "<td><a onClick='loadDiscSeriesDetail(" + discSeries.discSeriesId + ")' href='#' data-toggle='modal' data-target='#detail_target_disc_series'>Xem</a></td>";
-  		bodyListDiscSeries += "</tr>";
-  	}
-  	document.getElementById("tableBodyListDiscSeries").innerHTML = bodyListDiscSeries;
-  	updatePager(screenDiscSeries.destPage, screenDiscSeries.maxPage);
-}
-
-function updatePager(destPage, maxPage) {
-	var pages = "";
-	for (index = 1; index <= maxPage; index++) {
-		if (index == destPage) {
-			pages += "<option value='" + index + "' selected>" + index + "/" + maxPage + "</option>"
-		} else {
-			pages += "<option value='" + index + "'>" + index + "/" + maxPage + "</option>"
-		}
-	}
-	if (pages == "") {
-		pages = "<option value='1'>0/0</option>";
-	}
-	document.getElementById("pickedPage").innerHTML = pages;
-}
-
-
 function loadDiscSeriesDetail(discSeriesId) {
 	var xhttp;
   	xhttp = new XMLHttpRequest();
@@ -243,7 +178,6 @@ function viewListPendingDisc(xhttp) {
 }
 
 function loadDocuments() {
-	loadDiscSeriesList();
 	loadPendingDisc();
 }
 
@@ -259,6 +193,73 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
   	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   	xhttp.send("discId=" + discId + "&rentingWeeks=" + pickedRentingWeeks.value);
 }
+
+$(function() {
+    var tableListDiscSeries = $('#tableListDiscSeries').DataTable({
+    	"pageLength": 5,
+        "stateSave": false,
+        "pagingType": "full_numbers",
+        "lengthMenu": [[5, 10, 25, 50, 100], [5, 10, 25, 50, 100]],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ bộ đĩa mỗi trang",
+            "zeroRecords": "Hiện không có bộ đĩa nào - Xin lỗi!",
+            "info": "Đang hiển thị từ _START_ đến _END_ trong tổng số _TOTAL_ bộ đĩa",
+            "infoEmpty": "Đang hiển thị từ 0 đến 0 trong tổng số 0 bộ đĩa",
+            "loadingRecords": "Đang tải dữ liệu...",
+            "processing": "Đang xử lý...",
+            "search": "Tìm kiếm theo tên:",
+            "paginate": {
+                "first":      "Đầu",
+                "last":       "Cuối",
+                "previous":   "Trước",
+                "next":       "Sau"
+            },
+        },
+        "order": [[1, "asc"]],
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+        	url: "/SE23/GetDiscSeriesListAjax",
+        	type: 'POST',
+        	data: function (d) {
+        		d.categoryId = $("#pickedType").val();
+        	}
+        },
+        "columns":
+        	[
+            {
+            	"orderable": false,
+            	"data": "STT"
+            },
+            {
+            	"orderable": true,
+            	"data": "discSeriesName"
+            },
+            {
+            	"orderable": true,
+            	"data": "categoryName"
+            },
+            {
+            	"orderable": true,
+            	"data": "numberDiscs",
+            	"render": function(data) {
+            		return data.remainingDisc + "/" + data.totalDisc;
+            	}
+            },
+            {
+            	"orderable": false,
+            	"data": "discSeriesId",
+            	"render": function(data) {
+            		return "<a onClick='loadDiscSeriesDetail(" + data + ")' href='#' data-toggle='modal' data-target='#detail_target_disc_series'>Xem</a>";
+            	}
+            }
+            ]
+    });
+    
+    $("#pickedType").on("change", function() {
+    	tableListDiscSeries.draw();
+    });
+});
 </script>
 
 </head>
@@ -273,14 +274,8 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 			</ol>
 		</div>
 		<div class="row">
-			<div class="col-sm-4">
-				<div class="input-group">
-					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-					<input id="searchQuery" type="text" onKeyUp="filterBySearch()" name="searchQuery" value="" class="form-control" placeholder="tìm kiếm">
-				</div>
-			</div>
-			<div class="col-sm-3 col-sm-offset-1">
-				<select id="pickedType" name="pickedType" onChange="filterByType()" class="form-control">
+			<div class="col-sm-3" style="margin: 0 0 5px -15px">
+				<select id="pickedType" name="pickedType" class="form-control">
 					<option value="0">Chọn thể loại</option>
 					<%
 					ArrayList<Category> listCategories = (ArrayList<Category>) request.getAttribute("listCategories");
@@ -295,30 +290,18 @@ function changeRentingWeeks(discId, pickedRentingWeeks) {
 					%>
 				</select>
 			</div>
-			<div class="form-group col-sm-4">
-				<div class="col-sm-6">
-					<label class="control-label pull-right" for="pageDropdown">Trang:</label>
-				</div>
-				<div class="col-sm-6">
-					<select id="pickedPage" name="pickedPage" onChange="filterByPager()" class="form-control pull-right">
-						<option value="1"></option>
-				  	</select>
-				</div>
-			</div> <!-- /.form-group -->
 		</div>
 		<div class="row">
-			<table class="table table-bordered table-striped">
+			<table id="tableListDiscSeries" class="table table-bordered table-striped" cellspacing="0" width="100%">
 				<thead>
 					<tr>
-						<th style="width: 4%">STT</th>
-						<th style="width: 41%">Tên bộ đĩa</th>
-						<th style="width: 41%">Thể loại</th>
-						<th style="width: 6%">SL</th>
-						<th style="width: 8%">Thao tác</th>
+						<th style="width: 5%">STT</th>
+						<th style="width: 45%">Tên bộ đĩa</th>
+						<th style="width: 32%">Thể loại</th>
+						<th style="width: 8%">SL</th>
+						<th style="width: 10%">Thao tác</th>
 					</tr>
 				</thead>
-				<tbody id="tableBodyListDiscSeries">
-				</tbody>
 			</table>
 
 			<!-- Modal: List all disks of the target disk series -->
