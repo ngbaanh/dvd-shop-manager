@@ -18,30 +18,6 @@
 <!-- import datatable library -->
 <jsp:include page="_dataTables.jsp"></jsp:include>
 
-<style>
-fieldset.list_choice {
-	border: 1px groove #eee;
-	padding: 0 10px 10px 10px;
-	margin: auto;
-	
-}
-
-legend.list_choice {
-	width: auto;
-	padding: 0 10px;
-	border-bottom: none;
-	border-radius: 5px;
-}
-
-#panel_list_choice {
-	box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 5px 0
-		rgba(0, 0, 0, 0.3);
-	padding: 10px;
-	margin: 20px -15px;
-	border-radius: 5px;
-}
-</style>
-
 <script type="text/javascript">
 function loadDiscSeriesDetail(discSeriesId) {
   	$.ajax({
@@ -147,6 +123,11 @@ function viewListPendingDisc(strScreenListPendingDisc) {
   			bodyListPendingDisc += "<td>Vừa bị gỡ xuống</td>";
   			bodyListPendingDisc += "<td>Vừa bị gỡ xuống</td>";
   			bodyListPendingDisc += "<td>Vừa bị gỡ xuống</td>";
+  		} if (!pendingDisc.isAvailable) {
+  			bodyListPendingDisc += "<td>Vừa có người thuê</td>";
+  			bodyListPendingDisc += "<td>Vừa có người thuê</td>";
+  			bodyListPendingDisc += "<td>Vừa có người thuê</td>";
+  			bodyListPendingDisc += "<td>Vừa có người thuê</td>";
   		} else {
   	  		bodyListPendingDisc += "<td>" + pendingDisc.discSeriesName + "</td>";
   	  		bodyListPendingDisc += "<td>" + pendingDisc.price + "</td>";

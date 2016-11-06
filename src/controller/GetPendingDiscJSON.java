@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import util.Const;
 import model.bean.Disc;
 import model.bo.DiscBO;
+import util.Const;
 import business.session.PendingDisc;
 
 /**
@@ -66,6 +66,7 @@ public class GetPendingDiscJSON extends HttpServlet {
 			Disc disc = discBO.getDisc(pendingDisc.getDiscId());
 			if (disc != null) {
 				strListPendingDisc += "'deleted': false";
+				strListPendingDisc += ",'isAvailable': " + disc.isAvailable();
 				strListPendingDisc += ",'discId': " + pendingDisc.getDiscId();
 				strListPendingDisc += ",'discSeriesName': '" + pendingDisc.getDiscSeriesName() + "'";
 				strListPendingDisc += ",'price': " + disc.getPrice();

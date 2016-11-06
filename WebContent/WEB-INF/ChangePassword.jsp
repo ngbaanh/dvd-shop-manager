@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,13 +20,21 @@
 		</div>
 		<div>
 		  	<%
-		  	if(request.getAttribute("error") != null) {
-		  		%>
-		  		<p style="color: red"><%=request.getAttribute("error") %></p>
-				<%
+		  	if (request.getAttribute("errors") != null) {
+		  		ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
+		  		for (int i = 0; i < errors.size(); i++) {
+		  			%>
+			  		<p style="color: red"><%=errors.get(i) %></p>
+					<%
+		  		}
 			}
+		  	if (request.getAttribute("success") != null) {
+		  		%>
+		  		<p style="color: green"><%=request.getAttribute("success") %></p>
+				<%
+		  	}
 			%>
-			<form class="form form-horizontal" action="/SE23/SubmitChangePassword" method="post">
+			<form class="form form-horizontal" action="SubmitChangePassword" method="post">
 				<div class="form-group">
 					<div class="col-sm-3">
 						<label class="control-label" for="password">

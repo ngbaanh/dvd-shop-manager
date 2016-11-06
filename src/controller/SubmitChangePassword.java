@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +44,7 @@ public class SubmitChangePassword extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		StaffBO staffBO = new StaffBO();
-		String error = null;
+		ArrayList<String> errors = new ArrayList<String>();
 		// get parameters
 		String password = request.getParameter("password");
 		String new_password = request.getParameter("new_password");
@@ -54,34 +55,30 @@ public class SubmitChangePassword extends HttpServlet {
 		 */
 		// check blank
 		if("".equals(password)){
-			error = "Password can not blank!";
-			System.out.println(error);
+			errors.add("Mật khẩu cũ không được để trống!");
 		}
 		if("".equals(new_password)){
-			error = "New password can not blank!";
-			System.out.println(error);
+			errors.add("Mật khẩu mới không được để trống!");
 		}
 		if("".equals(confirmed_password)){
-			error = "Confirmed password can not blank!";
-			System.out.println(error);
+			errors.add("Xác nhận mật khẩu mới không được để trống!");
 		}
 		// check max length
-		if(password.length()>30){
-			error = "Password can not more than 30 characters!";
+		if(password.length() > 30){
+			errors.add("Mật khẩu cũ không được quá 30 kí tự!");
 		}
-		if(new_password.length()>30){
-			error = "New password can not more than 30 characters!";
+		if(new_password.length() > 30){
+			errors.add("Mật khẩu mới không được quá 30 kí tự!");
 		}
-		if(confirmed_password.length()>30){
-			error = "Confirmed password can not more than 30 characters!";
+		if(confirmed_password.length() > 30){
+			errors.add("Xác nhận mật khẩu mới không được quá 30 kí tự!");
 		}
 		//check matching password
 		if(!new_password.equals(confirmed_password)){
-			error= "Confirmed password must match with new password!";
-			
+			errors.add("Xác nhận mật khẩu mới không trùng với mật khẩu mới!");
 		}
 		
-		if (error==null){
+		if (errors.size() == 0){
 			HttpSession session = request.getSession();
 			Staff staff = (Staff)session.getAttribute("staff");
 			
@@ -89,15 +86,16 @@ public class SubmitChangePassword extends HttpServlet {
 				staff.setPassword(new_password); // set new password for staff
 				if (staffBO.changePassword(staff)) {
 					session.setAttribute("staff", staff);
+					request.setAttribute("success", "Đổi mật khẩu thành công!");
 				} else {
-					error = "Error in processing change password";
+					errors.add("Lỗi trong quá trình đổi mật khẩu");
 				}
 			} else {
-				error = "Wrong password";
+				errors.add("Mật khẩu cũ không đúng");
 			}
 		}
-		if (error!=null) {
-			request.setAttribute("error", error);
+		if (errors.size() != 0) {
+			request.setAttribute("errors", errors);
 		}
 		request.getRequestDispatcher("/WEB-INF/ChangePassword.jsp").forward(request, response);
 		
