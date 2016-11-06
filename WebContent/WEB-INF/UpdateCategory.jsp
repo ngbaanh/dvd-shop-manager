@@ -25,7 +25,7 @@
 </head>
 <body>
 	<div class="container-fluid">
-		<form class="form-horizontal" name="updateForm" action="UpdateCategory" method="get">
+		<form class="form-horizontal" name="updateForm" action="UpdateCategory" method="post">
 			<div class="form-group">
 				<label class="col-xs-3 control-label">Mã TL</label>
 				<div class="col-xs-9">

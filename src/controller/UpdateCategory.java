@@ -62,6 +62,7 @@ public class UpdateCategory extends HttpServlet {
 			//reak
 		} else {
 			String categoryName = request.getParameter("CategoryName");
+System.out.println("NAME = " + categoryName);			
 			Category category = new Category();
 			category.setCategoryId(categoryId);
 			category.setCategoryName(categoryName.trim());

@@ -84,7 +84,7 @@
 			%>
 			<div class="col-md-6 col-md-offset-3">
 
-				<form action="AddNewCategory" method="get" name="addForm" onSubmit="return validateForm()">
+				<form action="AddNewCategory" method="post" name="addForm" onSubmit="return validateForm()">
 					<div class="row">
 						<div class="input-group input-group-md">
 							<input type="text" class="form-control"
