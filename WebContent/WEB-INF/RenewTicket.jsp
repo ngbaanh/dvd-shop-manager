@@ -87,31 +87,45 @@
 								<td><%=listDiscOfTicket.get(i).getRentingWeeks()%> +
 									<div class="btn-group" style="float: right">
 										<%
-											int oldPrice = listDisc.get(i).getPrice() * listDiscOfTicket.get(i).getRentingWeeks() ;
-											int newPrice = listDisc.get(i).getPrice() * (listDiscOfTicket.get(i).getRentingWeeks()+1);
-											priceOfTicket += newPrice;
-										    oldPriceOfTicket += oldPrice;
-										%>
-										<select name="rentingWeek[<%=i%>]" onchange="loadPrice(this, <%=listDisc.get(i).getPrice()%>, <%=oldPrice%>)">
-												<%
-												for (int j = 1; j <= Const.MAX_RENTING_WEEKS; j++) {
-													%>
-													<option
-														value="<%=j%>"
-														<%
-														if (j==Const.DEFAULT_RENTING_WEEKS) {
-															%>
-															selected="selected"
-															<%
-														}
-														%>
-													>
-														<%=j%>
-													</option>
-													<%
-												}
+										int oldPrice = listDisc.get(i).getPrice() * listDiscOfTicket.get(i).getRentingWeeks();
+										int newPrice = listDisc.get(i).getPrice() * (listDiscOfTicket.get(i).getRentingWeeks()+1);
+										if (listDiscOfTicket.get(i).isReturned()) {
+											newPrice = oldPrice;
+										}
+										priceOfTicket += newPrice;
+									    oldPriceOfTicket += oldPrice;
+									    if (listDiscOfTicket.get(i).isReturned()) {
+									    	%>
+									    	Đĩa đã trả
+											<select name="rentingWeek[<%=i%>]" class="hidden">
+												<option value="0">0</option>
+											</select>
+											<%
+									    } else {
+											%>
+											<select name="rentingWeek[<%=i%>]" onchange="loadPrice(this, <%=listDisc.get(i).getPrice()%>, <%=oldPrice%>)">
+											<%
+											for (int j = 1; j <= Const.MAX_RENTING_WEEKS; j++) {
 												%>
-												</select>
+												<option
+													value="<%=j%>"
+													<%
+													if (j==Const.DEFAULT_RENTING_WEEKS) {
+														%>
+														selected="selected"
+														<%
+													}
+													%>
+												>
+													<%=j%>
+												</option>
+												<%
+											}
+											%>
+											</select>
+										<%
+										}
+										%>
 									</div>
 								</td>
 								<td><%=newPrice %></td>

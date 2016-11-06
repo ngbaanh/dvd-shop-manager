@@ -42,9 +42,11 @@ public class ViewTicketList extends HttpServlet {
 		TicketBO ticketBO = new TicketBO();
 		ArrayList<Ticket> listTickets = new ArrayList<Ticket>();
 		
-		String searchQuery = request.getParameter("SearchQuery");
-		if (searchQuery == null || "".equals(searchQuery)) {
+		String searchQuery = null; 
+		if (request.getParameter("SearchQuery") == null) {
 			searchQuery = "";
+		} else {
+			searchQuery = new String(request.getParameter("SearchQuery").getBytes("ISO-8859-1"),"UTF-8");
 		}
 		byte statusId = -1;
 		int page = 1;

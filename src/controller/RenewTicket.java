@@ -58,7 +58,7 @@ public class RenewTicket extends HttpServlet {
 			rentalDisc.setRentingWeeks((byte) rentingWeeks);
 			Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
 			rentalDisc.setFinalTime(finalTime);
-			if(rentalDiscBO.updateRentalDisc(rentalDisc)==true){
+			if(rentalDiscBO.updateRentalDisc(rentalDisc)){
 				System.out.println("Cập nhật thành công");
 			}else {
 				System.out.println("Có lỗi đâu đó xãy ra");

@@ -75,33 +75,34 @@
 									<div class="row">
 									<%
 									for (int j=1;j<=3;j++) {
-										if (listDisc.get(i).getQualityId()== j) {
-											%>
-											<div class="col-md-2 col-md-offset-0">
-												<label class="radio-inline"> <input type="radio"
-													name="inlineRadioOptions<%=i%>" id="<%=j%>"
-													value="option<%=j%>" checked="checked"> 
-													<%=j%>*
-											</div>
-											<%
-										} else {
-											%>
-											<div class="col-md-2 col-md-offset-0">
-												<label class="radio-inline"> <input type="radio"
-													name="inlineRadioOptions<%=i%>" id="<%=j%>"
-													value="option<%=j%>">
-													<%=j%>*
-											</div>
-											<%
-										}
+										int qualityId = listDisc.get(i).getQualityId();
+										%>
+										<div class="col-md-2 col-md-offset-0">
+											<label class="radio-inline">
+											<input type="radio"
+												name="qualityIdOf<%=listDisc.get(i).getDiscId()%>"
+												value="<%=j%>"
+												<%if (j == qualityId){%>checked="checked"<%}%>
+											><%=j%>*
+										</div>
+										<%
 									}
 									%>	
 									</div>
 								</td>
 								<td><%=listDisc.get(i).getPlace() %></td>
-								<td><label class="checkbox-inline"> <input
-										type="checkbox" name="checkbox<%=i%>" id="inlineCheckbox<%=i%>" value="option<%=i%>">
-								</label></td>
+								<%
+								if (listDiscOfTicket.get(i).isReturned()) {
+									%><td>Đĩa đã trả</td><%
+								} else {
+									%>
+									<td><label class="checkbox-inline"> <input
+											type="checkbox" name="discId" value="<%=listDisc.get(i).getDiscId()%>">
+									</label></td>
+									<%
+								}
+								%>
+								
 							</tr>
 						<%} %>
 	

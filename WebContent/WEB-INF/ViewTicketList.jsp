@@ -37,15 +37,13 @@
 		</div>
 
 		<script type="text/javascript">
-			$("input#SearchQuery").live(
+			$("input#SearchQuery").on(
 					"keyup",
 					function(e) {
 						if (e.which == 13) {
-							var searchQuery = document
-									.getElementById("SearchQuery").value;
-							// kiểm tra valid searchQuery ở đây
-							// TODO
-							document.location = "#?SearchQuery=" + searchQuery;
+							var searchQuery = $("#SearchQuery").val();
+							alert(searchQuery);
+							window.location.replace("#?SearchQuery=" + searchQuery);
 						}
 					});
 		</script>

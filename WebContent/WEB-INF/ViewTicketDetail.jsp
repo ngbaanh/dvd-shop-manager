@@ -14,9 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="author" content="Tran Thanh Sang">
 <title>ViewTicketDetail</title>
-	<jsp:include page="_header.jsp" />
 	<jsp:include page="_bootstrap.jsp" />
 </head>
+<jsp:include page="_header.jsp" />
 <body>
 	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">
@@ -142,7 +142,7 @@
 							<script type="text/javascript">
 								function loadPrice(elementSelectWeeks, pricePerDisc) {
 									var elementPriceOfDiscs = elementSelectWeeks.parentElement.parentElement.nextElementSibling;
-									var elementPriceOfTicket = document.getElementById("priceOfTicket");
+									var elementPriceOfTicket = $("#priceOfTicket");
 									var oldPriceOfDiscs = parseInt(elementPriceOfDiscs.innerHTML);
 									var oldPriceOfTicket = parseInt(elementPriceOfTicket.innerHTML);
 									var selectWeeks = parseInt(elementSelectWeeks.value);
@@ -196,7 +196,7 @@
 								<td></td>
 								<td></td>
 								<td><b>Tổng</b></td>
-								<td id="priceOfTicket"><b><%=priceOfTicket%></b></td>
+								<td><b id="priceOfTicket"><%=priceOfTicket%></b></td>
 							</tr>
 						</table>
 						<textarea name="ticketPrice" hidden><%=priceOfTicket %></textarea>

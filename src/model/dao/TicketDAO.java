@@ -106,7 +106,6 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 
 	@Override
 	public boolean destroyTicket(int ticketId) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -32,8 +32,7 @@ public class TicketBO implements ITicket{
 
 	@Override
 	public boolean destroyTicket(int ticketId) {
-		// TODO Auto-generated method stub
-		return false;
+		return ticketDAO.destroyTicket(ticketId);
 	}
 
 	@Override

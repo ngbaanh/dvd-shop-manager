@@ -120,7 +120,7 @@ public class HandleTicket extends HttpServlet {
 					request.getRequestDispatcher("/WEB-INF/ReturnTicket.jsp").forward(request, response);
 					
 				} else if (request.getParameter("HuyPhieu")!=null){
-				
+					ticketBO.destroyTicket(ticketId);
 				}
 			
 			}
