@@ -14,9 +14,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="author" content="Tran Thanh Sang">
 <title>ViewTicketDetail</title>
-	<jsp:include page="_header.jsp" />
 	<jsp:include page="_bootstrap.jsp" />
 </head>
+<jsp:include page="_header.jsp" />
 <body>
 	<jsp:include page="_top.jsp" />
 	<div class="container-fluid">

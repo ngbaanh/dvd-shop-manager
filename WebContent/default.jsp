@@ -28,8 +28,7 @@
 		if (validated) {
 			return true;
 		} else {
-			alert("<%=Const.INVALID_FORM%>
-	");
+			alert("<%=Const.INVALID_FORM%>");
 			return false;
 		}
 	}
