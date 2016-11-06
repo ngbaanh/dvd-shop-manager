@@ -38,11 +38,11 @@
 	<div class="container">
 		<h2>Quản lí giá thuê đĩa</h2>
 		<i>Đặt giá dựa trên đánh giá chất lượng đĩa</i>
-		<div class="row">
+		<div class="row"  style="width:600px; margin: 0 auto; display:block;">
 			<form class="form form-horizontal" action="ManageDiscPrice" 
 				method="post" name="PriceForm" onSubmit="return validateForm()">
 				<input type="hidden" name="action" value="do">
-				<table class="table table-striped" style="width:500px;">
+				<table class="table table-striped table-bordered" style="width:500px;">
 					<tr>
 						<th>Chất lượng</th>
 						<th>Giá thuê (VNĐ)</th>

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 import model.bean.Category;
 import util.ICategory;
+import util.Util;
 
 /**
  * @author NguyenBaAnh
  * @see NguyenVanQuang
- *
  */
 public class CategoryDAO extends DatabaseFactory implements ICategory {
 
@@ -65,10 +65,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<Category> listCategories = new ArrayList<Category>();
 			while (resultSet.next()) {
-				Category cat = new Category();
-				cat.setCategoryId(resultSet.getInt("CategoryId"));
-				cat.setCategoryName(resultSet.getString("CategoryName"));
-				listCategories.add(cat);
+				listCategories.add(this.getCategory(resultSet.getInt("CategoryId")));
 			}
 			preparedStatement.close();
 			return listCategories;
@@ -88,10 +85,10 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		String addQuery = "insert into category(CategoryName) values(?)";
 		try {
 			preparedStatement = connection.prepareStatement(addQuery);
-			preparedStatement.setString(1, cat.getCategoryName());
+			preparedStatement.setString(1, Util.escapeHTML(Util.beautify(cat.getCategoryName())));
 			// FIXME - console
 			System.out.println("CategoryDAO: " + preparedStatement.toString());
-			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			boolean actionResult = preparedStatement.executeUpdate() > 0;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -113,7 +110,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement.setInt(1, catId);
 			// FIXME - console
 			System.out.println("CategoryDAO: " + preparedStatement.toString());
-			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			boolean actionResult = preparedStatement.executeUpdate() > 0;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -132,11 +129,11 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		String updateQuery = "update category set CategoryName=? where categoryId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
-			preparedStatement.setString(1, cat.getCategoryName());
+			preparedStatement.setString(1, Util.escapeHTML(Util.beautify(cat.getCategoryName())));
 			preparedStatement.setInt(2, cat.getCategoryId());
 			// FIXME - console
 			System.out.println("CategoryDAO: " + preparedStatement.toString());
-			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			boolean actionResult = preparedStatement.executeUpdate() > 0;
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -153,7 +150,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 			preparedStatement.setString(1, categoryName);
 			// FIXME - console
 			System.out.println("CategoryDAO: " + preparedStatement.toString());
-			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			boolean actionResult = preparedStatement.executeQuery().next();
 			preparedStatement.close();
 			return actionResult;
 		} catch (SQLException e) {
@@ -168,7 +165,7 @@ public class CategoryDAO extends DatabaseFactory implements ICategory {
 		try {
 			preparedStatement = connection.prepareStatement(validQuery);
 			preparedStatement.setInt(1, catId);
-			boolean actionResult = preparedStatement.executeQuery().next() ? true : false;
+			boolean actionResult = preparedStatement.executeQuery().next();
 			preparedStatement.close();
 			return !actionResult;
 		} catch (SQLException e) {

@@ -42,6 +42,7 @@ public class ManageDiscCategory extends HttpServlet {
 			throws ServletException, IOException {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
 		Staff loggedInStaff = (Staff) session.getAttribute("staff");
