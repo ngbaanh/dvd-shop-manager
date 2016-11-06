@@ -43,7 +43,6 @@ public class RentalDiscDAO extends DatabaseFactory {
 			preparedStatement.setTimestamp(2, rentalDisc.getFinalTime());
 			preparedStatement.setInt(3, rentalDisc.getTicketId());
 			preparedStatement.setInt(4, rentalDisc.getDiscId());
-			// FIXME - console
 			System.out.println("DiscDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
 			preparedStatement.close();
@@ -74,6 +73,24 @@ public class RentalDiscDAO extends DatabaseFactory {
 			System.out.println("RentalDiscDAO: " + preparedStatement.toString());
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
+				preparedStatement.close();
+				return true;
+			}
+			preparedStatement.close();
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean returnDisc(int discId) {
+		String updateQuery = "UPDATE rental_disc SET Returned = true where DiscId = ?";
+		try {
+			preparedStatement = connection.prepareStatement(updateQuery);
+			preparedStatement.setInt(1, discId);
+			System.out.println("RentalDiscDAO: " + preparedStatement.toString());
+			if (preparedStatement.executeUpdate() > 0) {
 				preparedStatement.close();
 				return true;
 			}

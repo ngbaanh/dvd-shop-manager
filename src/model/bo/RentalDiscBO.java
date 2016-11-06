@@ -25,4 +25,8 @@ public class RentalDiscBO {
 	public ArrayList<RentalDisc> getConflictDiscList(ArrayList<RentalDisc> rentalDiscList) {
 		return rentalDiscDAO.getConflictDiscList(rentalDiscList);
 	}
+
+	public boolean returnDisc(int discId) {
+		return rentalDiscDAO.returnDisc(discId);
+	}
 }
