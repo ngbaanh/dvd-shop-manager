@@ -142,7 +142,7 @@
 							<script type="text/javascript">
 								function loadPrice(elementSelectWeeks, pricePerDisc) {
 									var elementPriceOfDiscs = elementSelectWeeks.parentElement.parentElement.nextElementSibling;
-									var elementPriceOfTicket = document.getElementById("priceOfTicket");
+									var elementPriceOfTicket = $("#priceOfTicket");
 									var oldPriceOfDiscs = parseInt(elementPriceOfDiscs.innerHTML);
 									var oldPriceOfTicket = parseInt(elementPriceOfTicket.innerHTML);
 									var selectWeeks = parseInt(elementSelectWeeks.value);
@@ -196,7 +196,7 @@
 								<td></td>
 								<td></td>
 								<td><b>Tổng</b></td>
-								<td id="priceOfTicket"><b><%=priceOfTicket%></b></td>
+								<td><b id="priceOfTicket"><%=priceOfTicket%></b></td>
 							</tr>
 						</table>
 						<textarea name="ticketPrice" hidden><%=priceOfTicket %></textarea>
