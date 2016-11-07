@@ -21,6 +21,38 @@
 		document.getElementById("staffAddress").value = staffAddress;
 		document.getElementById("staffDOB").value =  staffDOB;
 	}
+	function validateForm(){
+		//check valid for name
+		var staffName = document.getElementById("staffName").value;
+		if(staffName.length > 30){
+			document.getElementById("staffNameMsg").innerHTML = "Tên nhân viên quá dài!";
+		    return false;
+		}
+		
+		//check valid for phone number
+		var staffPhone = document.getElementById("staffPhone").value;
+		 if (isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) {
+			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
+		        return false;
+		 }
+		 if (staffPhone.length<10) {
+			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
+		        return false;
+		 }
+		 if (staffPhone.length>11) {
+			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
+		        return false;
+		 }
+		
+		//check valid for address
+		var staffAddress = document.getElementById("staffAddress").value;
+		if(staffAddress.length > 100){
+			document.getElementById("staffAddressMsg").innerHTML = "Địa chỉ quá dài!";
+		    return false;
+		}
+		 
+		 return true;
+	}
 </script>
 </head>
 <jsp:include page="_header.jsp" />
@@ -56,7 +88,7 @@
 		}
 		if(staffList != null){
 		%>
-		<table class="table table-striped">
+		<table class="table table-striped table-bordered">
 			<thead>
 				<tr class="active">
 					<th>STT</th>
@@ -110,58 +142,58 @@
 					<h4 class="modal-title">Thông tin chi tiết nhân viên</h4>
 				</div>
 				<div class="modal-body">
-					<form action="UpdateStaff" method = "post">
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3">
-							Tài khoản <span style="color: red">*</span>
+					<form class="form-horizontal" action="UpdateStaff" method ="post" onsubmit="validateForm()">
+						<div class="form-group">
+					      <label class="col-md-3" for="staffId">Tài khoản <span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffId" id="staffId" readonly></input>
+					      </div>
+					    </div>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffName">Tên nhân viên<span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffName" id="staffName" required></input>
+					      </div>
+					    </div>
+					   
+						<div class="row">
+							<p id="staffNameMsg"></p>
 						</div>
-						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffId" id = "staffId" disabled value="abc"></input>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffDOB">Ngày sinh <span style="color: red">*</span></label>
+					      <div class="col-md-3">
+					        <div class="input-group">
+								<input type="date" class="form-control" name="staffDOB" id="staffDOB" required></input>
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
+							</div>
+					      </div>
+					      <label class="col-md-offset-1 col-md-2" for="staffPhone">SDT<span style="color: red">*</span></label>
+					      <div class="col-md-3">
+					        <input type="number" class="form-control" name="staffPhone" id="staffPhone" required></input>
+					      </div>
+					    </div>
+						
+						<div class="row">
+							<p id="phone"></p>
 						</div>
-					</div>
-					<br>
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3">
-							Tên nhân viên <span style="color: red">*</span>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffAddress">Địa chỉ<span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffAddress" id="staffAddress" required></input>
+					      </div>
+					    </div>
+						<div class="row">
+							<p id="staffAddressMsg"></p>
 						</div>
-						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffName" id = "staffName" required></input>
-						</div>
-					</div>
-					<br>
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3">
-							Ngày sinh <span style="color: red">*</span>
-						</div>
-						<div class="col-md-4">
-							<input type="date" style="width: 100%" name = "staffDOB" id = "staffDOB" ></input>
-						</div>
-						<div class="col-md-1">
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-						<div class="col-md-1">
-							SDT<span style="color: red">*</span>
-						</div>
-						<div class="col-md-3">
-							<input type="number" style="width: 100%" name = "staffPhone" id = "staffPhone" ></input>
-						</div>
-					</div>
-					<br>
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3">
-							Địa chỉ<span style="color: red">*</span>
-						</div>
-						<div class="col-md-9">
-							<input type="text" style="width: 100%" name = "staffAddress" id = "staffAddress" ></input>
-						</div>
-					</div>
-					<br>
-					<div class="row" style="margin-left: 20px">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
-							<input type="submit" value="Lưu" />
-						</div>
-					</div>
+						
+						<div class="form-group">
+					      <div class="col-sm-offset-4 col-sm-4">
+					        <button type="submit" class="btn btn-primary btn-block">Lưu</button>
+					      </div>
+					    </div>
 					</form>
 				</div>
 			</div>
