@@ -81,74 +81,56 @@
 			<h2>Thông tin nhân viên</h2>
 		</div>
 		<br>
-		<form action = "CreateNewStaff" method = "post" onsubmit="return validateForm()">
-		<div style="margin-left: 60px">
-			<div class="row">
-				<div class="col-md-2">Tài khoản <span style = "color: red">*</span></div>
+		<form class="form-horizontal" action="CreateNewStaff" method="post" onsubmit="return validateForm()">
+			<div class="form-group">
+				<label class="col-md-2" for="staffId">Tài khoản <span style="color: red">*</span></label>
 				<div class="col-md-6"><input type="text" class="form-control" name="staffId" id="staffId" required/></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="staffIdMsg" style="color:red"></p></div>
-			</div>
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="staffIdMsg" style="color:red"></p></div></div>
 			
-			<div class="row">
-				<div class="col-md-2">Mật khẩu <span style = "color: red">*</span></div>
+			<div class="form-group">
+				<label class="col-md-2" for="password">Mật khẩu  <span style="color: red">*</span></label>
 				<div class="col-md-6"><input type="password" class="form-control" name="password" id="password" required/></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="passwordMsg" style="color:red"></p></div>
-			</div>		
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="passwordMsg" style="color:red"></p></div></div>		
 	
-			<div class="row">
-				<div class="col-md-2">Nhập lại mật khẩu<span style = "color: red">*</span></div>
+			<div class="form-group">
+				<label class="col-md-2" for="password">Nhập lại mật khẩu<span style="color: red">*</span></label>
 				<div class="col-md-6"><input type = "password" class="form-control" name="password2" id="password2" required/></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="pass" style="color:red"></p></div>
-			</div>
-			<div class="row">
-				<div class="col-md-2">Tên nhân viên <span style = "color: red">*</span></div>
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="pass" style="color:red"></p></div></div>
+			
+			<div class="form-group">
+				<label class="col-md-2" for="password">Tên nhân viên<span style="color: red">*</span></label>
 				<div class="col-md-6"><input type = "text" class="form-control"  name="staffName" id="staffName" required/></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="staffNameMsg" style="color:red"></p></div>
-			</div>
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="staffNameMsg" style="color:red"></p></div></div>
 			
-			<div class="row">
-				<div class="col-md-2"> 
-					Ngày sinh <span style="color: red">*</span>
+			<div class="form-group">
+		      <label class="col-md-2" for="staffDOB">Ngày sinh <span style="color: red">*</span></label>
+		      <div class="col-md-2">
+		        <div class="input-group">
+					<input type="date" class="form-control" name="staffDOB" id="staffDOB" required></input>
+					<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 				</div>
-				<div class="col-md-3">
-					<div class="input-group">
-						<input type="date" class="form-control" name="staffDOB" id="staffDOB"></input>
-						<span class="input-group-addon glyphicon glyphicon-calendar"></span>
-					</div>
-				</div>
-				<div class="col-md-1">SDT<span style = "color: red">*</span></div>
-				<div class="col-md-2"><input type = "number" class="form-control" name="staffPhone" id="staffPhone" required valid/></div>
-			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="phone" style="color:red"></p></div>
-			</div>
+		      </div>
+		      <label class="col-md-offset-1 col-md-1" for="staffPhone">SDT<span style="color: red">*</span></label>
+		      <div class="col-md-2">
+		        <input type="number" class="form-control" name="staffPhone" id="staffPhone" required></input>
+		      </div>
+		    </div>
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="phone" style="color:red"></p></div></div>
 			
-			<div class="row">
-				<div class="col-md-2">Địa chỉ<span style = "color: red">*</span></div>
+			<div class="form-group">
+				<label class="col-md-2" for="password">Địa chỉ<span style="color: red">*</span></label>
 				<div class="col-md-6"><input type = "text" class="form-control" name="staffAddress" id="staffAddress" required/></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-6"><p id="addressMsg" style="color:red"></p></div>
+			<div class="row"><div class="col-md-offset-2 col-md-6"><p id="addressMsg" style="color:red"></p></div>
 			</div>
-			<div class="row">
-				<div class="col-md-2"></div>
-				<div class="col-md-3"><input class="btn btn-primary btn-block" type = "submit" value = "Tạo mới"/></div>
+			
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-3"><input class="btn btn-primary btn-block" type = "submit" value = "Tạo mới"/></div>
 			</div>
-		</div>
 		</form>
 		<!-- -------------------------------------- -->
 	</div>
