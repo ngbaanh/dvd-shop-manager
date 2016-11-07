@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,9 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.bean.Disc;
+import model.bean.DiscSeries;
+import model.bean.RentalDisc;
 import model.bean.Staff;
 import model.bean.Ticket;
 import model.bo.DiscBO;
+import model.bo.DiscSeriesBO;
 import model.bo.RentalDiscBO;
 import model.bo.TicketBO;
 
@@ -42,32 +46,49 @@ public class ReturnTicket extends HttpServlet {
 			HttpSession session = request.getSession();
 			Staff staff = (Staff) session.getAttribute("staff");
 			String staffName = staff.getStaffName();
-			
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			if (request.getParameterValues("discId") != null) {
+				TicketBO ticketBO = new TicketBO();
+				Ticket ticket = ticketBO.getTicket(ticketId);
+				ticket.setStaffName(staffName);
+				
 				RentalDiscBO rentalDiscBO = new RentalDiscBO();
 				DiscBO discBO = new DiscBO();
+				DiscSeriesBO discSeriesBO = new DiscSeriesBO();
 				String[] discIds = request.getParameterValues("discId");
+				
 				for (String discId: discIds) {
-					rentalDiscBO.returnDisc(Integer.parseInt(discId));
-					
+					rentalDiscBO.returnDisc(Integer.parseInt(discId));				
 					String qualityId = request.getParameter("qualityIdOf" + discId);
 					System.out.println(qualityId);
 					Disc disc = discBO.getDisc(Integer.parseInt(discId));
 					disc.setQualityId(Byte.valueOf(qualityId));
+					disc.setAvailable(true);
 					discBO.updateDisc(disc);
+					
+					DiscSeries discSeries = discSeriesBO.getDiscSeries(disc.getDiscSeriesId());
+					discSeries.setRemainingDisc(discSeries.getRemainingDisc()+1);
+					discSeriesBO.updateDiscSeries(discSeries);
 				}
-			}
-			
-			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
-			TicketBO ticketBO = new TicketBO();
-			Ticket ticket = ticketBO.getTicket(ticketId);
-			ticket.setStaffName(staffName);
-			if(ticketBO.updateTicket(ticket)==true){
-				System.out.println("Cập nhật Phiếu thành công");
-			} else {
-				System.out.println("Có lỗi xãy ra");
-			}
-			
+
+				ArrayList<RentalDisc> listDiscOfTicket = rentalDiscBO.getListDiscOfTicket(ticketId);
+				int numDiscOfTicket = listDiscOfTicket.size();
+				int numDiscReturned = 0;
+				for(int i=0; i<numDiscOfTicket; i++){
+					if(listDiscOfTicket.get(i).isReturned()){
+						numDiscReturned += 1;
+					}
+				}
+				if(numDiscOfTicket==numDiscReturned){
+					ticket.setStatusId((byte) 2);
+				}
+				
+				if(ticketBO.updateTicket(ticket)==true){
+					System.out.println("Cập nhật Phiếu thành công");
+				} else {
+					System.out.println("Có lỗi xãy ra");
+				}
+			} 
 			request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
 		} catch(Exception e){
 			e.printStackTrace();
