@@ -10,10 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.bean.Disc;
 import model.bean.DiscSeries;
 import model.bean.RentalDisc;
+import model.bean.Staff;
 import model.bean.Ticket;
 import model.bo.DiscBO;
 import model.bo.DiscSeriesBO;
@@ -42,6 +44,10 @@ public class HandleTicket extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		try{
+			HttpSession session = request.getSession();
+			Staff staff = (Staff) session.getAttribute("staff");
+			String staffName = staff.getStaffName();
+			
 			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			String customerName = new String(request.getParameter("customerName").getBytes("ISO-8859-1"), "UTF-8") ;
 			String customerPhone = new String(request.getParameter("customerPhone").getBytes("ISO-8859-1"), "UTF-8") ;
@@ -62,6 +68,7 @@ public class HandleTicket extends HttpServlet {
 					ticket.setCustomerName(customerName);
 					ticket.setCustomerPhone(customerPhone);
 					ticket.setCustomerAddress(customerAddress);
+					ticket.setStaffName(staffName);
 					ticket.setDeposit(deposit);
 					ticket.setTicketPrice(ticketPrice);
 					
