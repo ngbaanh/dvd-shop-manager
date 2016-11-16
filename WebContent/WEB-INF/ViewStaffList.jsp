@@ -53,6 +53,29 @@
 		 
 		 return true;
 	}
+	$(document).ready(function(){
+		$("#staffName").change(function(){
+			$("#staffNameMsg").addClass("hidden");
+		});
+		$("#staffPhone").change(function(){
+			$("#phone").addClass("hidden");
+		});
+		$("#staffAddress").change(function(){
+			$("#staffAddressMsg").addClass("hidden");
+		});
+		$("#savestaffbtn").click(function(){
+			var staffName = $("#staffName").val();
+			var staffPhone = $("#staffPhone").val();
+			var staffAddress = $("#staffAddress").val();
+			if(staffName.length > <%=Const.MAXLENGTH_NAME%>) $("#staffNameMsg").removeClass("hidden");
+			else if (isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) $("#phone").removeClass("hidden");
+			else if (staffPhone.length<10) $("#phone").removeClass("hidden");
+			else if (staffPhone.length>11) $("#phone").removeClass("hidden");
+			else if(staffAddress.length > <%=Const.MAXLENGTH_ADDRESS%>) $("#staffAddressMsg").removeClass("hidden");
+			else $("#updateuserform").submit();
+			
+		});
+	});
 </script>
 </head>
 <jsp:include page="_header.jsp" />
@@ -70,19 +93,15 @@
 		<%
 		if(message != null){
 		%>
-		<div class="row">
-			<div class="alert alert-info">
-				<strong>Alert </strong> <%=message %>
-			</div>
+		<div class="alert alert-info">
+			<strong>Alert </strong> <%=message %>
 		</div>
 		<%
 		}
 		if(error != null){
 		%>
-		<div class="row">
-			<div class="alert alert-danger">
-				<strong>Error</strong> <%=error %>
-			</div>
+		<div class="alert alert-danger">
+			<strong>Error</strong> <%=error %>
 		</div>
 		<%
 		}
@@ -142,7 +161,7 @@
 					<h4 class="modal-title">Thông tin chi tiết nhân viên</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" action="UpdateStaff" method ="post" onsubmit="validateForm()">
+					<form class="form-horizontal" id="updateuserform" action="UpdateStaff" method ="post">
 						<div class="form-group">
 					      <label class="col-md-3" for="staffId">Tài khoản <span style="color: red">*</span></label>
 					      <div class="col-md-9">
@@ -157,8 +176,8 @@
 					      </div>
 					    </div>
 					   
-						<div class="row">
-							<p id="staffNameMsg"></p>
+						<div class="row hidden" id="staffNameMsg">
+							<p class="col-md-offset-4 text-danger" >Tên nhân viên quá dài!</p>
 						</div>
 						
 						<div class="form-group">
@@ -175,8 +194,8 @@
 					      </div>
 					    </div>
 						
-						<div class="row">
-							<p id="phone"></p>
+						<div class="row hidden" id="phone">
+							<p class="col-md-offset-8 text-danger" >Số điện thoại không hợp lệ!</p>
 						</div>
 						
 						<div class="form-group">
@@ -185,13 +204,14 @@
 					        <input type="text" class="form-control" name="staffAddress" id="staffAddress" required></input>
 					      </div>
 					    </div>
-						<div class="row">
-							<p id="staffAddressMsg"></p>
+					     <div class="row hidden" id="staffAddressMsg">
+							<p class="col-md-offset-4 text-danger" >Địa chỉ quá dài!</p>
 						</div>
+						
 						
 						<div class="form-group">
 					      <div class="col-sm-offset-4 col-sm-4">
-					        <button type="submit" class="btn btn-primary btn-block">Lưu</button>
+					        <input type="button" class="btn btn-primary btn-block" id="savestaffbtn" value="Lưu"/>
 					      </div>
 					    </div>
 					</form>
