@@ -121,12 +121,13 @@ public class DiscDAO extends DatabaseFactory implements IDisc {
 	 */
 	@Override
 	public boolean updateDisc(Disc disc) {
-		String updateQuery = "update disc set QualityId=?, Place=? where DiscId=?";
+		String updateQuery = "update disc set QualityId=?, Available=?, Place=? where DiscId=?";
 		try {
 			preparedStatement = connection.prepareStatement(updateQuery);
 			preparedStatement.setInt(1, disc.getQualityId());
-			preparedStatement.setString(2, disc.getPlace());
-			preparedStatement.setInt(3, disc.getDiscId());
+			preparedStatement.setBoolean(2, disc.isAvailable());
+			preparedStatement.setString(3, disc.getPlace());
+			preparedStatement.setInt(4, disc.getDiscId());
 			// FIXME - console
 			System.out.println("DiscDAO: " + preparedStatement.toString());
 			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;

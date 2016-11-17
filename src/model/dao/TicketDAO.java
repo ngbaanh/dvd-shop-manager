@@ -106,7 +106,19 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 
 	@Override
 	public boolean destroyTicket(int ticketId) {
-		return false;
+		String removeQuery = "delete from ticket where TicketId=?";
+		try {
+			preparedStatement = connection.prepareStatement(removeQuery);
+			preparedStatement.setInt(1, ticketId);
+			// FIXME - console
+			System.out.println("TicketDAO: " + preparedStatement.toString());
+			boolean actionResult = preparedStatement.executeUpdate() > 0 ? true : false;
+			preparedStatement.close();
+			return actionResult;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override

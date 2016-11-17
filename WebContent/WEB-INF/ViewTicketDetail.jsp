@@ -151,6 +151,14 @@
 									elementPriceOfDiscs.innerHTML = newPriceOfDiscs;
 									elementPriceOfTicket.innerHTML = newPriceOfTicket;
 								}
+								function confirmDeleteTicket() {
+									var corfirm =confirm("Bạn chắc chắn muốn xóa phiếu thuê này!");
+								    if (corfirm == true) {
+								        $("#btnHuyPhieu").attr("name","HuyPhieu");
+								    } else {
+								    	$("#btnHuyPhieu").attr("name","");
+								    }
+								}
 							</script>
 							
 							<%
@@ -222,7 +230,7 @@
 							class="btn btn-block <%=statusId == 1 ? attribute[statusId] : attribute[statusId] + "\" disabled=\"disabled"%>">
 							Trả đĩa</button>
 						
-						<button type="submit" name="HuyPhieu" class="btn btn-block <%=attribute[3]%>">Hủy phiếu</button>
+						<button type="submit" name="HuyPhieu" id="btnHuyPhieu" onclick="confirmDeleteTicket()" class="btn btn-block <%=attribute[3]%>">Hủy phiếu</button>
 					</div>
 				</div>
 			</div>

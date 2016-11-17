@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.bean.RentalDisc;
+import model.bean.Staff;
 import model.bean.Ticket;
 import model.bo.RentalDiscBO;
 import model.bo.TicketBO;
@@ -38,34 +40,44 @@ public class RenewTicket extends HttpServlet {
 		response.setContentType("text/html");
 		response.setCharacterEncoding("UTF-8");
 		
-		int ticketId = Integer.parseInt(request.getParameter("ticketId"));
-		int ticketPrice = Integer.parseInt(request.getParameter("ticketPrice"));
-		TicketBO ticketBO = new TicketBO();
-		Ticket ticket = ticketBO.getTicket(ticketId);
-		ticket.setTicketPrice(ticketPrice);
-		if(ticketBO.updateTicket(ticket)==true){
-			System.out.println("Cập nhật Phiếu thành công");
-		} else {
-			System.out.println("Có lỗi xãy ra");
-		}
-		
-		RentalDiscBO rentalDiscBO = new RentalDiscBO();
-		ArrayList<RentalDisc> listDiscOfTicket = rentalDiscBO.getListDiscOfTicket(ticketId);
-		int numRentalDisc = listDiscOfTicket.size();
-		for(int i=0;i<numRentalDisc;i++){
-			RentalDisc rentalDisc = listDiscOfTicket.get(i);
-			int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeek["+i+"]"))+ rentalDisc.getRentingWeeks();
-			rentalDisc.setRentingWeeks((byte) rentingWeeks);
-			Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
-			rentalDisc.setFinalTime(finalTime);
-			if(rentalDiscBO.updateRentalDisc(rentalDisc)){
-				System.out.println("Cập nhật thành công");
-			}else {
-				System.out.println("Có lỗi đâu đó xãy ra");
+		try{
+			HttpSession session = request.getSession();
+			Staff staff = (Staff) session.getAttribute("staff");
+			String staffName = staff.getStaffName();
+			
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+			int ticketPrice = Integer.parseInt(request.getParameter("ticketPrice"));
+			TicketBO ticketBO = new TicketBO();
+			Ticket ticket = ticketBO.getTicket(ticketId);
+			ticket.setStaffName(staffName);
+			ticket.setTicketPrice(ticketPrice);
+			if(ticketBO.updateTicket(ticket)==true){
+				System.out.println("Cập nhật Phiếu thành công");
+			} else {
+				System.out.println("Có lỗi xãy ra");
 			}
+			
+			RentalDiscBO rentalDiscBO = new RentalDiscBO();
+			ArrayList<RentalDisc> listDiscOfTicket = rentalDiscBO.getListDiscOfTicket(ticketId);
+			int numRentalDisc = listDiscOfTicket.size();
+			for(int i=0;i<numRentalDisc;i++){
+				RentalDisc rentalDisc = listDiscOfTicket.get(i);
+				int rentingWeeks = Integer.parseInt(request.getParameter("rentingWeek["+i+"]"))+ rentalDisc.getRentingWeeks();
+				rentalDisc.setRentingWeeks((byte) rentingWeeks);
+				Timestamp finalTime = new Timestamp(ticket.getStartTime().getTime() + rentingWeeks * TimeUnit.DAYS.toMillis(7));
+				rentalDisc.setFinalTime(finalTime);
+				if(rentalDiscBO.updateRentalDisc(rentalDisc)){
+					System.out.println("Cập nhật thành công");
+				}else {
+					System.out.println("Có lỗi đâu đó xãy ra");
+				}
+			}
+			
+			request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
-		
-		request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
 	}
 
 	/**
