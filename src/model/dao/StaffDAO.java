@@ -133,6 +133,7 @@ public class StaffDAO extends DatabaseFactory implements IStaff {
 	public boolean updateStaff(Staff staff) {
 		String getQuery = "UPDATE `staff` SET `StaffName` = ?, `StaffPhone` = ?,`StaffDOB` = ?,"
 				+ " `StaffAddress` = ? WHERE `staff`.`StaffId` = ?;";
+		System.out.println(getQuery);
 		try {
 			preparedStatement = connection.prepareStatement(getQuery);
 			System.out.println("*StaffDAO: " + preparedStatement.toString());

@@ -71,19 +71,40 @@ public class StaffBO implements IStaff {
 
 	@Override
 	public boolean addNewStaff(Staff staff) {
-		// TODO Auto-generated method stub
+		if(!isValidateStaff(staff)) return false;
 		return staffDAO.addNewStaff(staff);
+	}
+	private boolean isPhonenumber(String phoneNumber){
+		if(phoneNumber == null) return false;
+		if(phoneNumber.length()<10 || phoneNumber.length()>11) return false;
+		for(int i=0; i<phoneNumber.length(); i++) if(!Character.isDigit(phoneNumber.charAt(i))) return false;
+		return true;
+	}
+	private boolean isValidateStaff(Staff staff) {
+		if(staff == null) return false;
+		if(staff.getStaffId() == null || "".equals(staff.getStaffId().trim()) || staff.getStaffId().length()>Const.MAXLENGTH_STAFFID) return false;
+		if(staff.getStaffName() == null || "".equals(staff.getStaffName().trim()) || staff.getStaffName().length()>Const.MAXLENGTH_NAME) return false;
+		if(staff.getPassword() == null || "".equals(staff.getPassword().trim()) || staff.getPassword().length()>Const.MAXLENGTH_PASSWORD) return false;
+		if(staff.getStaffDOB() == null) return false;
+		if(!isPhonenumber(staff.getStaffPhone())) return false;
+		if(staff.getStaffAddress() == null || "".equals(staff.getStaffAddress().trim()) || staff.getStaffAddress().length()>Const.MAXLENGTH_ADDRESS) return false;
+		return true;
 	}
 
 	@Override
 	public boolean updateStaff(Staff staff) {
-		// TODO Auto-generated method stub
+		if(staff == null) return false;
+		if(staff.getStaffId() == null || "".equals(staff.getStaffId().trim()) || staff.getStaffId().length()>Const.MAXLENGTH_STAFFID) return false;
+		if(staff.getStaffName() == null || "".equals(staff.getStaffName().trim()) || staff.getStaffName().length()>Const.MAXLENGTH_NAME) return false;
+		if(staff.getDateOB() == null) return false;
+		if(!isPhonenumber(staff.getStaffPhone())) return false;
+		if(staff.getStaffAddress() == null || "".equals(staff.getStaffAddress().trim()) || staff.getStaffAddress().length()>Const.MAXLENGTH_ADDRESS) return false;
 		return staffDAO.updateStaff(staff);
 	}
 
 	@Override
 	public boolean removeStaff(String staffId) {
-		// TODO Auto-generated method stub
+		if("".equals(staffId) || staffId == null) return false;
 		return staffDAO.removeStaff(staffId);
 	}
 

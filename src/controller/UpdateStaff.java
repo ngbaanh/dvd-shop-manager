@@ -41,6 +41,7 @@ public class UpdateStaff extends HttpServlet {
 		// Kiểm tra quyền hạn.
 		HttpSession session = request.getSession();
 		Staff loggedInStaff = (Staff) session.getAttribute("staff");
+		
 		if (loggedInStaff == null) {
 			String functionName = "Quản lí các bộ đĩa";
 			String message = "Chưa đăng nhập hoặc phiên sử dụng đã kết thúc; Chức năng <b>" + functionName
@@ -53,7 +54,7 @@ public class UpdateStaff extends HttpServlet {
 					.include(request, response);
 			return;
 		} // END
-
+		
 		// Lấy params từ dưới giao diện lên
 		String staffId, dateOB, staffName, staffPhone, staffAddress;
 		Timestamp staffDOB;
@@ -62,6 +63,7 @@ public class UpdateStaff extends HttpServlet {
 		staffPhone = request.getParameter("staffPhone");
 		staffAddress = request.getParameter("staffAddress");
 		dateOB = request.getParameter("staffDOB");
+		System.out.println(staffId + " " + staffName + staffPhone);
 		if(staffId != null && staffName!=null && staffPhone!=null && staffAddress!=null && dateOB != null){
 		try{
 		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -75,13 +77,20 @@ public class UpdateStaff extends HttpServlet {
 			staff.setStaffAddress(staffAddress);
 		    if(staffBO.updateStaff(staff)){
 				request.setAttribute("message", "Update staff '" + staffId + "' successfully!");
+				System.out.println("Update staff '" + staffId + "' successfully!");
 			}
 		    else{
 		    	request.setAttribute("error", "Update staff '" + staffId + "'  failed!");
+		    	System.out.println("Update staff '" + staffId + "'  failed!");
 		    }
 		}catch(Exception e){
 			request.setAttribute("error", "Update staff '" + staffId + "' invalid!");
+			System.out.println("Update staff '" + staffId + "' invalid!");
 		}
+		}
+		else{
+			request.setAttribute("error", "Update staff '" + staffId + "' invalid!");
+			System.out.println("Update staff '" + staffId + "' invalid!");
 		}
 		// Trả lại các thông số mà người dùng đã nhập
 		ArrayList<Staff> staffList = staffBO.getListStaffs();

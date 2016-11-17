@@ -21,6 +21,30 @@
 		document.getElementById("staffAddress").value = staffAddress;
 		document.getElementById("staffDOB").value =  staffDOB;
 	}
+	
+	$(document).ready(function(){
+		$("#staffName").change(function(){
+			$("#staffNameMsg").addClass("hidden");
+		});
+		$("#staffPhone").change(function(){
+			$("#phone").addClass("hidden");
+		});
+		$("#staffAddress").change(function(){
+			$("#staffAddressMsg").addClass("hidden");
+		});
+		$("#savestaffbtn").click(function(){
+			var staffName = $("#staffName").val();
+			var staffPhone = $("#staffPhone").val();
+			var staffAddress = $("#staffAddress").val();
+			if(staffName.length > <%=Const.MAXLENGTH_NAME%>) $("#staffNameMsg").removeClass("hidden");
+			else if (isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) $("#phone").removeClass("hidden");
+			else if (staffPhone.length<10) $("#phone").removeClass("hidden");
+			else if (staffPhone.length>11) $("#phone").removeClass("hidden");
+			else if(staffAddress.length > <%=Const.MAXLENGTH_ADDRESS%>) $("#staffAddressMsg").removeClass("hidden");
+			else $("#updateuserform").submit();
+			
+		});
+	});
 </script>
 </head>
 <jsp:include page="_header.jsp" />
@@ -38,25 +62,21 @@
 		<%
 		if(message != null){
 		%>
-		<div class="row">
-			<div class="alert alert-info">
-				<strong>Alert </strong> <%=message %>
-			</div>
+		<div class="alert alert-info">
+			<strong>Alert </strong> <%=message %>
 		</div>
 		<%
 		}
 		if(error != null){
 		%>
-		<div class="row">
-			<div class="alert alert-danger">
-				<strong>Error</strong> <%=error %>
-			</div>
+		<div class="alert alert-danger">
+			<strong>Error</strong> <%=error %>
 		</div>
 		<%
 		}
 		if(staffList != null){
 		%>
-		<table class="table table-striped">
+		<table class="table table-striped table-bordered">
 			<thead>
 				<tr class="active">
 					<th>STT</th>
@@ -110,57 +130,59 @@
 					<h4 class="modal-title">Thông tin chi tiết nhân viên</h4>
 				</div>
 				<div class="modal-body">
-					<form action="UpdateStaff" method="post" class="form form-horizontal">
-					<div class="form-group">
-						<div class="col-md-3">
-							<label class="control-label">Tài khoản <span style="color: red">*</span></label>
+					<form class="form-horizontal" id="updateuserform" action="UpdateStaff" method ="post">
+						<div class="form-group">
+					      <label class="col-md-3" for="staffId">Tài khoản <span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffId" id="staffId" readonly></input>
+					      </div>
+					    </div>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffName">Tên nhân viên<span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffName" id="staffName" required></input>
+					      </div>
+					    </div>
+					   
+						<div class="row hidden" id="staffNameMsg">
+							<p class="col-md-offset-4 text-danger" >Tên nhân viên quá dài!</p>
 						</div>
-						<div class="col-md-9">
-							<input type="text" class="form-control" name = "staffId" id="staffId" disabled value="abc"></input>
-						</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-md-3">
-							<label class="control-label">Tên nhân viên <span style="color: red">*</span></label>
-						</div>
-						<div class="col-md-9">
-							<input type="text" class="form-control" name = "staffName" id = "staffName" required></input>
-						</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-md-3">
-							<label class="control-label">Ngày sinh <span style="color: red">*</span></label>
-						</div>
-						<div class="col-md-4">
-							<div class="input-group">
-								<input type="date" class="form-control" name="staffDOB" id="staffDOB" ></input>
-								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffDOB">Ngày sinh <span style="color: red">*</span></label>
+					      <div class="col-md-3">
+					        <div class="input-group">
+								<input type="date" class="form-control" name="staffDOB" id="staffDOB" required></input>
+								<span class="input-group-addon glyphicon glyphicon-calendar"></span>
 							</div>
+					      </div>
+					      <label class="col-md-offset-1 col-md-2" for="staffPhone">SDT<span style="color: red">*</span></label>
+					      <div class="col-md-3">
+					        <input type="number" class="form-control" name="staffPhone" id="staffPhone" required></input>
+					      </div>
+					    </div>
+						
+						<div class="row hidden" id="phone">
+							<p class="col-md-offset-8 text-danger" >Số điện thoại không hợp lệ!</p>
 						</div>
-						<div class="col-md-1 col-md-offset-1">
-							<label class="control-label">SĐT<span style="color: red">*</span></label>
+						
+						<div class="form-group">
+					      <label class="col-md-3" for="staffAddress">Địa chỉ<span style="color: red">*</span></label>
+					      <div class="col-md-9">
+					        <input type="text" class="form-control" name="staffAddress" id="staffAddress" required></input>
+					      </div>
+					    </div>
+					     <div class="row hidden" id="staffAddressMsg">
+							<p class="col-md-offset-4 text-danger" >Địa chỉ quá dài!</p>
 						</div>
-						<div class="col-md-3">
-							<input type="text" class="form-control" name = "staffPhone" id = "staffPhone" ></input>
-						</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-md-3">
-							<label class="control-label">Địa chỉ<span style="color: red">*</span></label>
-						</div>
-						<div class="col-md-9">
-							<input type="text" class="form-control" name = "staffAddress" id = "staffAddress" ></input>
-						</div>
-					</div>
-					<br>
-					<div class="form-group">
-						<div class="col-md-3 col-md-offset-4">
-							<input type="submit" value="Lưu" class="btn btn-success btn-block">
-						</div>
-					</div>
+						
+						
+						<div class="form-group">
+					      <div class="col-sm-offset-4 col-sm-4">
+					        <input type="button" class="btn btn-primary btn-block" id="savestaffbtn" value="Lưu"/>
+					      </div>
+					    </div>
 					</form>
 				</div>
 			</div>
