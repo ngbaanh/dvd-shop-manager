@@ -21,38 +21,7 @@
 		document.getElementById("staffAddress").value = staffAddress;
 		document.getElementById("staffDOB").value =  staffDOB;
 	}
-	function validateForm(){
-		//check valid for name
-		var staffName = document.getElementById("staffName").value;
-		if(staffName.length > 30){
-			document.getElementById("staffNameMsg").innerHTML = "Tên nhân viên quá dài!";
-		    return false;
-		}
-		
-		//check valid for phone number
-		var staffPhone = document.getElementById("staffPhone").value;
-		 if (isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) {
-			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
-		        return false;
-		 }
-		 if (staffPhone.length<10) {
-			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
-		        return false;
-		 }
-		 if (staffPhone.length>11) {
-			 	document.getElementById("phone").innerHTML = "Số điện thoại không hợp lệ!";
-		        return false;
-		 }
-		
-		//check valid for address
-		var staffAddress = document.getElementById("staffAddress").value;
-		if(staffAddress.length > 100){
-			document.getElementById("staffAddressMsg").innerHTML = "Địa chỉ quá dài!";
-		    return false;
-		}
-		 
-		 return true;
-	}
+	
 	$(document).ready(function(){
 		$("#staffName").change(function(){
 			$("#staffNameMsg").addClass("hidden");
