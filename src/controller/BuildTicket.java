@@ -40,6 +40,7 @@ public class BuildTicket extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
+		@SuppressWarnings("unchecked")
 		ArrayList<PendingDisc> list = (ArrayList<PendingDisc>) request.getSession().getAttribute("listPendingDisc");
 		if (list == null || list.isEmpty()) {
 			response.sendRedirect("ViewDiscSeriesList");

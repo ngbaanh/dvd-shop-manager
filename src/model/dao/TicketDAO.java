@@ -1,11 +1,13 @@
 package model.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import model.bean.RentalDisc;
 import model.bean.Ticket;
@@ -34,6 +36,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 				ticket.setStaffName(resultSet.getString("StaffName"));
 				ticket.setDeposit(resultSet.getString("Deposit"));
 				ticket.setTicketPrice(resultSet.getInt("TicketPrice"));
+				ticket.setListDisc(new RentalDiscDAO().getListDiscOfTicket(ticketId));
 				preparedStatement.close();
 				return ticket;
 			} else {
@@ -184,7 +187,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 							ps5.close();
 						}
 						ps2.close();
-						return ticketId > 0 ? ticketId : 0;
+						return ticketId > 0 && this.createTicketEvent(ticketId) ? ticketId : 0;
 					}
 					return 0;
 				}
@@ -324,5 +327,58 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return 0;
-		}}
+		}
 	}
+	
+	/**
+	 *  Tạo event khi đặt phiếu thuê đĩa tự hủy sau 24h 
+	 *  */
+	public boolean createTicketEvent(int ticketId) {
+		Ticket t = this.getTicket(ticketId);
+		String eventName = "TicketEvent_" + t.getTicketId();
+		//long interval = TimeUnit.HOURS.toMillis(24); // 24h sau
+		long interval = TimeUnit.MINUTES.toMillis(1); // 1ph sau
+		long scheduleTime = t.getStartTime().getTime() +  interval;
+		// Phục hồi trạng thái đĩa
+		String eventBody = "\t UPDATE disc SET Available = b'1' WHERE disc.DiscId IN (SELECT DiscId FROM rental_disc WHERE TicketId = " + t.getTicketId() + "); \n";
+		ArrayList<RentalDisc> rdList = t.getListDisc();
+		DiscDAO discDAO = new DiscDAO();
+		// Lấy danh sách mã bộ đĩa từ các đĩa đã thuê
+		ArrayList<Integer> discSeriesIdList = new ArrayList<Integer>();
+		for (RentalDisc rd : rdList) {
+			Integer discSeriesId = discDAO.getDisc(rd.getDiscId()).getDiscSeriesId();
+			if (!discSeriesIdList.contains(discSeriesId)) {
+				discSeriesIdList.add(discSeriesId);
+			}
+		}
+		// Cập nhật lại số lượng đĩa của mỗi bộ đĩa
+		for (Integer id : discSeriesIdList) {
+			eventBody += "\t UPDATE disc_series SET disc_series.RemainingDisc = (SELECT COUNT(disc.DiscId) FROM disc WHERE disc.DiscSeriesId = "+id+" AND Available = b'1') WHERE disc_series.DiscSeriesId = "+id+"; \n";
+		}
+		//eventBody += "\t DELETE FROM rental_disc WHERE TicketId = " + t.getTicketId() + "; \n";
+		//eventBody += "\t DELETE FROM ticket WHERE TicketId = " + t.getTicketId() + "; \n";
+		eventBody += "\t UPDATE ticket SET StatusId = 3 WHERE TicketId = " + t.getTicketId() + " \n;";
+		String ticketEventSQL = "CREATE EVENT IF NOT EXISTS `" + eventName
+				+ "` ON SCHEDULE AT '" + new Timestamp(scheduleTime) + "' DO BEGIN \n" + eventBody + " END";
+		
+		System.out.println(ticketEventSQL); //FIXME
+		try {
+			preparedStatement = connection.prepareStatement(ticketEventSQL);
+			// FIXME - console
+			System.out.println("TicketDAO: " + preparedStatement.toString());
+			preparedStatement.execute();
+			preparedStatement.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
+	 *  Cập nhật event khi cấp phiếu hoặc gia hạn đĩa thuê trong phiếu 
+	 *  */
+	private boolean updateTicketEvent(int ticketId) {
+		return false;
+	}
+}
