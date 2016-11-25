@@ -30,6 +30,7 @@
 		$("#staffAddress").change(function(){
 			$("#staffAddressMsg").addClass("hidden");
 		});
+		
 		$("#createstaffbtn").click(function(){
 			var staffId = $("#staffId").val().trim();
 			var staffName = $("#staffName").val().trim();
