@@ -31,22 +31,26 @@
 			$("#staffAddressMsg").addClass("hidden");
 		});
 		$("#createstaffbtn").click(function(){
-			var staffId = $("#staffId").val();
-			var staffName = $("#staffName").val();
-			var password = $("#password").val();
+			var staffId = $("#staffId").val().trim();
+			var staffName = $("#staffName").val().trim();
+			var password = $("#password").val().trim();
 			var password2 = $("#password2").val();
 			var staffPhone = $("#staffPhone").val();
-			var staffAddress = $("#staffAddress").val();
-			if(staffId.length > <%=Const.MAXLENGTH_STAFFID%>) $("#staffIdMsg").removeClass("hidden");
-			else if(password.length> <%=Const.MAXLENGTH_PASSWORD%>) $("#passwordMsg").removeClass("hidden");
-			else if(password.localeCompare(password2) !=0) $("#pass").removeClass("hidden");
-			else if(staffName.length > <%=Const.MAXLENGTH_NAME%>) $("#staffNameMsg").removeClass("hidden");
-			else if (isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) $("#phone").removeClass("hidden");
-			else if (staffPhone.length<10) $("#phone").removeClass("hidden");
-			else if (staffPhone.length>11) $("#phone").removeClass("hidden");
-			else if(staffAddress.length > <%=Const.MAXLENGTH_ADDRESS%>) $("#staffAddressMsg").removeClass("hidden");
-			else $("#addstaffform").submit();
-			
+			var staffAddress = $("#staffAddress").val().trim();
+			if(staffId != "" && password != "" && staffName != "" &&  staffAddress != "" && staffPhone != ""){
+				if(staffId.length > <%=Const.MAXLENGTH_STAFFID%>) $("#staffIdMsg").removeClass("hidden");
+				else if(password.length> <%=Const.MAXLENGTH_PASSWORD%>) $("#passwordMsg").removeClass("hidden");
+				else if(password.localeCompare(password2) !=0) $("#pass").removeClass("hidden");
+				else if(staffName.length > <%=Const.MAXLENGTH_NAME%>) $("#staffNameMsg").removeClass("hidden");
+				else if(isNaN(staffPhone) || staffPhone < 1 || staffPhone > 99999999999) $("#phone").removeClass("hidden");
+				else if(staffPhone.length<10) $("#phone").removeClass("hidden");
+				else if(staffPhone.length>11) $("#phone").removeClass("hidden");
+				else if(staffAddress.length > <%=Const.MAXLENGTH_ADDRESS%>) $("#staffAddressMsg").removeClass("hidden");
+				else $("#addstaffform").submit();
+			}
+			else {
+				alert("Dữ liệu nhập vào rỗng, xin nhập lại!");
+			}
 		});
 	});
 
@@ -116,7 +120,7 @@
 			<div class="row hidden" id="staffAddressMsg"><p class="col-md-offset-2 text-danger">Địa chỉ quá dài!</p></div>
 			
 			<div class="form-group">
-				<div class="col-md-offset-2 col-md-3"><input class="btn btn-primary btn-block" type = "button" id="createstaffbtn" value = "Tạo mới"/></div>
+				<div class="col-md-offset-2 col-md-3"><input class="btn btn-primary btn-block" type="button" id="createstaffbtn" value = "Tạo mới"/></div>
 			</div>
 		</form>
 		<!-- -------------------------------------- -->
