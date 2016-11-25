@@ -21,6 +21,7 @@ import model.bo.DiscBO;
 import model.bo.DiscSeriesBO;
 import model.bo.RentalDiscBO;
 import model.bo.TicketBO;
+import model.dao.TicketDAO;
 
 /**
  * Servlet implementation class HandleTicket
@@ -75,6 +76,7 @@ public class HandleTicket extends HttpServlet {
 						
 						if(ticketBO.updateTicket(ticket)==true){
 							System.out.println("Cấp phiếu thành công");
+							new TicketDAO().deleteEvent("TicketEvent_"+ticket.getTicketId()); //FIXME
 						} else {
 							System.out.println("Có lỗi xãy ra");
 						}
