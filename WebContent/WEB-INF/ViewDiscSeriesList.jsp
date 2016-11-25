@@ -40,12 +40,13 @@ function viewDiscSeriesDetail(strScreenDiscSeriesDetail) {
   	
   	var listDiscs = screenDiscSeriesDetail.listDiscs;
   	var bodyListDiscs = "";
+  	var STT = 0;
   	for (index = 0; index < listDiscs.length; index++) {
   		var disc = listDiscs[index];
   		if (!disc.isAvailable) {
   			continue;
   		}
-  		var STT = index + 1;
+  		STT++;
   		bodyListDiscs += "<tr>";
   		bodyListDiscs += "<td>" + STT + "</td>"
   		bodyListDiscs += "<td>" + disc.discId + "</td>";
