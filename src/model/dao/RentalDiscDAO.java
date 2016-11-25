@@ -64,9 +64,10 @@ public class RentalDiscDAO extends DatabaseFactory {
 	}
 	
 	private boolean isConflict(int discId) {
-		String updateQuery = "select DiscId from rental_disc where Returned = ? and DiscId = ?";
+		//String checkSQL = "select DiscId from rental_disc where Returned = ? and DiscId = ?";
+		String checkSQL = "select DiscId from disc where Available = ? and DiscId = ?";
 		try {
-			preparedStatement = connection.prepareStatement(updateQuery);
+			preparedStatement = connection.prepareStatement(checkSQL);
 			preparedStatement.setBoolean(1, new Boolean(false));
 			preparedStatement.setInt(2, discId);
 			// FIXME - console
