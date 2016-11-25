@@ -115,11 +115,13 @@ public class StaffBO implements IStaff {
 	}
 
 	public boolean changePassword(Staff staff) {
+		return staffDAO.changePassword(staff);
+		/*
 		if (this.validateStaff(staff)) {
 			return staffDAO.changePassword(staff);
 		} else {
 			return false;
-		}
+		}*/
 	}
 
 }
