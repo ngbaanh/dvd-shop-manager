@@ -156,7 +156,8 @@ public class HandleTicket extends HttpServlet {
 					}
 				
 				} else {
-					response.sendRedirect("/SE23/Login");
+					//response.sendRedirect("/SE23/Login");
+					request.getRequestDispatcher("/ViewTicketDetail?ticketId="+ticketId).forward(request, response);
 				}
 			}
 			

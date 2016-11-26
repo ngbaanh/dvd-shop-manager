@@ -59,14 +59,14 @@
 							<label class="control-label">Tên khách hàng<span class="text-danger">*</span></label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" name="customerName"class="form-control"
+							<input type="text" name="customerName"class="form-control" required
 								value="<%=ticket.getCustomerName()%>" <%=ticket.getStatusId() != 0 ? "readonly" : "" %>>
 						</div>
 						<div class="col-md-2 col-md-offset-1">
 							<label class="control-label">Số điện thoại<span class="text-danger">*</span></label>
 						</div>
 						<div class="col-md-3">
-							<input type="text" name="customerPhone" class="form-control"
+							<input type="text" name="customerPhone" class="form-control" required
 								value="<%=ticket.getCustomerPhone()%>" <%=ticket.getStatusId() != 0 ? "readonly" : "" %>>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 							<label class="control-label">Địa chỉ<span class="text-danger">*</span></label>
 						</div>
 						<div class="col-md-10">
-							<input type="text" name="customerAddress" class="form-control"
+							<input type="text" name="customerAddress" class="form-control" required
 								value="<%=ticket.getCustomerAddress()%>"
 								<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 						</div>
@@ -118,7 +118,7 @@
 							<label class="control-label">Tài sản đặt cọc<span class="text-danger">*</span></label>
 						</div>
 						<div class="col-md-10">
-							<input type="text" name="deposit" class="form-control"
+							<input type="text" name="deposit" class="form-control" required
 								value="<%=ticket.getDeposit()%>"
 								<%if(ticket.getStatusId() != 0){ %>readonly<%} %>>
 						</div>
@@ -143,7 +143,7 @@
 							<script type="text/javascript">
 								function loadPrice(elementSelectWeeks, pricePerDisc) {
 									var elementPriceOfDiscs = elementSelectWeeks.parentElement.parentElement.nextElementSibling;
-									var elementPriceOfTicket = $("#priceOfTicket");
+									var elementPriceOfTicket = document.getElementById("priceOfTicket");
 									var oldPriceOfDiscs = parseInt(elementPriceOfDiscs.innerHTML);
 									var oldPriceOfTicket = parseInt(elementPriceOfTicket.innerHTML);
 									var selectWeeks = parseInt(elementSelectWeeks.value);
