@@ -240,6 +240,7 @@
 	</div>
 	
 	<!-- PRINTING AREA -->
+	<% if (ticket != null) { %>
 	<div id="printArea" class="container" style="display: none;">
 		<div class="row">
 			<div class="col-sm-4"><h2>Cửa hàng SE23</h2></div>
@@ -309,8 +310,8 @@
 	    if(e.which == 18) isAlt = true;
 	    if(e.which == 80 && isAlt == true) { // ALT + P
 	        printDiv('printArea');
+	        return false;
 		}
-	    return false;
 	});
 	
 	$().ready(function() {
@@ -328,5 +329,6 @@
 		return false;
 	}
 	</script>
+	<%} %>
 </body>
 </html>

@@ -337,7 +337,7 @@ public class TicketDAO extends DatabaseFactory implements ITicket{
 		Ticket t = this.getTicket(ticketId);
 		String eventName = "TicketEvent_" + t.getTicketId();
 		//long interval = TimeUnit.HOURS.toMillis(24); // 24h sau
-		long interval = TimeUnit.MINUTES.toMillis(5); // 1ph sau
+		long interval = TimeUnit.MINUTES.toMillis(2); // 1ph sau
 		long scheduleTime = t.getStartTime().getTime() +  interval;
 		// Phục hồi trạng thái đĩa
 		String eventBody = "\t UPDATE disc SET Available = b'1' WHERE disc.DiscId IN (SELECT DiscId FROM rental_disc WHERE TicketId = " + t.getTicketId() + "); \n";

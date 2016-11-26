@@ -175,7 +175,7 @@
 				validated = false;
 			} else if (x1.length > <%=Const.MAXLENGTH_NAME%> 
 				|| x2.length > <%=Const.MAXLENGTH_STAFFID%>
-				|| x3.length > <%=Const.MAXLENGTH_NAME%> ) {
+				|| x3.length > <%=Const.MAXLENGTH_DESCRIPTION%> ) {
 				validated = false;
 			} 
 			if (validated) {
